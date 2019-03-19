@@ -1,6 +1,6 @@
 package com.example.mytrainer.component
 
-class TrainingSchedule(
+data class TrainingSchedule(
     var trainer: Instructor,
     var exercises: List<TrainingExercise>
 ): Component() {

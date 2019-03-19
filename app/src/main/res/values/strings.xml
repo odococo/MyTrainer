@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">MyTrainer</string>
+    <string name="title_activity_social_login">SocialLogin</string>
+    <string name="logout">Logout</string>
+
+    <!-- Auth credentials -->
+    <string name="google_id">571297470512-0chmgeusgvtk1mqrmdn6r74iprprkm4i.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">635913786878813</string>
+    <string name="fb_login_protocol_scheme">fb635913786878813</string>
+
 </resources>

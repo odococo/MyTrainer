@@ -1,6 +1,6 @@
 package com.example.mytrainer.component
 
-class TrainingExercise(
+data class TrainingExercise(
     var series: Int,
     var reps: Int,
     var recoveryTime: Int
@@ -9,7 +9,7 @@ class TrainingExercise(
     constructor(): this(0, 0, 0)
 
     override fun toMap(): MutableMap<String, Any> {
-        var map = mutableMapOf<String, Any>(
+        val map = mutableMapOf<String, Any>(
             "series" to series,
             "reps" to reps,
             "recoveryTime" to recoveryTime

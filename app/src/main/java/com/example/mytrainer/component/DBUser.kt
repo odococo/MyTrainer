@@ -1,14 +1,12 @@
 package com.example.mytrainer.component
 
-data class Gym(
-    var name: String,
-    var address: String
-): Component() {
+
+data class DBUser(var email: String, var password: String): Component() {
 
     constructor(): this("", "")
 
     override fun toMap(): MutableMap<String, Any> = mutableMapOf(
-        "name" to name,
-        "address" to address
+        "email" to email,
+        "password" to password
     )
 }

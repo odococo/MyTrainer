@@ -1,4 +1,4 @@
 package com.example.mytrainer.component
 
-class Athlete: User() {
+class Athlete : User() {
 }
