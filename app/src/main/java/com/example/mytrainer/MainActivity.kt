@@ -12,15 +12,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         println(Auth.isLogged())
         if (!Auth.isLogged()) {
             val it = Intent(this, SocialLogin::class.java)
             startActivity(it)
         }
 
-        logout.setOnClickListener {
+
+       /* logout.setOnClickListener {
             view ->
             Auth.logout()
+            startActivity(Intent(this, SocialLogin::class.java))
+        }*/
+
+        loginButton.setOnClickListener{
+            view -> Auth.isLogged()
             startActivity(Intent(this, SocialLogin::class.java))
         }
     }
