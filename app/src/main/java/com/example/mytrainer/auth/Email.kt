@@ -27,7 +27,7 @@ object Email {
 
     fun verifyEmail() {
         val auth = FirebaseAuth.getInstance()
-        auth.currentUser!!
+        auth.currentUser!!.
             .sendEmailVerification()
     }
 
