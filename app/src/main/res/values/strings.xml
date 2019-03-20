@@ -1,6 +1,18 @@
 <resources>
     <string name="app_name">MyTrainer</string>
     <string name="title_activity_social_login">SocialLogin</string>
+
+    <!-- Main activity -->
+    <string name="welcome">Welcome</string>
+    <string name="login">LOGIN</string>
+    <string name="registration">REGISTRATION</string>
+
+    <!-- Login activity -->
+    <string name="email">Email: </string>
+    <string name="password">Password: </string>
+    <string name="login_with_facebook">Login with Facebook</string>
+
+
     <string name="logout">Logout</string>
 
     <!-- Auth credentials -->
