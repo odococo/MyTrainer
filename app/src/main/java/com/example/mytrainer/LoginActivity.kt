@@ -1,28 +1,31 @@
 package com.example.mytrainer
 
-import android.app.Activity
 import android.content.Intent
+import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log
-import com.example.mytrainer.auth.*
+import android.view.View
+import com.example.mytrainer.auth.Auth
+import com.example.mytrainer.auth.Codes
+import com.example.mytrainer.auth.Facebook
+import com.example.mytrainer.auth.Google
+import kotlinx.android.synthetic.main.activity_login.*
 
-import kotlinx.android.synthetic.main.activity_social_login.*
+class LoginActivity : AppCompatActivity() {
 
-const val TAG = "SocialLogin"
-
-class SocialLogin : AppCompatActivity() {
-    lateinit var googleAuth: Google
-    lateinit var facebookAuth: Facebook
+    private lateinit var googleAuth: Google
+    private lateinit var facebookAuth: Facebook
+    private val TAG: String = "Login"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_social_login)
+        setContentView(R.layout.activity_login)
 
         googleAuth = Google(this, google_sign_in_button)
         facebookAuth = Facebook(this, facebook_sign_in_button)
 
         if (Auth.isLogged()) Log.i(TAG, "User already logged")
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -38,4 +41,11 @@ class SocialLogin : AppCompatActivity() {
         }
     }
 
+   fun signUpButton(view : View){
+       val email = emailInputText.text.toString()
+       val password = passwordInputText.text.toString()
+
+       if(email.equals(""))
+           startActivity(Intent(this, HomeActivity::class.java))
+   }
 }

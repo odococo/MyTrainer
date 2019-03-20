@@ -15,8 +15,8 @@ class MainActivity : AppCompatActivity() {
 
         println(Auth.isLogged())
         if (!Auth.isLogged()) {
-            val it = Intent(this, SocialLogin::class.java)
-            startActivity(it)
+           // val it = Intent(this, SocialLogin::class.java)
+           // startActivity(it)
         }
 
 
@@ -26,9 +26,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, SocialLogin::class.java))
         }*/
 
-        loginButton.setOnClickListener{
-            view -> Auth.isLogged()
-            startActivity(Intent(this, SocialLogin::class.java))
+        loginButtonMainActivity.setOnClickListener{
+            startActivity(Intent(this, LoginActivity::class.java))
         }
     }
 }
