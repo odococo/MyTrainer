@@ -5,7 +5,6 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import com.facebook.*
-import com.facebook.appevents.AppEventsLogger
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FacebookAuthProvider
@@ -18,12 +17,9 @@ class Facebook(
     button: LoginButton,
     TAG: String = "FacebookAuth"
 ): Auth(context, TAG) {
-    private val callbackManager: CallbackManager
+    private val callbackManager: CallbackManager = CallbackManager.Factory.create()
 
     init {
-        FacebookSdk.sdkInitialize(context)
-        AppEventsLogger.activateApp(context)
-        callbackManager = CallbackManager.Factory.create()
 
         button.setReadPermissions("email")
         button.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
@@ -53,17 +49,12 @@ class Facebook(
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "Facebook sign in successful")
-                    logged()
+                    toHome()
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.e(TAG, "Error facebook login!", task.exception)
                     Toast.makeText(context, "Facebook sign in failer:(", Toast.LENGTH_SHORT).show()
                 }
             }
-    }
-
-    fun isLoggedd(): Boolean {
-        val accessToken = AccessToken.getCurrentAccessToken()
-        return accessToken != null && !accessToken.isExpired
     }
 }

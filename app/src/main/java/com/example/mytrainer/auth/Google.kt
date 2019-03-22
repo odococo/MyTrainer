@@ -12,7 +12,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
 class Google(
@@ -43,8 +42,8 @@ class Google(
     }
 
     override fun handleResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        println(Activity.RESULT_OK)
-        //if (resultCode == Activity.RESULT_OK) {
+        super.handleResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
             try {
                 val account = task.getResult(ApiException::class.java)
@@ -53,10 +52,10 @@ class Google(
                 Log.w(TAG, "API Exception!", e)
                 Toast.makeText(context, "Google sign in failed:(", Toast.LENGTH_LONG).show()
             }
-        /*} else {
+        } else {
             Log.e(TAG, "Error google login!")
             Toast.makeText(context, "Google select account failed:(", Toast.LENGTH_LONG).show()
-        }*/
+        }
 
     }
 
@@ -65,7 +64,7 @@ class Google(
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(TAG, "Google sign in successful!")
-                logged()
+                toHome()
             } else {
                 Log.e(TAG, "Error google sign in!", task.exception)
                 Toast.makeText(context, "Google sign in failed:(", Toast.LENGTH_LONG).show()

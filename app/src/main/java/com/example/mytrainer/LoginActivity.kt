@@ -1,21 +1,18 @@
 package com.example.mytrainer
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.example.mytrainer.auth.Auth
 import com.example.mytrainer.auth.Codes
 import com.example.mytrainer.auth.Facebook
 import com.example.mytrainer.auth.Google
 import kotlinx.android.synthetic.main.activity_login.*
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : GeneralActivity("Login") {
 
     private lateinit var googleAuth: Google
     private lateinit var facebookAuth: Facebook
-    private val TAG: String = "Login"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,9 +20,6 @@ class LoginActivity : AppCompatActivity() {
 
         googleAuth = Google(this, google_sign_in_button)
         facebookAuth = Facebook(this, facebook_sign_in_button)
-
-        if (Auth.isLogged()) Log.i(TAG, "User already logged")
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -41,11 +35,11 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-   fun signUpButton(view : View){
+   fun signUpButton(){
        val email = emailInputText.text.toString()
        val password = passwordInputText.text.toString()
 
-       if(email.equals(""))
+       if(email.isEmpty() && password.isEmpty())
            startActivity(Intent(this, HomeActivity::class.java))
    }
 }

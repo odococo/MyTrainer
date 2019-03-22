@@ -1,13 +1,17 @@
 package com.example.mytrainer.auth
 
-import android.util.Log
-import com.example.mytrainer.component.DBUser
-import com.example.mytrainer.database.remote.Firestore
-import com.google.firebase.auth.FirebaseAuth
+import android.app.Activity
+import android.widget.Button
 
-object Email {
+class Email(
+    context: Activity,
+    TAG: String = "Email"
+): Auth(context, TAG) {
 
-    fun create(
+    init {
+    }
+
+    /*fun create(
         user: DBUser,
         callback: (ok: Boolean, result: Any) -> Unit
     ) {
@@ -51,5 +55,5 @@ object Email {
         val auth = FirebaseAuth.getInstance()
         auth.signOut()
         Log.d(tag, "Logout con successo")
-    }
+    }*/
 }
