@@ -8,14 +8,28 @@
 
     <!-- Login activity -->
     <string name="email">Email: </string>
+    <string name="email_in">Inserisci email</string>
     <string name="password">Password: </string>
+    <string name="password_in">Inserisci password</string>
 
     <string name="home">HOME</string>
+    <string name="logout">Logout</string>
+    <string name="respect">Hai il mio rispetto</string>
 
     <!-- Auth credentials -->
     <string name="google_id">571297470512–0chmgeusgvtk1mqrmdn6r74iprprkm4i.apps.googleusercontent.com</string>
     <string name="facebook_app_id">635913786878813</string>
     <string name="fb_login_protocol_scheme">fb635913786878813</string>
-    <string name="logout">Logout</string>
+    <string name="telegram_public_key">-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqRgNSmpNFoObfgYj3CFm
+foqqj6k/fzyOnVo1x4Cq+K1NPcNADrD1gjhPM1MHcBXEb5MmmJNtWb8zoRb+tYkN
+qVGZJCUwySDvIsSAqrEcfwYIrfap9y0uT4y3dU8atYxXQWCT8nq5th58JBy40C6M
+cU76Tu0963PDqO+yNeYVt9mdV9c8uWdNJJMNUOMUcf7pcR0Z7t+5XiRPCD8WIqDe
+pjn7J/0uQOJrw2Egq0zkUCIaztdJFRzCFCFYxpC+Ly3xvhXAVEuLStnk8hsYosdP
+JtfRTQnx1ITICjMHsKaGvpTo/t3HFL97x9vBl2s7cuWIJqH/Rvt88YW3eGpiC+ty
+qwIDAQAB
+-----END PUBLIC KEY-----
+</string>
+
 
 </resources>

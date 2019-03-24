@@ -4,12 +4,14 @@ import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import com.facebook.*
+import com.example.mytrainer.HomeActivity
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FacebookAuthProvider
-import com.facebook.AccessToken
-
 
 
 class Facebook(
@@ -49,7 +51,7 @@ class Facebook(
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "Facebook sign in successful")
-                    toHome()
+                    to(HomeActivity::class.java)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.e(TAG, "Error facebook login!", task.exception)

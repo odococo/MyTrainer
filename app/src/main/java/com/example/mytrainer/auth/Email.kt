@@ -1,7 +1,6 @@
 package com.example.mytrainer.auth
 
 import android.app.Activity
-import android.widget.Button
 
 class Email(
     context: Activity,
@@ -9,6 +8,7 @@ class Email(
 ): Auth(context, TAG) {
 
     init {
+
     }
 
     /*fun create(

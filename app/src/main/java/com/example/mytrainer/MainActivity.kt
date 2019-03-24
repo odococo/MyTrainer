@@ -1,11 +1,8 @@
 package com.example.mytrainer
 
-import android.content.Context
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.example.mytrainer.auth.Auth
-import com.example.mytrainer.component.DBUser
+import android.support.v7.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -14,17 +11,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        println(Auth.isLogged())
-        if (!Auth.isLogged()) {
-           // val it = Intent(this, SocialLogin::class.java)
-           // startActivity(it)
-        }
-
-       /* logout.setOnClickListener {
-            view ->
-            Auth.logout()
-            startActivity(Intent(this, SocialLogin::class.java))
-        }*/
 
         loginButtonMainActivity.setOnClickListener{
             startActivity(Intent(this, LoginActivity::class.java))
