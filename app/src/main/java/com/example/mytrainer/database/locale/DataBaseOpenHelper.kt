@@ -4,6 +4,17 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.example.mytrainer.database.locale.SQLContract.Companion.EXERCISE_RECOVERYTIME
+import com.example.mytrainer.database.locale.SQLContract.Companion.EXERCISE_REPS
+import com.example.mytrainer.database.locale.SQLContract.Companion.EXERCISE_SERIES
+import com.example.mytrainer.database.locale.SQLContract.Companion.ID
+import com.example.mytrainer.database.locale.SQLContract.Companion.TRAINING_EXERCISES_TABLE
+import com.example.mytrainer.database.locale.SQLContract.Companion.USERS_TABLE
+import com.example.mytrainer.database.locale.SQLContract.Companion.USER_BIRTHDATE
+import com.example.mytrainer.database.locale.SQLContract.Companion.USER_EMAIL
+import com.example.mytrainer.database.locale.SQLContract.Companion.USER_FIRSTNAME
+import com.example.mytrainer.database.locale.SQLContract.Companion.USER_LASTNAME
+import com.example.mytrainer.database.locale.SQLContract.Companion.USER_PSWD
 
 //Singleton
 class DataBaseOpenHelper: SQLiteOpenHelper {
@@ -26,10 +37,20 @@ class DataBaseOpenHelper: SQLiteOpenHelper {
     private constructor(context: Context): super(context, DATABASE_NAME, null, DATABASE_VERSION)
 
     override fun onCreate(db: SQLiteDatabase?) {
-        //date_of_birth è un INTEGER ma cmq conterrà un long che pio verrà trasformato in tipo date/localDate o quello che è
-        val userTable: String = "CREATE TABLE user(id INTEGER PRIMARY KEY AUTOINCREMENT, first_name TEXT, last_name TEXT, date_of_birth INTEGER);"
-        val trainingExercise: String = "CREATE TABLE trainingExercise(id INTEGER PRIMARY KEY AUTOINCREMENT, series INTEGER, reps INTEGER, recoveryTime INTEGER);"
-        //Queste sono due tabelle principali. Dobbiamo crare un modello relazionale adeguato, pensato bene e poi implementarlo.
+        //birth_date è un INTEGER ma cmq conterrà un long che pio verrà trasformato in tipo date/localDate o quello che è
+        val userTable: String = "CREATE TABLE $USERS_TABLE (" +
+                "$ID INTEGER PRIMARY KEY AUTOINCREMENT,  " +
+                "$USER_EMAIL TEXT, " +
+                "$USER_PSWD TEXT" +
+                "$USER_FIRSTNAME TEXT, " +
+                "$USER_LASTNAME TEXT, " +
+                "$USER_BIRTHDATE INTEGER);"
+
+        val trainingExercise: String = "CREATE TABLE $TRAINING_EXERCISES_TABLE (" +
+                "$ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "$EXERCISE_SERIES INTEGER, " +
+                "$EXERCISE_REPS INTEGER, " +
+                "$EXERCISE_RECOVERYTIME INTEGER);"
 
         val query: String = userTable+trainingExercise
         db?.execSQL(query)
