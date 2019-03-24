@@ -5,6 +5,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.example.mytrainer.auth.Auth
+import com.example.mytrainer.component.DBUser
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -18,7 +19,6 @@ class MainActivity : AppCompatActivity() {
            // val it = Intent(this, SocialLogin::class.java)
            // startActivity(it)
         }
-
 
        /* logout.setOnClickListener {
             view ->
