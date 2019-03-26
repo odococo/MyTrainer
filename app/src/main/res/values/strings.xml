@@ -16,6 +16,9 @@
     <string name="logout">Logout</string>
     <string name="respect">Hai il mio rispetto</string>
 
+    <!-- Toolbar strings-->
+    <string name="search_title">Search</string>
+
     <!-- Auth credentials -->
     <string name="google_id">571297470512–0chmgeusgvtk1mqrmdn6r74iprprkm4i.apps.googleusercontent.com</string>
     <string name="facebook_app_id">635913786878813</string>
