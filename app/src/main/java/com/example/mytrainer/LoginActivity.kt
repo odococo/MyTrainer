@@ -6,10 +6,12 @@ import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import com.example.mytrainer.auth.Codes
 import com.example.mytrainer.auth.Facebook
 import com.example.mytrainer.auth.Google
 import com.example.mytrainer.auth.Telegram
+import com.facebook.login.widget.LoginButton
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : GeneralActivity("Login"), Toolbar.OnMenuItemClickListener {

@@ -4,17 +4,17 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import com.example.mytrainer.database.locale.SQLContract.Companion.EXERCISE_RECOVERYTIME
-import com.example.mytrainer.database.locale.SQLContract.Companion.EXERCISE_REPS
-import com.example.mytrainer.database.locale.SQLContract.Companion.EXERCISE_SERIES
+import com.example.mytrainer.database.locale.SQLContract.Companion.BIRTH_DATE
+import com.example.mytrainer.database.locale.SQLContract.Companion.EMAIL
+import com.example.mytrainer.database.locale.SQLContract.Companion.FIRST_NAME
 import com.example.mytrainer.database.locale.SQLContract.Companion.ID
-import com.example.mytrainer.database.locale.SQLContract.Companion.TRAINING_EXERCISES_TABLE
-import com.example.mytrainer.database.locale.SQLContract.Companion.USERS_TABLE
-import com.example.mytrainer.database.locale.SQLContract.Companion.USER_BIRTHDATE
-import com.example.mytrainer.database.locale.SQLContract.Companion.USER_EMAIL
-import com.example.mytrainer.database.locale.SQLContract.Companion.USER_FIRSTNAME
-import com.example.mytrainer.database.locale.SQLContract.Companion.USER_LASTNAME
-import com.example.mytrainer.database.locale.SQLContract.Companion.USER_PSWD
+import com.example.mytrainer.database.locale.SQLContract.Companion.LAST_NAME
+import com.example.mytrainer.database.locale.SQLContract.Companion.PASSWORD
+import com.example.mytrainer.database.locale.SQLContract.Companion.RECOVERY_TIME
+import com.example.mytrainer.database.locale.SQLContract.Companion.REPS
+import com.example.mytrainer.database.locale.SQLContract.Companion.SERIES
+import com.example.mytrainer.database.locale.SQLContract.Companion.TRAINING_EXERCISES
+import com.example.mytrainer.database.locale.SQLContract.Companion.USERS
 
 //Singleton
 class DataBaseOpenHelper: SQLiteOpenHelper {
@@ -38,20 +38,22 @@ class DataBaseOpenHelper: SQLiteOpenHelper {
 
     override fun onCreate(db: SQLiteDatabase?) {
         //birth_date è un INTEGER ma cmq conterrà un long che pio verrà trasformato in tipo date/localDate o quello che è
-        val userTable: String = "CREATE TABLE $USERS_TABLE (" +
+        val userTable: String = "CREATE TABLE $USERS (" +
                 "$ID INTEGER PRIMARY KEY AUTOINCREMENT,  " +
-                "$USER_EMAIL TEXT, " +
-                "$USER_PSWD TEXT" +
-                "$USER_FIRSTNAME TEXT, " +
-                "$USER_LASTNAME TEXT, " +
-                "$USER_BIRTHDATE INTEGER);"
+                "$EMAIL TEXT, " +
+                "$PASSWORD TEXT" +
+                "$FIRST_NAME TEXT, " +
+                "$LAST_NAME TEXT, " +
+                "$BIRTH_DATE INTEGER);"
 
-        val trainingExercise: String = "CREATE TABLE $TRAINING_EXERCISES_TABLE (" +
+        val trainingExercise: String = "CREATE TABLE $TRAINING_EXERCISES (" +
                 "$ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "$EXERCISE_SERIES INTEGER, " +
-                "$EXERCISE_REPS INTEGER, " +
-                "$EXERCISE_RECOVERYTIME INTEGER);"
-
+                "$SERIES INTEGER, " +
+                "$REPS INTEGER, " +
+                "$RECOVERY_TIME INTEGER);"
+        /*
+        QUESTA PARTE NON è FINITA. lA PROF DI ANALISI ARRIVA TRA UN Pò E NON HO TEMPO FINIRE ADESSO :=)
+         */
         val query: String = userTable+trainingExercise
         db?.execSQL(query)
         Log.d(TAG, "onCreate new DataBase")
