@@ -3,6 +3,7 @@
     <color name="colorPrimary">#00acc1</color>
     <color name="colorPrimaryDark">#008a9a</color>
     <color name="manBackground">#e2e2e2</color>
+    <color name="colorWhite">#FFFFFFFF</color>
 
     <color name="textColorBlack">#FF050505</color>
     <color name="colorAccent">#D81B60</color>
