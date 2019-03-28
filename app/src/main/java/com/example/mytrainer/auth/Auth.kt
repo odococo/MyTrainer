@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import com.example.mytrainer.GeneralActivity
-import com.example.mytrainer.LoginActivity
 import com.example.mytrainer.MainActivity
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
@@ -17,7 +16,7 @@ open class Auth(
     val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     fun checkLogin() {
-        if (firebaseAuth.currentUser == null && !(context is LoginActivity)) {
+        if (firebaseAuth.currentUser == null && !(context is MainActivity)) {
             to(MainActivity::class.java)
         }
     }
@@ -30,7 +29,7 @@ open class Auth(
         firebaseAuth.signOut()
         LoginManager.getInstance().logOut()
         Log.d("Auth", "Logout con successo")
-        to(LoginActivity::class.java)
+        to(MainActivity::class.java)
     }
 
     fun to(cls: Class<GeneralActivity>) {

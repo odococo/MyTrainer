@@ -9,41 +9,66 @@
     android:background="@color/manBackground"
     tools:context=".MainActivity">
 
-    <TableRow
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:gravity="center|top">
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/welcome"
-            android:textColor="@color/textColorBlack"
-            android:textSize="30sp" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center|top">
 
-    </TableRow>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/welcome"
+                android:textColor="@color/textColorBlack"
+                android:textSize="30sp" />
 
-    <TableRow
+        </TableRow>
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom"
         android:layout_weight="2"
-        android:gravity="bottom">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/loginButtonMainActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/login" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/registrationButtonMainActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/registration" />
-    </TableRow>
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/facebook_sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/google_sign_in_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:onClick="goHome"
+                android:id="@+id/go_home_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Go to home Activity(Debug)" />
+        </TableRow>
+    </LinearLayout>
 
 </LinearLayout>
