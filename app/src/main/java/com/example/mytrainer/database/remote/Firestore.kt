@@ -17,7 +17,7 @@ object Firestore {
         if (data.id.isEmpty()) {
             val tag = "Add-$table"
             db.collection(table)
-                .add(data)
+                .add(data.toMap())
                 // se va a buon fine, il documento avra' un id univoco
                 .addOnSuccessListener { document ->
                     Log.d(tag, "Aggiunto documento con id: ${document.id}")
@@ -32,7 +32,7 @@ object Firestore {
             val id = data.id
             val tag = "Set-$table-$id"
             db.collection(table).document(id)
-                .set(data)
+                .set(data.toMap())
                 .addOnSuccessListener {
                     Log.d(tag, "Aggiunto documento con id: $id")
                     callback(true, data)

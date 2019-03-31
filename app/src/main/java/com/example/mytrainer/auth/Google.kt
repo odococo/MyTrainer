@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import com.example.mytrainer.HomeActivity
 import com.example.mytrainer.R
+import com.example.mytrainer.component.User
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -65,7 +65,11 @@ class Google(
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 Log.d(TAG, "Google sign in successful!")
-                to(HomeActivity::class.java)
+                val firstname = GoogleSignIn.getLastSignedInAccount(context)?.givenName
+                val lastname = GoogleSignIn.getLastSignedInAccount(context)?.familyName
+                val user = User(firstname!!, lastname!!)
+                user.id = getId()
+                toHome(user)
             } else {
                 Log.e(TAG, "Error google sign in!", task.exception)
                 Toast.makeText(context, "Google sign in failed:(", Toast.LENGTH_LONG).show()

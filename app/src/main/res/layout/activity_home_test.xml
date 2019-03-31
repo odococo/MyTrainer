@@ -37,4 +37,10 @@
             app:headerLayout="@layout/navigation_header"
             app:menu="@menu/menu_navigation" />
 
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/logout" />
+
 </android.support.v4.widget.DrawerLayout>
