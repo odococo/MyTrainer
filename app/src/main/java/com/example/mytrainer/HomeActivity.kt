@@ -12,7 +12,7 @@ class HomeActivity : GeneralActivity("Home"), Toolbar.OnMenuItemClickListener {
     private val LAYOUT: Int = R.layout.activity_home_test
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        //setTheme(R.style.AppDefault)
+        setTheme(R.style.AppDefaul)
         super.onCreate(savedInstanceState)
         setContentView(LAYOUT)
 
@@ -37,7 +37,7 @@ class HomeActivity : GeneralActivity("Home"), Toolbar.OnMenuItemClickListener {
         val toogle = ActionBarDrawerToggle(
             this,
             drawer_layout,
-            this.toolbar,
+            toolbar,
             R.string.view_navigation_open,
             R.string.view_navigation_close
         )
