@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.example.mytrainer.component.Component
 import com.example.mytrainer.database.locale.SQLContract.Companion.BIRTH_DATE
 import com.example.mytrainer.database.locale.SQLContract.Companion.EMAIL
 import com.example.mytrainer.database.locale.SQLContract.Companion.FIRST_NAME
@@ -35,6 +36,32 @@ class DataBaseOpenHelper: SQLiteOpenHelper {
     }
 
     private constructor(context: Context): super(context, DATABASE_NAME, null, DATABASE_VERSION)
+
+    fun objToTable(obj: Component): String {
+        val map = obj.toMap()
+        val multiple = mutableListOf<String>()
+        val table: StringBuilder = StringBuilder("CREATE TABLE ${obj.javaClass.simpleName} ( id TEXT PRIMARY KEY ")
+        val columns: List<String> = map.map { entry ->
+            return when (entry.value) {
+                is String -> "${entry.key} TEXT DEFAULT ${entry.value}"
+                is Int -> "${entry.key} INTEGER DEFAULT ${entry.value}"
+                is Double -> "${entry.key} REAL DEFAULT ${entry.value}"
+                is List<*> -> {
+                    multiple.add(objToTable((entry.value as List<*>).get(0) as Component))
+                    ""
+                }
+                is Component -> ""
+                else -> throw IllegalArgumentException("$obj ha un tipo (${entry.value.javaClass} non valido!")
+            }
+        }
+        columns.forEach { column ->
+            if (!column.isEmpty()) {
+                table.append(column)
+            }
+        }
+        return table.toString()
+
+    }
 
     override fun onCreate(db: SQLiteDatabase?) {
         //birth_date è un INTEGER ma cmq conterrà un long che pio verrà trasformato in tipo date/localDate o quello che è

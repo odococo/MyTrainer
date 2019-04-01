@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
+import com.example.mytrainer.component.*
 import kotlinx.android.synthetic.main.activity_home_test.*
 
 class HomeActivity : GeneralActivity("Home"), Toolbar.OnMenuItemClickListener {
@@ -22,13 +23,19 @@ class HomeActivity : GeneralActivity("Home"), Toolbar.OnMenuItemClickListener {
         logout.setOnClickListener {
             auth.logout()
         }
+
+        println(objToTable(User(), "Users"))
+        println(objToTable(Exercise(), "Exercises"))
+        println(objToTable(TrainingExercise(), "TrainingExercises"))
+        println(objToTable(TrainingSchedule(), "TrainingSchedule"))
     }
 
-    private fun initToolbar(){
+    private fun initToolbar() {
         toolbar.setTitle(R.string.app_name)
         toolbar.setOnMenuItemClickListener(this)
         toolbar.inflateMenu(R.menu.menu_toolbar)
     }
+
     override fun onMenuItemClick(item: MenuItem?): Boolean {
         return false
     }
@@ -47,7 +54,7 @@ class HomeActivity : GeneralActivity("Home"), Toolbar.OnMenuItemClickListener {
 
         navigation.setNavigationItemSelectedListener {
             drawer_layout.closeDrawers()
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.actionNotificationItem -> {
                     true
                 }
@@ -56,6 +63,34 @@ class HomeActivity : GeneralActivity("Home"), Toolbar.OnMenuItemClickListener {
             }
 
         }
+    }
+
+    fun objToTable(obj: Component, tablename: String): String {
+        val map = obj.toMap()
+        val table = "CREATE TABLE ${tablename} (\n"
+        val columns = mutableListOf("id TEXT PRIMARY KEY")
+        columns.addAll(
+            map.filter { entry ->
+                when (entry.value) {
+                    is List<*> -> false
+                    is Component -> false
+                    else -> true
+                }
+            }.map { entry ->
+                when (entry.value) {
+                    is String -> "${entry.key} TEXT DEFAULT \"${entry.value}\""
+                    is Int -> "${entry.key} INTEGER DEFAULT ${entry.value}"
+                    is Double -> "${entry.key} REAL DEFAULT ${entry.value}"
+                    // TODO blob per immagini
+                    else -> throw IllegalArgumentException("$obj ha un tipo (${entry.value.javaClass} non valido!")
+                }
+            })
+        return table + columns.joinToString(",\n") + "\n)"
+    }
+
+    fun objToJoin(obj: Component, tablename: String): String {
+        val map = obj.toMap()
+        return ""
     }
 
 }
