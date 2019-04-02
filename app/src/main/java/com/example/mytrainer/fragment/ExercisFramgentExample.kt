@@ -15,7 +15,7 @@ import com.example.mytrainer.component.Exercise
 class ExercisFramgentExample: Fragment() {
 
     private val LAYOUT:Int = R.layout.fragment_example
-    var title: String = ""
+    public var title: String = ""
     private var anotherView: View? = null
 
     companion object {
@@ -23,14 +23,15 @@ class ExercisFramgentExample: Fragment() {
         //Questo è il contesto passatto dal'esterno, che è diverso da quello in cui si trova la seguente classe
         private var externalContext: Context? = null
 
-        fun getInstance(context: Context): ExercisFramgentExample{
+        fun getInstance(context: Context, title: String): ExercisFramgentExample{
             externalContext = context
 
             var args: Bundle = Bundle()
             var fragment: ExercisFramgentExample = ExercisFramgentExample()
             fragment.arguments = args
 
-            fragment.title = externalContext!!.getString(R.string.tab_days)
+            //Setting del nome del tab(nome del giorno). Che sarebbe: "Giorno 1", "Giorno 2" etc.
+            fragment.title = title
 
             return fragment
         }
@@ -46,9 +47,9 @@ class ExercisFramgentExample: Fragment() {
         return anotherView!!
     }
 
+    //Qui si specifica il numero di esercizi e tutti gli eventuali campi relativi.
     private fun createMockData(): List<Exercise> {
         var data:ArrayList<Exercise> = ArrayList<Exercise>()
-
         data.add(Exercise("Esercizio 1", "Descrizione 1"))
         data.add(Exercise("Esercizio 2", "Descrizione 2"))
         data.add(Exercise("Esercizio 3", "Descrizione 3"))

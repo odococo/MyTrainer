@@ -11,7 +11,7 @@ import com.example.mytrainer.component.Exercise
 
 class DaysListAdapter: RecyclerView.Adapter<DaysListAdapter.Companion.RemindViewHolder> {
 
-    private var data: List<Exercise>? = null
+    private var data: List<Exercise>? = null // Contiene tutti gli esercizi relativi ad un solo giorno.
 
     constructor(data: List<Exercise>){
         this.data = data
@@ -25,7 +25,7 @@ class DaysListAdapter: RecyclerView.Adapter<DaysListAdapter.Companion.RemindView
         return this.data!!.size
     }
 
-    //Mette nel card view il titolo e la descrizione dell'esercizio
+    //Il metodo che mette a schermo le info relative ad ogni esercizio.
     override fun onBindViewHolder(holder: DaysListAdapter.Companion.RemindViewHolder, position: Int) {
         holder.title!!.text = data!![position].name
         holder.description!!.text = data!![position].description
@@ -35,6 +35,7 @@ class DaysListAdapter: RecyclerView.Adapter<DaysListAdapter.Companion.RemindView
 
         class RemindViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
+            //Elenco dei campi relativi ad ogni esercizio
             var cardView: CardView? = null
             var title: TextView? = null
             var description: TextView? = null

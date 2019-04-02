@@ -9,17 +9,19 @@
     <string name="view_navigation_open">Open</string>
     <string name="view_navigation_close">Close</string>
 
-    <string name="home">HOME</string>
-    <string name="logout">Logout</string>
     <string name="respect">Hai il mio rispetto</string>
+    <string name="thx">Grazie :=)</string>
 
     <!-- Toolbar strings-->
     <string name="search_title">Search</string>
 
     <!-- Navigation menu strings-->
     <string name="profile">Profile</string>
-    <string name="settings">Settings</string>
-    <string name="exit">Logout</string>
+    <string name="current_schedule"> Current Schedule</string>
+    <string name="schedule_history">Schedule History</string>
+    <string name="request_schedule">Request Schedule</string>
+    <string name="help">Help</string>
+    <string name="logout">Logout</string>
 
     <!-- Tab name-->
     <string name="tab_days">Day N</string>

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.support.design.widget.TabLayout
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
-import com.example.mytrainer.adapter.TabsScheduleAdapterExample
+import com.example.mytrainer.adapter.TabsScheduleAdapter
 import com.example.mytrainer.component.*
 import kotlinx.android.synthetic.main.activity_home.*
 
@@ -56,7 +56,16 @@ class HomeActivity : GeneralActivity("Home") {
                 R.id.profileItem -> {
                     true
                 }
-                R.id.settingItem ->{
+                R.id.currentScheduleItem ->{
+                    true
+                }
+                R.id.scheduleHistoryItem ->{
+                    true
+                }
+                R.id.requestScheduleItem ->{
+                    true
+                }
+                R.id.helpItem ->{
                     true
                 }
                 R.id.logoutItem ->{
@@ -70,7 +79,7 @@ class HomeActivity : GeneralActivity("Home") {
     }
 
     private fun initTabs() {
-        val adapter: TabsScheduleAdapterExample = TabsScheduleAdapterExample(applicationContext, supportFragmentManager)
+        val adapter: TabsScheduleAdapter = TabsScheduleAdapter(applicationContext, supportFragmentManager)
         viewPager?.adapter = adapter
 
         val tabLayout: TabLayout = findViewById<TabLayout>(R.id.tabLayout)
