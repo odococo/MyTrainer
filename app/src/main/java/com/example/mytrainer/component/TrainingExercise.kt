@@ -8,13 +8,9 @@ data class TrainingExercise(
 
     constructor(): this(0, 0, 0)
 
-    override fun toMap(): MutableMap<String, Any> {
-        val map = mutableMapOf<String, Any>(
+    override fun toMap(): MutableMap<String, Any> = mutableMapOf<String, Any>(
             "series" to series,
             "reps" to reps,
             "recoveryTime" to recoveryTime
         )
-        map.putAll(super.toMap())
-        return map
-    }
 }

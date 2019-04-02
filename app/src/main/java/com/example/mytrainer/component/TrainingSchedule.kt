@@ -5,7 +5,7 @@ data class TrainingSchedule(
     var exercises: List<TrainingExercise>
 ): Component() {
 
-    constructor() : this(User("", ""), listOf(TrainingExercise()))
+    constructor() : this(User("", ""), emptyList())
 
     override fun toMap(): MutableMap<String, Any> = mutableMapOf(
         "trainer" to trainer,
