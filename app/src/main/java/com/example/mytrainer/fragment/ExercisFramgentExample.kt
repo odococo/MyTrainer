@@ -15,7 +15,7 @@ import com.example.mytrainer.component.Exercise
 class ExercisFramgentExample: Fragment() {
 
     private val LAYOUT:Int = R.layout.fragment_example
-    private var title: String = ""
+    var title: String = ""
     private var anotherView: View? = null
 
     companion object {
@@ -30,7 +30,7 @@ class ExercisFramgentExample: Fragment() {
             var fragment: ExercisFramgentExample = ExercisFramgentExample()
             fragment.arguments = args
 
-            fragment.title = externalContext!!.getString(R.string.tab_name)
+            fragment.title = externalContext!!.getString(R.string.tab_days)
 
             return fragment
         }

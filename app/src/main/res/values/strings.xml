@@ -22,7 +22,7 @@
     <string name="exit">Logout</string>
 
     <!-- Tab name-->
-    <string name="tab_name">Day N</string>
+    <string name="tab_days">Day N</string>
 
     <!-- Auth credentials -->
     <string name="google_id">571297470512–0chmgeusgvtk1mqrmdn6r74iprprkm4i.apps.googleusercontent.com</string>

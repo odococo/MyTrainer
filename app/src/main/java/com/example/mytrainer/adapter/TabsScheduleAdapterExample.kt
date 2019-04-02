@@ -16,6 +16,12 @@ open class TabsScheduleAdapterExample: FragmentPagerAdapter {
 
         initTabMap(context)
     }
+    //Il seguente metodo prende in ingresso id del tab e li setta il proprio titolo.
+    override fun getPageTitle(position: Int): CharSequence? {
+        val fragment: ExercisFramgentExample = tabs!!.get(position) as ExercisFramgentExample
+        val title: String = fragment.title
+        return title
+    }
 
     override fun getItem(position: Int): Fragment? {
         return tabs?.get(position)
@@ -25,10 +31,11 @@ open class TabsScheduleAdapterExample: FragmentPagerAdapter {
         return tabs!!.size
     }
 
+    //Qui si specifica la quantità di tab da creare, che nel nostro caso, varia in base al numero di giorni avente la scheda.
     private fun initTabMap(context: Context){
         tabs = HashMap<Int, Fragment>()
         tabs?.put(0, ExercisFramgentExample.getInstance(context))
+        tabs?.put(1, ExercisFramgentExample.getInstance(context))
 
     }
-
 }
