@@ -27,7 +27,7 @@ class DaysListAdapter: RecyclerView.Adapter<DaysListAdapter.Companion.RemindView
 
     //Il metodo che mette a schermo le info relative ad ogni esercizio.
     override fun onBindViewHolder(holder: DaysListAdapter.Companion.RemindViewHolder, position: Int) {
-        holder.title!!.text = data!![position].name
+        holder.title!!.text = data!![position].id
         holder.description!!.text = data!![position].description
     }
 

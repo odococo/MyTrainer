@@ -22,6 +22,7 @@ class HomeActivity : GeneralActivity("Home") {
 
 
         database()
+        Test().esercizi()
     }
 
     private fun database() {
@@ -104,7 +105,7 @@ class HomeActivity : GeneralActivity("Home") {
                         is String -> "${entry.key} TEXT DEFAULT \"${entry.value}\""
                         is Int -> "${entry.key} INTEGER DEFAULT ${entry.value}"
                         is Double -> "${entry.key} REAL DEFAULT ${entry.value}"
-                        // TODO blob per immagini
+                        is ByteArray -> "${entry.key} BLOB DEFAULT ${entry.value}"
                         is Component -> {
                             val referenceTable = entry.value.javaClass.simpleName
                             foreignKeys.add(

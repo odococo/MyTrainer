@@ -1,14 +1,16 @@
 package com.example.mytrainer.component
 
 open class Exercise(
-    var name: String,
-    var description: String
+    var description: String,
+    var type: String,
+    var image: ByteArray = ByteArray(0)
 ): Component() {
 
     constructor(): this("", "")
 
     override fun toMap(): MutableMap<String, Any> = mutableMapOf(
-        "name" to name,
-        "description" to description
+        "description" to description,
+        "type" to type,
+        "image" to image
     )
 }
