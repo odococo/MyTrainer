@@ -1,16 +1,15 @@
 package com.example.mytrainer.component
 
+// rimosso image ByteArray perche' firebase non lo supporta.
 open class Exercise(
     var description: String,
-    var type: String,
-    var image: ByteArray = ByteArray(0)
+    var type: List<String>
 ): Component() {
 
-    constructor(): this("", "")
+    constructor() : this("", listOf(""))
 
     override fun toMap(): MutableMap<String, Any> = mutableMapOf(
         "description" to description,
-        "type" to type,
-        "image" to image
+        "type" to type
     )
 }

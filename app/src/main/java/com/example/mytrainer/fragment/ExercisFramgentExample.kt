@@ -15,7 +15,7 @@ import com.example.mytrainer.component.Exercise
 class ExercisFramgentExample: Fragment() {
 
     private val LAYOUT:Int = R.layout.fragment_example
-    public var title: String = ""
+    var title: String = ""
     private var anotherView: View? = null
 
     companion object {
@@ -40,7 +40,7 @@ class ExercisFramgentExample: Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         anotherView = inflater.inflate(LAYOUT, container, false)
 
-        var rs: RecyclerView = anotherView!!.findViewById<RecyclerView>(R.id.recycle_view)
+        val rs: RecyclerView = anotherView!!.findViewById(R.id.recycle_view)
         rs.layoutManager = LinearLayoutManager(externalContext)
         rs.adapter = DaysListAdapter(createMockData())
 
@@ -49,10 +49,10 @@ class ExercisFramgentExample: Fragment() {
 
     //Qui si specifica il numero di esercizi e tutti gli eventuali campi relativi.
     private fun createMockData(): List<Exercise> {
-        var data:ArrayList<Exercise> = ArrayList<Exercise>()
-        data.add(Exercise("Esercizio 1", "Descrizione 1"))
-        data.add(Exercise("Esercizio 2", "Descrizione 2"))
-        data.add(Exercise("Esercizio 3", "Descrizione 3"))
+        val data: ArrayList<Exercise> = ArrayList()
+        data.add(Exercise("Esercizio 1", listOf("Descrizione 1")))
+        data.add(Exercise("Esercizio 2", listOf("Descrizione 2")))
+        data.add(Exercise("Esercizio 3", listOf("Descrizione 3")))
 
         return data
     }

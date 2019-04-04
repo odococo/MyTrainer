@@ -1,7 +1,6 @@
 package com.example.mytrainer
 
 import android.os.Bundle
-import android.support.design.widget.TabLayout
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import com.example.mytrainer.adapter.TabsScheduleAdapter
@@ -22,7 +21,7 @@ class HomeActivity : GeneralActivity("Home") {
 
 
         database()
-        Test().esercizi()
+        //Test().esercizi()
     }
 
     private fun database() {
@@ -34,8 +33,8 @@ class HomeActivity : GeneralActivity("Home") {
 
     private fun initToolbar() {
         toolbar.setTitle(R.string.app_name)
-        toolbar?.setOnMenuItemClickListener{
-            when(it){
+        toolbar?.setOnMenuItemClickListener {
+            when (it) {
 
             }
         }
@@ -61,19 +60,19 @@ class HomeActivity : GeneralActivity("Home") {
                 R.id.profileItem -> {
                     true
                 }
-                R.id.currentScheduleItem ->{
+                R.id.currentScheduleItem -> {
                     true
                 }
-                R.id.scheduleHistoryItem ->{
+                R.id.scheduleHistoryItem -> {
                     true
                 }
-                R.id.requestScheduleItem ->{
+                R.id.requestScheduleItem -> {
                     true
                 }
-                R.id.helpItem ->{
+                R.id.helpItem -> {
                     true
                 }
-                R.id.logoutItem ->{
+                R.id.logoutItem -> {
                     auth.logout(); true
                 }
 
@@ -84,46 +83,59 @@ class HomeActivity : GeneralActivity("Home") {
     }
 
     private fun initTabs() {
-        val adapter: TabsScheduleAdapter = TabsScheduleAdapter(applicationContext, supportFragmentManager)
+        val adapter = TabsScheduleAdapter(applicationContext, supportFragmentManager)
         viewPager?.adapter = adapter
 
-        val tabLayout: TabLayout = findViewById<TabLayout>(R.id.tabLayout)
         tabLayout.setupWithViewPager(viewPager)
     }
 
+    // TODO list di Component -> nuova tabella
     fun objToTable(obj: Component, tablename: String, fkeys: List<Component> = emptyList()): String {
         val map = obj.toMap()
         val table = "CREATE TABLE ${tablename}"
+        val multipleAttributes = mutableListOf<String>()
         val columns = mutableListOf("id TEXT PRIMARY KEY")
         val foreignKeys = mutableListOf<String>()
-        columns.run {
-            addAll(
-                map.filter { entry ->
-                    entry.value !is List<*>
-                }.map { entry ->
-                    when (entry.value) {
-                        is String -> "${entry.key} TEXT DEFAULT \"${entry.value}\""
-                        is Int -> "${entry.key} INTEGER DEFAULT ${entry.value}"
-                        is Double -> "${entry.key} REAL DEFAULT ${entry.value}"
-                        is ByteArray -> "${entry.key} BLOB DEFAULT ${entry.value}"
-                        is Component -> {
-                            val referenceTable = entry.value.javaClass.simpleName
-                            foreignKeys.add(
-                                "CONSTRAINT ${tablename}_$referenceTable " +
-                                        "FOREIGN KEY (${entry.key}_id) REFERENCES $referenceTable (id)"
-                            )
-                            "${entry.key}_id TEXT"
-                        }
-                        else -> throw IllegalArgumentException("$obj ha un tipo (${entry.value.javaClass} non valido!")
+        columns.addAll(
+            map.filter { entry ->
+                entry.value !is List<*>
+            }.map { entry ->
+                when (entry.value) {
+                    is String -> "${entry.key} TEXT DEFAULT \"${entry.value}\""
+                    is Int -> "${entry.key} INTEGER DEFAULT ${entry.value}"
+                    is Double -> "${entry.key} REAL DEFAULT ${entry.value}"
+                    is Component -> {
+                        val referenceTable = entry.value.javaClass.simpleName
+                        foreignKeys.add(
+                            "CONSTRAINT ${tablename}_$referenceTable " +
+                                    "FOREIGN KEY (${entry.key}_id) REFERENCES $referenceTable (id)"
+                        )
+                        "${entry.key}_id TEXT"
                     }
-                })
+                    else -> throw IllegalArgumentException("$obj ha un tipo (${entry.value.javaClass} non valido!")
+                }
+            })
+        map.filter { entry ->
+            entry.value is List<*> && !(entry.value as List<*>).isEmpty() && (entry.value as List<*>)[0] !is Component
+        }.map { entry ->
+            val element = (entry.value as List<*>)[0]
+            multipleAttributes.add(
+                "CREATE TABLE ${tablename}_${entry.key} (" +
+                        "id TEXT PRIMARY KEY,\n" +
+                        (when (element) {
+                            is String -> "${entry.key} TEXT DEFAULT \"${element}\""
+                            is Int -> "${entry.key} INTEGER DEFAULT ${element}"
+                            is Double -> "${entry.key} REAL DEFAULT ${element}"
+                            else -> throw IllegalArgumentException("$obj ha un tipo (${entry.value.javaClass} non valido!")
+                        }) +
+                        ", CONSTRAINT ${tablename}_${entry.key} FOREIGN KEY (id) REFERENCES $tablename (id))"
+            )
         }
         val superclass = obj.javaClass.superclass?.simpleName
         if (!superclass.equals("Component")) {
-            columns.add("${superclass}_id TEXT")
             foreignKeys.add(
                 "CONSTRAINT ${tablename}_$superclass " +
-                        "FOREIGN KEY (${superclass}_id) REFERENCES $superclass (id)"
+                        "FOREIGN KEY (id) REFERENCES $superclass (id)"
             )
         }
         for (fkey in fkeys) {
@@ -135,7 +147,9 @@ class HomeActivity : GeneralActivity("Home") {
             )
         }
         columns.addAll(foreignKeys)
-        return table + columns.joinToString(prefix = "(\n", postfix = "\n)", separator = ",\n")
+        return table +
+                columns.joinToString(prefix = "(\n", postfix = "\n)", separator = ",\n") +
+                multipleAttributes.joinToString(prefix = ";\n", postfix = "\n", separator = ";\n")
     }
 
 }
