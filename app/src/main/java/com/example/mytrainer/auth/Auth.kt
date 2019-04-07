@@ -14,9 +14,10 @@ import com.google.firebase.auth.FirebaseAuth
 
 
 open class Auth(
-    val context: Activity,
-    val TAG: String = "Auth"
+    val context: Activity
 ) {
+    private val TAG: String = "Auth"
+
     val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
     fun isLogged(): Boolean {

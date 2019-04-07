@@ -3,9 +3,10 @@ package com.example.mytrainer.auth
 import android.app.Activity
 
 class Email(
-    context: Activity,
-    TAG: String = "Email"
-): Auth(context, TAG) {
+    context: Activity
+) : Auth(context) {
+
+    private val TAG: String = "Email"
 
     init {
 

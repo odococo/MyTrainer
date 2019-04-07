@@ -12,9 +12,10 @@ import org.telegram.passport.TelegramPassport
 
 class Telegram(
     context: Activity,
-    button: TelegramLoginButton,
-    TAG: String = "Telegram"
-) : Auth(context, TAG) {
+    button: TelegramLoginButton
+) : Auth(context) {
+
+    private val TAG: String = "Telegram"
 
     init {
         button.setOnClickListener {

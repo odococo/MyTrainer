@@ -23,8 +23,8 @@ class MainActivity : GeneralActivity("MainActivity") {
         println("loggato: " + auth.isLogged())
         if (auth.isLogged()) auth.logged()
 
-        googleAuth = Google(this, google_sign_in_button)
-        facebookAuth = Facebook(this, facebook_sign_in_button)
+        googleAuth = Google.getInstance(this, google_sign_in_button)
+        facebookAuth = Facebook.getInstance(this, facebook_sign_in_button)
         //telegramAuth = Telegram(this, telegram_sign_in_button)
     }
 

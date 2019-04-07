@@ -5,17 +5,21 @@ import android.content.Intent
 import android.util.Log
 import android.widget.Toast
 import com.example.mytrainer.component.User
+import com.example.mytrainer.utils.SingletonHolder2
 import com.facebook.*
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FacebookAuthProvider
 
 
-class Facebook(
+class Facebook
+private constructor(
     context: Activity,
-    button: LoginButton,
-    TAG: String = "FacebookAuth"
-): Auth(context, TAG) {
+    button: LoginButton
+) : Auth(context) {
+    companion object : SingletonHolder2<Facebook, Activity, LoginButton>(::Facebook)
+
+    private val TAG: String = "FacebookAuth"
     private val callbackManager: CallbackManager = CallbackManager.Factory.create()
 
     init {
