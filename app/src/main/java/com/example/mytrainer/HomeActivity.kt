@@ -22,7 +22,8 @@ class HomeActivity : GeneralActivity("Home") {
 
         //Test().esercizi()
         val db = DataBaseOpenHelper.getInstance(this)
-        Query.getInstance(this).getExercise("Shoulder press")
+        println(Query.getInstance(this).getExercise("Shoulder press"))
+        println(Query.getInstance(this).getUser())
     }
 
     private fun initToolbar() {

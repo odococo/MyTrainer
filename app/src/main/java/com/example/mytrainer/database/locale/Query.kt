@@ -1,19 +1,21 @@
 package com.example.mytrainer.database.locale
 
+import android.app.Activity
 import android.content.ContentValues
-import android.content.Context
 import android.util.Log
+import com.example.mytrainer.auth.Auth
 import com.example.mytrainer.component.Component
 import com.example.mytrainer.component.Exercise
+import com.example.mytrainer.component.User
 import com.example.mytrainer.database.SQLContract
 import com.example.mytrainer.utils.SingletonHolder1
 
 class Query
-private constructor(context: Context) {
+private constructor(private val activity: Activity) {
     private val TAG = "QuerySQLite"
-    private val db: DataBaseOpenHelper = DataBaseOpenHelper.getInstance(context)
+    private val db: DataBaseOpenHelper = DataBaseOpenHelper.getInstance(activity)
 
-    companion object : SingletonHolder1<Query, Context>(::Query)
+    companion object : SingletonHolder1<Query, Activity>(::Query)
 
     private fun objToContentValues(obj: Component): ContentValues {
         val values = ContentValues()
@@ -59,12 +61,34 @@ private constructor(context: Context) {
         }
     }
 
-    fun addExercise(exercise: Exercise) {
-        db.insert(SQLContract.getTableName(exercise), objToContentValues(exercise))
+    fun clearAndRestoreDB() {
+        db.onUpgrade(db.writableDatabase, 0, SQLContract.DATABASE_VERSION)
     }
 
-    fun getExercise(name: String) {
-        val map = db.select(SQLContract.getTableName(Exercise()))
-        println(map)
+    fun addExercise(exercise: Exercise): Boolean {
+        return db.insert(SQLContract.getTableName(exercise), objToContentValues(exercise))
+    }
+
+    // TODO cercare lista di tipi per un esercizio
+    fun getExercise(name: String): Exercise {
+        val exercise = Exercise()
+        val map = db.selectByPK(SQLContract.getTableName(exercise), name)
+        exercise.id = map["id"] as String
+        exercise.description = map["description"] as String
+        return exercise
+    }
+
+    fun addUser(user: User): Boolean {
+        return db.insert(SQLContract.getTableName(user), objToContentValues(user))
+    }
+
+    fun getUser(): User {
+        val user = User()
+        val map = db.selectByPK(SQLContract.getTableName(user), Auth(activity).getId())
+        user.id = map["id"] as String
+        user.firstName = map["firstName"] as String
+        user.lastName = map["lastName"] as String
+        user.type = map["type"] as String
+        return user
     }
 }

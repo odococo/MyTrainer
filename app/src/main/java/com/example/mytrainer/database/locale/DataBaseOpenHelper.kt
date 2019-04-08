@@ -1,11 +1,12 @@
 package com.example.mytrainer.database.locale
 
+import android.app.Activity
 import android.content.ContentValues
-import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
+import com.example.mytrainer.auth.Auth
 import com.example.mytrainer.component.*
 import com.example.mytrainer.database.SQLContract
 import com.example.mytrainer.database.remote.Firestore
@@ -13,19 +14,19 @@ import com.example.mytrainer.utils.SingletonHolder1
 
 //Singleton
 class DataBaseOpenHelper
-private constructor(private val context: Context) :
-    SQLiteOpenHelper(context, SQLContract.DATABASE_NAME, null, SQLContract.DATABASE_VERSION) {
+private constructor(private val activity: Activity) :
+    SQLiteOpenHelper(activity, SQLContract.DATABASE_NAME, null, SQLContract.DATABASE_VERSION) {
 
     private val TAG: String = "DataBaseOpenHelper"
     private val tables: List<Component> = listOf(User(), Exercise(), TrainingSchedule(), TrainingExercise())
     private var db: SQLiteDatabase
 
-    companion object : SingletonHolder1<DataBaseOpenHelper, Context>(::DataBaseOpenHelper)
+    companion object : SingletonHolder1<DataBaseOpenHelper, Activity>(::DataBaseOpenHelper)
 
     init {
         Log.d(TAG, "Init DataBaseOpenHelper")
         db = writableDatabase
-        val clear = false
+        val clear = isEmpty("users")
         if (clear) {
             onUpgrade(db, 0, SQLContract.DATABASE_VERSION) // non lo chiama in automatico
         } else {
@@ -44,15 +45,15 @@ private constructor(private val context: Context) :
                     }
                 }
             }
-        initTables()
         Log.d(TAG, "onCreate new DataBase")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        select("sqlite_master", arrayOf("name"), arrayOf("name NOT LIKE ?"), arrayOf("sqlite%"), -1).forEach { entry ->
+        select("sqlite_master", arrayOf("name"), "name NOT LIKE ?", arrayOf("sqlite%"), -1).forEach { entry ->
             exec("DROP TABLE ${entry["name"]}")
         }
         onCreate(db)
+        initTables()
         Log.d(TAG, "onUpgrade DataBase version from $oldVersion to $newVersion version!")
     }
 
@@ -124,12 +125,21 @@ private constructor(private val context: Context) :
     }
 
     private fun initTables() {
+        // prendo tutti gli esercizi
         Firestore.getAll<Exercise>(SQLContract.getTableName(Exercise())) { exercises ->
             exercises.forEach { exercise ->
-                Query.getInstance(context).addExercise(exercise)
+                Query.getInstance(activity).addExercise(exercise)
             }
             Log.d(TAG, "Aggiunti ${exercises.size} esercizi!")
         }
+        // prendo l'utente corrente
+        Firestore.get<User>(SQLContract.getTableName(User()), Auth(activity).getId()) { user ->
+            Query.getInstance(activity).addUser(user)
+        }
+    }
+
+    private fun isEmpty(table: String): Boolean {
+        return selectOne(table, arrayOf("COUNT(*) AS rows"))["rows"] as Int == 0
     }
 
     fun exec(query: String) {
@@ -148,25 +158,36 @@ private constructor(private val context: Context) :
 
     fun select(
         table: String, columns: Array<String> = emptyArray(),
-        whereColumns: Array<String> = emptyArray(), whereValues: Array<String> = emptyArray(),
+        whereClause: String = "1 = 1", whereValues: Array<String> = emptyArray(),
         limit: Int = -1
     ): List<Map<String, Any?>> {
         open()
         val cursor = db.query(
-            table, columns, whereColumns.joinToString(" AND "), whereValues,
+            table, columns, whereClause, whereValues,
             null, null, null, if (limit > 0) "$limit" else null
         )
         val list = mutableListOf<Map<String, Any?>>()
         if (cursor != null) {
             cursor.moveToFirst()
-            while (cursor.moveToNext()) {
+            do {
                 list.add(getRow(cursor))
-            }
+            } while (cursor.moveToNext())
             Log.d(TAG, "Righe selezionate: ${list.size}")
         }
         cursor.close()
         close()
         return list
+    }
+
+    fun selectOne(
+        table: String, columns: Array<String> = emptyArray(),
+        whereClause: String = "1 = 1", whereValues: Array<String> = emptyArray()
+    ): Map<String, Any?> {
+        return select(table, columns, whereClause, whereValues, limit = 1).getOrElse(0) { _ -> mapOf() }
+    }
+
+    fun selectByPK(table: String, pk: String): Map<String, Any?> {
+        return selectOne(table, whereClause = "id = ?", whereValues = arrayOf(pk))
     }
 
     private fun getRow(cursor: Cursor): Map<String, Any?> {
@@ -184,9 +205,9 @@ private constructor(private val context: Context) :
         return row
     }
 
-    fun update(table: String, values: ContentValues, whereColumns: Array<String>, whereValues: Array<String>): Boolean {
+    fun update(table: String, values: ContentValues, whereClause: String, whereValues: Array<String>): Boolean {
         open()
-        val result = db.update(table, values, whereColumns.joinToString(" AND "), whereValues)
+        val result = db.update(table, values, whereClause, whereValues)
         Log.d(TAG, "Righe aggiornate: $result")
         close()
         return result != -1
