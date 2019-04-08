@@ -135,6 +135,7 @@ private constructor(private val activity: Activity) :
         // prendo l'utente corrente
         Firestore.get<User>(SQLContract.getTableName(User()), Auth(activity).getId()) { user ->
             Query.getInstance(activity).addUser(user)
+            Log.d(TAG, "Aggiunto utente $user")
         }
     }
 
@@ -151,7 +152,7 @@ private constructor(private val activity: Activity) :
     fun insert(table: String, values: ContentValues): Boolean {
         open()
         val result = db.insert(table, null, values)
-        Log.d(TAG, "Righe presenti: $result")
+        Log.d(TAG, "Righe presenti in $table: $result")
         close()
         return result.toInt() != -1
     }
@@ -168,11 +169,12 @@ private constructor(private val activity: Activity) :
         )
         val list = mutableListOf<Map<String, Any?>>()
         if (cursor != null) {
-            cursor.moveToFirst()
-            do {
-                list.add(getRow(cursor))
-            } while (cursor.moveToNext())
-            Log.d(TAG, "Righe selezionate: ${list.size}")
+            if (cursor.moveToFirst()) {
+                do {
+                    list.add(getRow(cursor))
+                } while (cursor.moveToNext())
+            }
+            Log.d(TAG, "Righe selezionate in $table: ${list.size}")
         }
         cursor.close()
         close()
@@ -208,7 +210,7 @@ private constructor(private val activity: Activity) :
     fun update(table: String, values: ContentValues, whereClause: String, whereValues: Array<String>): Boolean {
         open()
         val result = db.update(table, values, whereClause, whereValues)
-        Log.d(TAG, "Righe aggiornate: $result")
+        Log.d(TAG, "Righe aggiornate in $table: $result")
         close()
         return result != -1
     }
@@ -216,7 +218,7 @@ private constructor(private val activity: Activity) :
     fun delete(table: String, whereColumns: Array<String>, whereValues: Array<String>): Boolean {
         open()
         val result = db.delete(table, whereColumns.joinToString(" AND "), whereValues)
-        Log.d(TAG, "Righe cancellate: $result")
+        Log.d(TAG, "Righe cancellate in $table: $result")
         close()
         return result != -1
     }

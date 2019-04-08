@@ -17,8 +17,8 @@ class Test {
     }
 
     // per le descrizioni bisogna cambiare i vari metodi o inserirle successivamente
-    fun addExercise(name: String, type: List<String>, description: String = "") {
-        val exercise = Exercise(description, type)
+    fun addExercise(name: String, types: List<String>, description: String = "") {
+        val exercise = Exercise(description, types)
         exercise.id = name
         Query.addExercise(exercise)
     }

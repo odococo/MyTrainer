@@ -20,8 +20,9 @@ class HomeActivity : GeneralActivity("Home") {
         initNavigationView()
         initTabs()
 
-        //Test().esercizi()
         val db = DataBaseOpenHelper.getInstance(this)
+        //Test().esercizi()
+        //Query.getInstance(this).clearAndRestoreDB()
         println(Query.getInstance(this).getExercise("Shoulder press"))
         println(Query.getInstance(this).getUser())
     }

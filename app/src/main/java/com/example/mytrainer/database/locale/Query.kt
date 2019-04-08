@@ -56,10 +56,13 @@ private constructor(private val activity: Activity) {
                     is ByteArray -> values.put(key, v)
                     else -> Log.w(TAG, "$v e' di un tipo non compatibile con SQLite")
                 }
-                db.insert("${SQLContract.getTableName(obj)}_type", values)
+                println("$key: $v")
+                db.insert("${SQLContract.getTableName(obj)}_$key", values)
             }
         }
     }
+
+    // nei getter forse e' meglio usare solo SQL contract senza metodi di utilita' (tipo objTo...)
 
     fun clearAndRestoreDB() {
         db.onUpgrade(db.writableDatabase, 0, SQLContract.DATABASE_VERSION)
@@ -69,12 +72,19 @@ private constructor(private val activity: Activity) {
         return db.insert(SQLContract.getTableName(exercise), objToContentValues(exercise))
     }
 
-    // TODO cercare lista di tipi per un esercizio
+    // TODO cercare lista di tipi per un esercizio in modo automatico
     fun getExercise(name: String): Exercise {
         val exercise = Exercise()
         val map = db.selectByPK(SQLContract.getTableName(exercise), name)
+        if (map.isEmpty()) {
+            return exercise
+        }
         exercise.id = map["id"] as String
         exercise.description = map["description"] as String
+        println(db.select("${SQLContract.getTableName(exercise)}_types", arrayOf("types"), "id = ?", arrayOf(name)))
+        val types = db.select("${SQLContract.getTableName(exercise)}_types", arrayOf("types"), "id = ?", arrayOf(name))
+            .map { entry -> entry["types"] as String }
+        exercise.types = types
         return exercise
     }
 
@@ -85,6 +95,9 @@ private constructor(private val activity: Activity) {
     fun getUser(): User {
         val user = User()
         val map = db.selectByPK(SQLContract.getTableName(user), Auth(activity).getId())
+        if (map.isEmpty()) {
+            return user
+        }
         user.id = map["id"] as String
         user.firstName = map["firstName"] as String
         user.lastName = map["lastName"] as String
