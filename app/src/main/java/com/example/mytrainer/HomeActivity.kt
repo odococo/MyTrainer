@@ -4,8 +4,6 @@ import android.os.Bundle
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import com.example.mytrainer.adapter.TabsScheduleAdapter
-import com.example.mytrainer.database.locale.DataBaseOpenHelper
-import com.example.mytrainer.database.locale.Query
 import kotlinx.android.synthetic.main.activity_home.*
 
 class HomeActivity : GeneralActivity("Home") {
@@ -20,11 +18,10 @@ class HomeActivity : GeneralActivity("Home") {
         initNavigationView()
         initTabs()
 
-        val db = DataBaseOpenHelper.getInstance(this)
         //Test().esercizi()
         //Query.getInstance(this).clearAndRestoreDB()
-        println(Query.getInstance(this).getExercise("Shoulder press"))
-        println(Query.getInstance(this).getUser())
+        println(db.getExercise("Shoulder press"))
+        println(db.getUser())
     }
 
     private fun initToolbar() {

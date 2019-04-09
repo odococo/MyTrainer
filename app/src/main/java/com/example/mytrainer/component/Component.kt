@@ -3,10 +3,14 @@ package com.example.mytrainer.component
 abstract class Component(
     var id: String = "")
 {
-    abstract fun toMap(): MutableMap<String, Any>
+    protected val TAG = "Component"
+
+    abstract fun toMap(): Map<String, Any>
+
+    abstract fun fromMap(map: Map<String, Any?>): Component
 
     override fun toString(): String {
-        val map = toMap()
+        val map = toMap() as MutableMap
         map["id"] = id
         return map.toString()
     }

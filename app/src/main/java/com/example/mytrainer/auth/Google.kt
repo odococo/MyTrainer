@@ -1,6 +1,7 @@
 package com.example.mytrainer.auth
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
@@ -18,14 +19,14 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 class Google
 private constructor(
-    context: Activity,
+    context: Context,
     button: SignInButton
 ) : Auth(context) {
 
     private val TAG: String = "GoogleAuth"
     private val client: GoogleSignInClient
 
-    companion object : SingletonHolder2<Google, Activity, SignInButton>(::Google)
+    companion object : SingletonHolder2<Google, Context, SignInButton>(::Google)
 
     init {
         button.setOnClickListener {
@@ -43,7 +44,7 @@ private constructor(
 
     private fun selectAccount() {
         val intent: Intent = client.signInIntent
-        context.startActivityForResult(intent, Codes.GOOGLE_SIGN_IN.code)
+        (context as Activity).startActivityForResult(intent, Codes.GOOGLE_SIGN_IN.code)
     }
 
     override fun handleResult(requestCode: Int, resultCode: Int, data: Intent?) {

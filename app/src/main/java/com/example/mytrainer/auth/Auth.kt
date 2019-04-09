@@ -1,6 +1,6 @@
 package com.example.mytrainer.auth
 
-import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.example.mytrainer.GeneralActivity
@@ -14,25 +14,35 @@ import com.google.firebase.auth.FirebaseAuth
 
 
 open class Auth(
-    val context: Activity
+    val context: Context
 ) {
     private val TAG: String = "Auth"
 
-    val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+    protected val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    fun isLogged(): Boolean {
-        println(firebaseAuth.currentUser?.uid)
-        return firebaseAuth.currentUser != null
+    // alcune classi potrebbero aver bisogno dell'id senza pero' avere un context
+    companion object {
+        private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
+
+        fun isLogged(): Boolean {
+            return firebaseAuth.currentUser != null
+        }
+
+        fun getId(): String {
+            return if (isLogged()) firebaseAuth.currentUser?.uid!! else ""
+        }
+
+        fun logout() {
+            firebaseAuth.signOut()
+            LoginManager.getInstance().logOut()
+            Log.d("Auth", "Logout con successo")
+        }
     }
 
     fun checkLogin() {
         if (!isLogged() && !(context is MainActivity)) {
             toLogin()
         }
-    }
-
-    fun getId(): String {
-        return firebaseAuth.currentUser?.uid!!
     }
 
     fun logged() {
@@ -45,10 +55,16 @@ open class Auth(
 
     }
 
+    fun isLogged(): Boolean {
+        return Companion.isLogged()
+    }
+
+    fun getId(): String {
+        return Companion.getId()
+    }
+
     fun logout() {
-        firebaseAuth.signOut()
-        LoginManager.getInstance().logOut()
-        Log.d("Auth", "Logout con successo")
+        Companion.logout()
         toLogin()
     }
 

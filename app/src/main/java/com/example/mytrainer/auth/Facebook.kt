@@ -1,6 +1,7 @@
 package com.example.mytrainer.auth
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
@@ -14,10 +15,10 @@ import com.google.firebase.auth.FacebookAuthProvider
 
 class Facebook
 private constructor(
-    context: Activity,
+    context: Context,
     button: LoginButton
 ) : Auth(context) {
-    companion object : SingletonHolder2<Facebook, Activity, LoginButton>(::Facebook)
+    companion object : SingletonHolder2<Facebook, Context, LoginButton>(::Facebook)
 
     private val TAG: String = "FacebookAuth"
     private val callbackManager: CallbackManager = CallbackManager.Factory.create()
@@ -48,7 +49,7 @@ private constructor(
     private fun firebaseAuth(token: AccessToken) {
         val credential = FacebookAuthProvider.getCredential(token.token)
         firebaseAuth.signInWithCredential(credential)
-            .addOnCompleteListener(context) { task ->
+            .addOnCompleteListener(context as Activity) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
                     Log.d(TAG, "Facebook sign in successful")

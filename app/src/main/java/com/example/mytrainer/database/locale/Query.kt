@@ -1,7 +1,7 @@
 package com.example.mytrainer.database.locale
 
-import android.app.Activity
 import android.content.ContentValues
+import android.content.Context
 import android.util.Log
 import com.example.mytrainer.auth.Auth
 import com.example.mytrainer.component.Component
@@ -11,16 +11,17 @@ import com.example.mytrainer.database.SQLContract
 import com.example.mytrainer.utils.SingletonHolder1
 
 class Query
-private constructor(private val activity: Activity) {
+private constructor(private val context: Context) {
     private val TAG = "QuerySQLite"
-    private val db: DataBaseOpenHelper = DataBaseOpenHelper.getInstance(activity)
+    private val db: DataBaseOpenHelper = DataBaseOpenHelper.getInstance(context)
 
-    companion object : SingletonHolder1<Query, Activity>(::Query)
+    companion object : SingletonHolder1<Query, Context>(::Query)
 
     private fun objToContentValues(obj: Component): ContentValues {
         val values = ContentValues()
         obj.toMap().forEach { entry ->
             val value = entry.value
+            // c'e' bisogno del cast
             when (value) {
                 is String -> values.put(entry.key, value)
                 is Byte -> values.put(entry.key, value)
@@ -56,18 +57,27 @@ private constructor(private val activity: Activity) {
                     is ByteArray -> values.put(key, v)
                     else -> Log.w(TAG, "$v e' di un tipo non compatibile con SQLite")
                 }
-                println("$key: $v")
                 db.insert("${SQLContract.getTableName(obj)}_$key", values)
             }
         }
     }
 
-    // nei getter forse e' meglio usare solo SQL contract senza metodi di utilita' (tipo objTo...)
-
     fun clearAndRestoreDB() {
         db.onUpgrade(db.writableDatabase, 0, SQLContract.DATABASE_VERSION)
     }
 
+    private fun getComponent(component: Component): Component {
+        val map = db.selectOneByKey(SQLContract.getTableName(component), "id", component.id) as MutableMap
+        component.toMap().forEach { key, value ->
+            if (value is List<*>) {
+                val listName = "${SQLContract.getTableName(Exercise())}_$key"
+                map[key] = db.selectByKey(listName, "id", component.id).map { entry -> entry[key] as String }
+            }
+        }
+        return component.fromMap(map)
+    }
+
+    // solo in locale
     fun addExercise(exercise: Exercise): Boolean {
         return db.insert(SQLContract.getTableName(exercise), objToContentValues(exercise))
     }
@@ -75,33 +85,22 @@ private constructor(private val activity: Activity) {
     // TODO cercare lista di tipi per un esercizio in modo automatico
     fun getExercise(name: String): Exercise {
         val exercise = Exercise()
-        val map = db.selectByPK(SQLContract.getTableName(exercise), name)
-        if (map.isEmpty()) {
-            return exercise
-        }
-        exercise.id = map["id"] as String
-        exercise.description = map["description"] as String
-        println(db.select("${SQLContract.getTableName(exercise)}_types", arrayOf("types"), "id = ?", arrayOf(name)))
-        val types = db.select("${SQLContract.getTableName(exercise)}_types", arrayOf("types"), "id = ?", arrayOf(name))
-            .map { entry -> entry["types"] as String }
-        exercise.types = types
-        return exercise
+        exercise.id = name
+        return getComponent(exercise) as Exercise
     }
 
+    // solo in locale
     fun addUser(user: User): Boolean {
         return db.insert(SQLContract.getTableName(user), objToContentValues(user))
     }
 
     fun getUser(): User {
         val user = User()
-        val map = db.selectByPK(SQLContract.getTableName(user), Auth(activity).getId())
-        if (map.isEmpty()) {
-            return user
-        }
-        user.id = map["id"] as String
-        user.firstName = map["firstName"] as String
-        user.lastName = map["lastName"] as String
-        user.type = map["type"] as String
-        return user
+        user.id = Auth.getId()
+        return getComponent(user) as User
+    }
+
+    fun addTrainingSchedule() {
+
     }
 }
