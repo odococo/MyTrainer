@@ -14,7 +14,6 @@ open class GeneralActivity(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Auth(this)
-        db = Query.getInstance(this)
         auth.checkLogin()
     }
 }

@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
+import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.mytrainer.auth.Auth
@@ -45,7 +46,7 @@ private constructor(private val context: Context) :
             .forEach { table ->
                 table.split(";").forEach { query ->
                     if (!query.isEmpty()) { // potrebbe essere stringa vuota, non so come pero'
-                        //exec(query)
+                        exec(query)
                         println(query)
                     }
                 }
@@ -137,15 +138,15 @@ private constructor(private val context: Context) :
             }
             Log.d(TAG, "Aggiunti ${exercises.size} esercizi!")
         }
-        // prendo l'utente corrente
-        Firestore.get<User>(SQLContract.getTableName(User()), Auth.getId()) { user ->
-            Query.getInstance(context).addUser(user)
-            Log.d(TAG, "Aggiunto utente $user")
-        }
     }
 
     private fun isEmpty(table: String): Boolean {
-        return selectOne(table, arrayOf("COUNT(*) AS rows"))["rows"] as Int == 0
+        try{
+            return selectOne(table, arrayOf("COUNT(*) AS rows"))["rows"] as Int == 0
+        }catch(e: SQLiteException) {
+            // se entra qua probabilmente la tabella non esiste
+            return true;
+        }
     }
 
     fun exec(query: String) {
@@ -190,7 +191,7 @@ private constructor(private val context: Context) :
         table: String, columns: Array<String> = emptyArray(),
         whereClause: String = "1 = 1", whereValues: Array<String> = emptyArray()
     ): Map<String, Any?> {
-        return select(table, columns, whereClause, whereValues, limit = 1).getOrElse(0) { _ -> mapOf() }
+        return select(table, columns, whereClause, whereValues, limit = 1).getOrElse(0) { _ -> mutableMapOf() }
     }
 
     // select by primary key or select by foreign key (entrambi saranno id)
@@ -200,7 +201,7 @@ private constructor(private val context: Context) :
     }
 
     fun selectOneByKey(table: String, key: String, value: String): Map<String, Any?> {
-        return selectByKey(table, key, value, 1).getOrElse(0) { _ -> mapOf() }
+        return selectByKey(table, key, value, 1).getOrElse(0) { _ -> mutableMapOf() }
     }
 
     private fun getRow(cursor: Cursor): Map<String, Any?> {

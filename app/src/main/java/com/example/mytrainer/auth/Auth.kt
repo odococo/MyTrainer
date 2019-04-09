@@ -8,7 +8,8 @@ import com.example.mytrainer.HomeActivity
 import com.example.mytrainer.MainActivity
 import com.example.mytrainer.component.User
 import com.example.mytrainer.database.remote.Firestore
-import com.example.mytrainer.database.remote.Query
+import com.example.mytrainer.database.remote.Query as remoteDB
+import com.example.mytrainer.database.locale.Query as localDB
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 
@@ -44,9 +45,11 @@ open class Auth(
             toLogin()
         }
     }
-
+    //TODO controllare se l'utente già presente
     fun logged() {
         Firestore.get<User>("users", getId()) { user ->
+            localDB.getInstance(context).addUser(user)
+            Log.d(TAG, "Aggiunto utente $user")
             toHome(user)
         }
     }
@@ -75,7 +78,7 @@ open class Auth(
     }
 
     fun toHome(user: User) {
-        Query.addUser(user)
+        remoteDB.addUser(user)
         to(HomeActivity())
     }
 
