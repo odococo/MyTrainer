@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import com.example.mytrainer.auth.Auth
 import com.example.mytrainer.component.*
 import com.example.mytrainer.database.SQLContract
 import com.example.mytrainer.database.remote.Firestore
@@ -145,7 +144,7 @@ private constructor(private val context: Context) :
             return selectOne(table, arrayOf("COUNT(*) AS rows"))["rows"] as Int == 0
         }catch(e: SQLiteException) {
             // se entra qua probabilmente la tabella non esiste
-            return true;
+            return true
         }
     }
 
@@ -155,9 +154,14 @@ private constructor(private val context: Context) :
         close()
     }
 
-    fun insert(table: String, values: ContentValues): Boolean {
+    fun insert(table: String, values: ContentValues, conflict: Boolean = false): Boolean {
         open()
-        val result = db.insert(table, null, values)
+        val result =
+            if (conflict) {
+                db.insertWithOnConflict(table, null, values, SQLiteDatabase.CONFLICT_IGNORE)
+            } else {
+                db.insert(table, null, values)
+            }
         Log.d(TAG, "Righe presenti in $table: $result")
         close()
         return result.toInt() != -1
@@ -236,40 +240,3 @@ private constructor(private val context: Context) :
     }
 
 }
-
-/*
-
-companion object {
-
-    private const val DATABASE_NAME: String = "SQLiteDB"
-    private const val DATABASE_VERSION: Int = 1
-    val instance = DataBaseOpenHelper()
-
-    private var dbHelper: DataBaseOpenHelper? = null //Se non inizializzo a null, errore in esecuzione.
-    @Synchronized fun getInstance(context: Context): DataBaseOpenHelper{
-        if (dbHelper == null)
-            dbHelper = DataBaseOpenHelper(context)
-        return dbHelper as DataBaseOpenHelper //Il cast esplicito è necessario, altrimenti errore in compilazione.
-    }
-}
-
-private constructor(context: Context): super(context, DATABASE_NAME, null, DATABASE_VERSION)
-
-override fun onCreate(db: SQLiteDatabase) {
-    //birth_date è un INTEGER ma cmq conterrà un long che pio verrà trasformato in tipo date/localDate o quello che è
-    val users = objToTable(User(), tables[0])
-    val exercises = objToTable(Exercise(), tables[1])
-    val schedule = objToTable(TrainingSchedule(), tables[2])
-    val training_exercise = objToTable(TrainingExercise(), tables[3])
-    val query: String = users + exercises + schedule + training_exercise
-    db.execSQL(query)
-    Log.d(TAG, "onCreate new DataBase")
-}
-
-//Per aggiornare db, prima bisogna cancellarlo e poi richiamare onCreate sopra passando il db aggiornato(specificando la vecchia e nuova versione).
-override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-    val query: String = "DROP TABLE IF EXISTS user" //TODO questo è solo un esempio.
-    db?.execSQL(query)
-    this.onCreate(db)
-    Log.d(TAG, "onUpgrade DataBase version from $oldVersion to  $newVersion version!")
-}*/

@@ -5,13 +5,13 @@ import android.content.Intent
 import android.util.Log
 import com.example.mytrainer.GeneralActivity
 import com.example.mytrainer.HomeActivity
-import com.example.mytrainer.MainActivity
+import com.example.mytrainer.LoginActivity
 import com.example.mytrainer.component.User
 import com.example.mytrainer.database.remote.Firestore
-import com.example.mytrainer.database.remote.Query as remoteDB
-import com.example.mytrainer.database.locale.Query as localDB
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
+import com.example.mytrainer.database.locale.Query as localDB
+import com.example.mytrainer.database.remote.Query as remoteDB
 
 
 open class Auth(
@@ -41,7 +41,7 @@ open class Auth(
     }
 
     fun checkLogin() {
-        if (!isLogged() && !(context is MainActivity)) {
+        if (!isLogged() && !(context is LoginActivity)) {
             toLogin()
         }
     }
@@ -83,6 +83,6 @@ open class Auth(
     }
 
     fun toLogin() {
-        to(MainActivity())
+        to(LoginActivity())
     }
 }

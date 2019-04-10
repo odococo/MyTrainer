@@ -82,7 +82,6 @@ private constructor(private val context: Context) {
         return db.insert(SQLContract.getTableName(exercise), objToContentValues(exercise))
     }
 
-    // TODO cercare lista di tipi per un esercizio in modo automatico
     fun getExercise(name: String): Exercise {
         val exercise = Exercise()
         exercise.id = name
@@ -91,7 +90,7 @@ private constructor(private val context: Context) {
 
     // solo in locale
     fun addUser(user: User): Boolean {
-        return db.insert(SQLContract.getTableName(user), objToContentValues(user))
+        return db.insert(SQLContract.getTableName(user), objToContentValues(user), conflict = true)
     }
 
     fun getUser(): User {
