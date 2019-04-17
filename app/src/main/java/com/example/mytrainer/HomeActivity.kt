@@ -81,7 +81,6 @@ class HomeActivity : GeneralActivity("Home") {
     private fun initTabs() {
         val adapter = TabsScheduleAdapter(applicationContext, supportFragmentManager)
         viewPager?.adapter = adapter
-
         tabLayout.setupWithViewPager(viewPager)
     }
 

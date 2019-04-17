@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.example.mytrainer.fragment.ExercisFramgentExample
+import kotlinx.android.synthetic.main.activity_home.view.*
 
 open class TabsScheduleAdapter: FragmentPagerAdapter {
 
@@ -18,9 +19,8 @@ open class TabsScheduleAdapter: FragmentPagerAdapter {
     }
     //Il seguente metodo prende in ingresso id del tab e li setta il proprio titolo.
     override fun getPageTitle(position: Int): CharSequence? {
-        val fragment: ExercisFramgentExample = tabs!!.get(position) as ExercisFramgentExample
-        val title: String = fragment.title
-        return title
+        val fragment: ExercisFramgentExample = tabs!![position] as ExercisFramgentExample
+        return fragment.title
     }
 
     override fun getItem(position: Int): Fragment? {
@@ -33,12 +33,15 @@ open class TabsScheduleAdapter: FragmentPagerAdapter {
 
     //Qui si specifica la quantità di tabs da creare, che nel nostro caso, varia in base al numero di giorni avente la scheda.
     private fun initTabMap(context: Context){
+        //var title: String =
         tabs = HashMap<Int, Fragment>()
         tabs?.put(0, ExercisFramgentExample.getInstance(context,"Giorno 1"))
         tabs?.put(1, ExercisFramgentExample.getInstance(context,"Giorno 2"))
         tabs?.put(2, ExercisFramgentExample.getInstance(context,"Giorno 3"))
         tabs?.put(3, ExercisFramgentExample.getInstance(context,"Giorno 4"))
         tabs?.put(4, ExercisFramgentExample.getInstance(context,"Giorno 5"))
+        tabs?.put(5, ExercisFramgentExample.getInstance(context,"Giorno 6"))
+        tabs?.put(6, ExercisFramgentExample.getInstance(context,"Giorno 7"))
 
     }
 }

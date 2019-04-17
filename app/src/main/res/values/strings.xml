@@ -3,8 +3,6 @@
 
     <!-- Main activity -->
     <string name="welcome">Welcome</string>
-    <string name="login">Sign in</string>
-    <string name="registration">Sign up</string>
 
     <string name="view_navigation_open">Open</string>
     <string name="view_navigation_close">Close</string>
@@ -24,7 +22,12 @@
     <string name="logout">Logout</string>
 
     <!-- Tab name-->
-    <string name="tab_days">Day N</string>
+    <string name="tab_day_name">Day: %d</string>
+
+    <!-- Navigation header-->
+    <string name="myTrainer">My Trainer</string>
+    <string name="name">Anatoliy</string>
+    <string name="surname">Roshka</string>
 
     <!-- Auth credentials -->
     <string name="google_id">571297470512–0chmgeusgvtk1mqrmdn6r74iprprkm4i.apps.googleusercontent.com</string>

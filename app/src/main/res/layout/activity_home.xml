@@ -28,8 +28,8 @@
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:tabMode="scrollable"
                 app:tabIndicatorColor="@android:color/white"
-                app:tabIndicatorHeight="6dp"
                 app:tabSelectedTextColor="@color/colorWhite"
                 app:tabTextColor="@android:color/white"
                 />

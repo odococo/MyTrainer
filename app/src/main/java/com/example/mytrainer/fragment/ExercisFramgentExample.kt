@@ -47,12 +47,12 @@ class ExercisFramgentExample: Fragment() {
         return anotherView!!
     }
 
-    //Qui si specifica il numero di esercizi e tutti gli eventuali campi relativi.
+    //Qui si specifica il numero di esercizi e tutti gli eventuali campi.
     private fun createMockData(): List<Exercise> {
         val data: ArrayList<Exercise> = ArrayList()
-        data.add(Exercise("Esercizio 1", listOf("Descrizione 1")))
-        data.add(Exercise("Esercizio 2", listOf("Descrizione 2")))
-        data.add(Exercise("Esercizio 3", listOf("Descrizione 3")))
+        data.add(Exercise("Descrizione 1", listOf("Descrizione 1")))
+        data.add(Exercise("Descrizione 2", listOf("Descrizione 2")))
+        data.add(Exercise("Descrizione 3", listOf("Descrizione 3")))
 
         return data
     }
