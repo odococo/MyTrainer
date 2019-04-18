@@ -4,14 +4,15 @@
     <!-- Main activity -->
     <string name="welcome">Welcome</string>
 
-    <string name="view_navigation_open">Open</string>
-    <string name="view_navigation_close">Close</string>
 
+    <!-- -->
     <string name="respect">Hai il mio rispetto</string>
     <string name="thx">Grazie :=)</string>
 
+
     <!-- Toolbar strings-->
     <string name="search_title">Search</string>
+
 
     <!-- Navigation menu strings-->
     <string name="profile">Profile</string>
@@ -21,13 +22,20 @@
     <string name="help">Help</string>
     <string name="logout">Logout</string>
 
-    <!-- Tab name-->
-    <string name="tab_day_name">Day: %d</string>
+    <!--Sono due stati del navigation view: open and close -->
+    <string name="view_navigation_open">Open</string>
+    <string name="view_navigation_close">Close</string>
+
 
     <!-- Navigation header-->
     <string name="myTrainer">My Trainer</string>
     <string name="name">Anatoliy</string>
     <string name="surname">Roshka</string>
+
+
+
+
+
 
     <!-- Auth credentials -->
     <string name="google_id">571297470512–0chmgeusgvtk1mqrmdn6r74iprprkm4i.apps.googleusercontent.com</string>

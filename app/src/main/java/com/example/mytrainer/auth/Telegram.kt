@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
-import com.example.mytrainer.HomeActivity
+import com.example.mytrainer.MainActivity
 import org.telegram.passport.PassportScope
 import org.telegram.passport.PassportScopeElementOneOfSeveral
 import org.telegram.passport.TelegramLoginButton
@@ -37,7 +37,7 @@ class Telegram(
     override fun handleResult(requestCode: Int, resultCode: Int, data: Intent?) {
         println("Risultato $resultCode e serve ${Activity.RESULT_OK}")
         if (resultCode == Activity.RESULT_OK) {
-            to(HomeActivity::class.java)
+            to(MainActivity::class.java)
         } else {
             Log.e(TAG, "Error telegram login!")
             Toast.makeText(context, "Telegram sign in failed:(", Toast.LENGTH_LONG).show()

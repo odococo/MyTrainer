@@ -9,31 +9,35 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mytrainer.R
-import com.example.mytrainer.adapter.DaysListAdapter
+import com.example.mytrainer.adapter.TrainingDayListAdapter
 import com.example.mytrainer.component.Exercise
 
-class ExercisFramgentExample: Fragment() {
+class TrainingDayFragment: Fragment() {
 
-    private val LAYOUT:Int = R.layout.fragment_example
-    var title: String = ""
+    private val LAYOUT:Int = R.layout.training_day_fragment
     private var anotherView: View? = null
+
+    var title: String = "" //Il titolo del tab che corrisponde ad un giorno di allenamento
 
     companion object {
 
-        //Questo è il contesto passatto dal'esterno, che è diverso da quello in cui si trova la seguente classe
+        //Questo è il contesto passatto dal'esterno, che è diverso da quello in cui si trova la seguente classe.
+        //Server per ricavare il layout ed il recycle view.
         private var externalContext: Context? = null
 
-        fun getInstance(context: Context, title: String): ExercisFramgentExample{
+        fun getInstance(context: Context, title: String): TrainingDayFragment{
             externalContext = context
 
             var args: Bundle = Bundle()
-            var fragment: ExercisFramgentExample = ExercisFramgentExample()
-            fragment.arguments = args
+            var daysFragment: TrainingDayFragment = TrainingDayFragment()
+
+            daysFragment.arguments = args
 
             //Setting del nome del tab(nome del giorno). Che sarebbe: "Giorno 1", "Giorno 2" etc.
-            fragment.title = title
+            //Oppure si può mettere: Giorno: Spalle + tricipiti e cose del genere
+            daysFragment.title += title
 
-            return fragment
+            return daysFragment
         }
     }
 
@@ -42,7 +46,7 @@ class ExercisFramgentExample: Fragment() {
 
         val rs: RecyclerView = anotherView!!.findViewById(R.id.recycle_view)
         rs.layoutManager = LinearLayoutManager(externalContext)
-        rs.adapter = DaysListAdapter(createMockData())
+        rs.adapter = TrainingDayListAdapter(createMockData())
 
         return anotherView!!
     }

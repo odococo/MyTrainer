@@ -3,11 +3,11 @@ package com.example.mytrainer
 import android.os.Bundle
 import com.example.mytrainer.database.locale.Query
 
-class StartActivity : GeneralActivity("StartActivity") {
+class EmptyActivity : GeneralActivity("EmptyActivity") {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_start)
+        setContentView(R.layout.activity_empty)
 
         if (auth.isLogged()) {
             auth.toHome(Query.getInstance(this).getUser())

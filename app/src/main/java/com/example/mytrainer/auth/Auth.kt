@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.example.mytrainer.GeneralActivity
-import com.example.mytrainer.HomeActivity
+import com.example.mytrainer.MainActivity
 import com.example.mytrainer.LoginActivity
 import com.example.mytrainer.component.User
 import com.example.mytrainer.database.remote.Firestore
@@ -79,7 +79,7 @@ open class Auth(
 
     fun toHome(user: User) {
         remoteDB.addUser(user)
-        to(HomeActivity())
+        to(MainActivity())
     }
 
     fun toLogin() {
