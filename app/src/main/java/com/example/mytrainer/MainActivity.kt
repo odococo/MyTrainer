@@ -3,13 +3,14 @@ package com.example.mytrainer
 import android.os.Bundle
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
-import com.example.mytrainer.adapter.TabsDayAdapter
+import com.example.mytrainer.adapter.TabsAdapter
 import com.example.mytrainer.database.locale.Query
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : GeneralActivity("Home") {
+class MainActivity : GeneralActivity("Main") {
 
     private val LAYOUT: Int = R.layout.activity_main
+
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppDefaul)
         super.onCreate(savedInstanceState)
@@ -79,7 +80,7 @@ class MainActivity : GeneralActivity("Home") {
     }
 
     private fun initTabs() {
-        val adapter = TabsDayAdapter(applicationContext, supportFragmentManager)
+        val adapter = TabsAdapter(applicationContext, supportFragmentManager)
         viewPager?.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
     }

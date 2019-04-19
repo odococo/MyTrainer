@@ -15,8 +15,8 @@ import com.example.mytrainer.component.TrainingExercise
 
 class TrainingDayFragment: Fragment() {
 
-    private val LAYOUT:Int = R.layout.training_day_fragment
-    private var anotherView: View? = null
+    private val LAYOUT: Int = R.layout.training_day_fragment
+    private lateinit var anotherView: View
 
     var title: String = "" //Il titolo del tab che corrisponde ad un giorno di allenamento
 
@@ -24,8 +24,8 @@ class TrainingDayFragment: Fragment() {
 
         //Questo è il contesto passatto dal'esterno, che è diverso da quello in cui si trova la seguente classe.
         //Server per ricavare il layout ed il recycle view.
-        private var externalContext: Context? = null
-        private var daysList: List<TrainingExercise>? = null
+        private lateinit var externalContext: Context
+        private lateinit var daysList: List<TrainingExercise>
 
         //TODO ricevere come argomento una lista che corrisponde ad un giorno contenente tutti gli esercizi da fare.
         //Sarebe al posto del titolo, esso deve essere già contenuto all'interno del giorno di allenamento.
@@ -47,10 +47,10 @@ class TrainingDayFragment: Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         anotherView = inflater.inflate(LAYOUT, container, false)
-        val rs: RecyclerView = anotherView!!.findViewById(R.id.recycle_view)
+        val rs: RecyclerView = anotherView.findViewById(R.id.recycle_view)
         rs.layoutManager = LinearLayoutManager(externalContext)
         rs.adapter = TrainingDayListAdapter(createMockData())
-        return anotherView!!
+        return anotherView
     }
 
     //TODO estrarre tutti gli esercizi di un determinato giorno(passato come argomento nel costruttore della classe).

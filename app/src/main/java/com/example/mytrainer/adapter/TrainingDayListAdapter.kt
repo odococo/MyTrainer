@@ -7,12 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.mytrainer.R
-import com.example.mytrainer.component.Exercise
 import com.example.mytrainer.component.TrainingExercise
 
 class TrainingDayListAdapter: RecyclerView.Adapter<TrainingDayListAdapter.Companion.ExerciseViewHolder> {
 
-    private var data: List<TrainingExercise>? = null // Contiene tutti gli esercizi relativi ad un solo giorno. Viene passatto nel costruttore.
+    private var data: List<TrainingExercise> // Contiene tutti gli esercizi relativi ad un solo giorno. Viene passatto nel costruttore.
 
     constructor(data: List<TrainingExercise>){
         this.data = data
@@ -24,26 +23,25 @@ class TrainingDayListAdapter: RecyclerView.Adapter<TrainingDayListAdapter.Compan
     }
 
     override fun getItemCount(): Int {
-        return this.data!!.size
+        return this.data.size
     }
 
     //Il metodo che mette a schermo le info relative ad ogni esercizio.
     //La quantità deli esercizi può essere variabile.
     override fun onBindViewHolder(holder: TrainingDayListAdapter.Companion.ExerciseViewHolder, position: Int) {
-        var title: String = "Esercizio ..."
+        val title: String = "Esercizio ..."
         val series: String = "Series "
         val per: String = " x "
         val reps: String = " Reps"
         val recoveryTime: String = "Recovery time - "
         val timeUnit: String = " sec"
 
-        holder.title!!.text = title
+        holder.title.text = title
         //holder.title!!.text = data!![position].id //Probabilmente c'è un bug con il nome degli esercizi. Da rivedere.
-        holder.overall_work!!.text = series + data!![position].series + per + data!![position].reps + reps
-        holder.recoveryTime!!.text = recoveryTime + data!![position].recoveryTime + timeUnit
+        holder.overallWork.text = series + data!![position].series + per + data!![position].reps + reps
+        holder.recoveryTime.text = recoveryTime + data!![position].recoveryTime + timeUnit
 
         //holder.recoveryTime!!.text = data!![position].description
-
     }
 
     companion object {
@@ -51,20 +49,11 @@ class TrainingDayListAdapter: RecyclerView.Adapter<TrainingDayListAdapter.Compan
         class ExerciseViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
             //Elenco dei campi relativi ad ogni esercizio
-            var cardView: CardView? = null //è la struttura grafica in cui vengono messi gli esercizi
-            var title: TextView? = null
-            var overall_work: TextView? = null //Questa variabile viene composta dalla quantita di serie per la quantità di ripetizioni che è il lavoro complessivo.
-            var recoveryTime: TextView? = null
+            var cardView: CardView = itemView.findViewById(R.id.cardView) //è la struttura grafica in cui vengono messi gli esercizi
+            var title: TextView = itemView.findViewById(R.id.exercise_title)
+            var overallWork: TextView = itemView.findViewById(R.id.overall_work)//Questa variabile viene composta dalla quantita di serie per la quantità di ripetizioni che è il lavoro complessivo.
+            var recoveryTime: TextView = itemView.findViewById(R.id.recovery_time)
            //var description: TextView? = null //Per ora è la variabile opzionale, molto probabile che la utilizzeremo nella variante estesa dell'applicazione.
-
-            init {
-                cardView = itemView.findViewById(R.id.cardView)
-                title = itemView.findViewById(R.id.exercise_title)
-                overall_work = itemView.findViewById(R.id.overall_work)
-                recoveryTime = itemView.findViewById(R.id.recovery_time)
-               //description = itemView.findViewById(R.id.description)
-            }
-
         }
     }
 }
