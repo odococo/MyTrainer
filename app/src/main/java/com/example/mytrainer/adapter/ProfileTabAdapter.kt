@@ -14,11 +14,6 @@ class ProfileTabAdapter(private var context: Context, fm: FragmentManager) : Fra
         initTabMap(context)
     }
 
-    override fun getPageTitle(position: Int): CharSequence? {
-        val fragment: ProfileFragment = tabs[position] as ProfileFragment
-        return fragment.title
-    }
-
     override fun getItem(position: Int): Fragment? {
         return tabs[position]
     }
@@ -29,7 +24,7 @@ class ProfileTabAdapter(private var context: Context, fm: FragmentManager) : Fra
 
     private fun initTabMap(context: Context){
         tabs = HashMap<Int, Fragment>()
-        tabs[0] = ProfileFragment.getInstance(context, "Profile")
+        tabs[0] = ProfileFragment.getInstance(context)
     }
 
 }

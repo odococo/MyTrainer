@@ -6,7 +6,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        android:background="@color/manBackground">
+        android:background="@color/manBackground"
+
+    >
 
     <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
@@ -46,7 +48,7 @@
 
 
     <android.support.design.widget.NavigationView
-            android:id="@+id/navigation"
+            android:id="@+id/mainNavigation"
             android:layout_gravity="start"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"

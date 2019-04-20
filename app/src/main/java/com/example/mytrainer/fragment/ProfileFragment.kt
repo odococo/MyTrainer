@@ -11,12 +11,10 @@ import android.view.ViewGroup
 import com.example.mytrainer.R
 import com.example.mytrainer.adapter.ProfileAdapter
 
-class ProfileFragment: Fragment() {
+class ProfileFragment: Fragment(), GeneralFragment {
 
     private val LAYOUT: Int = R.layout.fragment_general
     private lateinit var anotherView: View
-
-    var title: String = ""
 
     companion object {
 
@@ -24,15 +22,13 @@ class ProfileFragment: Fragment() {
         //Server per ricavare il layout ed il recycle view.
         private lateinit var externalContext: Context
 
-        fun getInstance(context: Context, title: String): ProfileFragment{
+        fun getInstance(context: Context): ProfileFragment{
             externalContext = context
 
             var args: Bundle = Bundle()
             var daysFragment: ProfileFragment = ProfileFragment()
 
             daysFragment.arguments = args
-
-            daysFragment.title = title
 
             return daysFragment
         }

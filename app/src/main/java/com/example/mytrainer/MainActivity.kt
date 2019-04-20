@@ -2,22 +2,25 @@ package com.example.mytrainer
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
+import android.support.v4.app.FragmentActivity
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import com.example.mytrainer.adapter.DaysTabAdapter
 import com.example.mytrainer.database.locale.Query
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : GeneralActivity("Main") {
+class MainActivity : GeneralActivity("MainActivity") {
 
     private val LAYOUT: Int = R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppDefaul)
         super.onCreate(savedInstanceState)
-        setContentView(LAYOUT)
 
         db = Query.getInstance(this)
+
+        setContentView(LAYOUT)
         initToolbar()
         initNavigationView()
         initTabs()
@@ -52,15 +55,17 @@ class MainActivity : GeneralActivity("Main") {
         main_drawer_layout.addDrawerListener(toogle)
         toogle.syncState()
 
-        navigation.setNavigationItemSelectedListener {
+        mainNavigation.setNavigationItemSelectedListener {
             main_drawer_layout.closeDrawers()
             when (it.itemId) {
                 R.id.profileItem -> {
                     var intent: Intent = Intent(applicationContext, FragmentsActivity::class.java)
+                    intent.putExtra("toolBarName", R.string.profile)
                     startActivity(intent)
                     true
                 }
                 R.id.currentScheduleItem -> {
+
                     true
                 }
                 R.id.scheduleHistoryItem -> {
@@ -73,7 +78,8 @@ class MainActivity : GeneralActivity("Main") {
                     true
                 }
                 R.id.logoutItem -> {
-                    auth.logout(); true
+                    auth.logout()
+                    true
                 }
 
                 else -> true

@@ -9,7 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mytrainer.R
-import com.example.mytrainer.adapter.TrainingExerciseListAdapter
+import com.example.mytrainer.adapter.ExerciseListAdapter
 import com.example.mytrainer.component.TrainingExercise
 
 class TrainingDayFragment: Fragment() {
@@ -48,7 +48,7 @@ class TrainingDayFragment: Fragment() {
         anotherView = inflater.inflate(LAYOUT, container, false)
         val rs: RecyclerView = anotherView.findViewById(R.id.recycle_view)
         rs.layoutManager = LinearLayoutManager(externalContext)
-        rs.adapter = TrainingExerciseListAdapter(createMockData())
+        rs.adapter = ExerciseListAdapter(createMockData())
         return anotherView
     }
 

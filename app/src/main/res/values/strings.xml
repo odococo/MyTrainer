@@ -16,7 +16,7 @@
 
     <!-- Navigation menu strings-->
     <string name="profile">Profile</string>
-    <string name="current_schedule"> Current Schedule</string>
+    <string name="current_schedule">Current Schedule</string>
     <string name="schedule_history">Schedule History</string>
     <string name="request_schedule">Request Schedule</string>
     <string name="help">Help</string>
