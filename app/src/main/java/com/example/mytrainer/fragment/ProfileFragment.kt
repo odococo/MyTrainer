@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import com.example.mytrainer.R
 import com.example.mytrainer.adapter.ProfileAdapter
 
-class ProfileFragment: Fragment(), GeneralFragment {
+class ProfileFragment: GeneralFragment() {
 
     private val LAYOUT: Int = R.layout.fragment_general
     private lateinit var anotherView: View

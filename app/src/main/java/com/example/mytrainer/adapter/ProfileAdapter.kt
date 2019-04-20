@@ -23,7 +23,6 @@ class ProfileAdapter : RecyclerView.Adapter<ProfileAdapter.Companion.ProfileView
        holder!!.name.text = "Anatoliy"
     }
 
-
     companion object {
 
         class ProfileViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

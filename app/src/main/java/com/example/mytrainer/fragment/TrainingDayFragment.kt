@@ -12,7 +12,7 @@ import com.example.mytrainer.R
 import com.example.mytrainer.adapter.ExerciseListAdapter
 import com.example.mytrainer.component.TrainingExercise
 
-class TrainingDayFragment: Fragment() {
+class TrainingDayFragment: GeneralFragment() {
 
     private val LAYOUT: Int = R.layout.fragment_general
     private lateinit var anotherView: View

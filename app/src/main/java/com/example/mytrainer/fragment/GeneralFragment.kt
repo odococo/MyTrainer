@@ -1,4 +1,7 @@
 package com.example.mytrainer.fragment
 
-interface GeneralFragment {
+import android.support.v4.app.Fragment
+
+open class GeneralFragment: Fragment() {
+
 }

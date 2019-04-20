@@ -8,6 +8,8 @@ import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import com.example.mytrainer.adapter.DaysTabAdapter
 import com.example.mytrainer.database.locale.Query
+import com.example.mytrainer.fragment.GeneralFragment
+import com.example.mytrainer.fragment.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : GeneralActivity("MainActivity") {
@@ -59,9 +61,13 @@ class MainActivity : GeneralActivity("MainActivity") {
             main_drawer_layout.closeDrawers()
             when (it.itemId) {
                 R.id.profileItem -> {
-                    var intent: Intent = Intent(applicationContext, FragmentsActivity::class.java)
+                    val fragment: GeneralFragment = ProfileFragment.getInstance(applicationContext)
+                    FragmentsActivity.fragment = fragment
+
+                    var intent: Intent = Intent(applicationContext, FragmentsActivity()::class.java)
                     intent.putExtra("toolBarName", R.string.profile)
                     startActivity(intent)
+
                     true
                 }
                 R.id.currentScheduleItem -> {
