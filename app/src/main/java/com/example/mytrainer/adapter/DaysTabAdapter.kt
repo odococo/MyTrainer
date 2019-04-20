@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.example.mytrainer.fragment.TrainingDayFragment
 
-open class TabsAdapter(private var context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+open class DaysTabAdapter(private var context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     private lateinit var tabs: MutableMap<Int, Fragment>
 

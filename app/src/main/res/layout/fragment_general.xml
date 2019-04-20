@@ -7,7 +7,7 @@
               android:layout_height="match_parent">
 
     <!-- Questo file viene usato per costruire la base per ogni giorno di allenamento,
-    sul quale poi verranno aggiunti gli esercizi (file: exercise_item) -->
+    sul quale poi verranno aggiunti gli esercizi (file: item_exercise) -->
 
     <view class="android.support.v7.widget.RecyclerView"
         android:id="@+id/recycle_view"

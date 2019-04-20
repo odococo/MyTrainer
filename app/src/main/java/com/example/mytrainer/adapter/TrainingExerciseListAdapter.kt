@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.example.mytrainer.R
 import com.example.mytrainer.component.TrainingExercise
 
-class TrainingDayListAdapter: RecyclerView.Adapter<TrainingDayListAdapter.Companion.ExerciseViewHolder> {
+class TrainingExerciseListAdapter: RecyclerView.Adapter<TrainingExerciseListAdapter.Companion.ExerciseViewHolder> {
 
     private var data: List<TrainingExercise> // Contiene tutti gli esercizi relativi ad un solo giorno. Viene passatto nel costruttore.
 
@@ -18,8 +18,8 @@ class TrainingDayListAdapter: RecyclerView.Adapter<TrainingDayListAdapter.Compan
     }
 
     //Qui viene passato il layout dell'esrcizio che poi verrà messo a schermo
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingDayListAdapter.Companion.ExerciseViewHolder {
-        return Companion.ExerciseViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.exercise_item, parent, false))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrainingExerciseListAdapter.Companion.ExerciseViewHolder {
+        return Companion.ExerciseViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_exercise, parent, false))
     }
 
     override fun getItemCount(): Int {
@@ -28,7 +28,7 @@ class TrainingDayListAdapter: RecyclerView.Adapter<TrainingDayListAdapter.Compan
 
     //Il metodo che mette a schermo le info relative ad ogni esercizio.
     //La quantità deli esercizi può essere variabile.
-    override fun onBindViewHolder(holder: TrainingDayListAdapter.Companion.ExerciseViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TrainingExerciseListAdapter.Companion.ExerciseViewHolder, position: Int) {
         val title: String = "Esercizio ..."
         val series: String = "Series "
         val per: String = " x "

@@ -9,13 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mytrainer.R
-import com.example.mytrainer.adapter.TrainingDayListAdapter
-import com.example.mytrainer.component.Exercise
+import com.example.mytrainer.adapter.TrainingExerciseListAdapter
 import com.example.mytrainer.component.TrainingExercise
 
 class TrainingDayFragment: Fragment() {
 
-    private val LAYOUT: Int = R.layout.training_day_fragment
+    private val LAYOUT: Int = R.layout.fragment_general
     private lateinit var anotherView: View
 
     var title: String = "" //Il titolo del tab che corrisponde ad un giorno di allenamento
@@ -49,7 +48,7 @@ class TrainingDayFragment: Fragment() {
         anotherView = inflater.inflate(LAYOUT, container, false)
         val rs: RecyclerView = anotherView.findViewById(R.id.recycle_view)
         rs.layoutManager = LinearLayoutManager(externalContext)
-        rs.adapter = TrainingDayListAdapter(createMockData())
+        rs.adapter = TrainingExerciseListAdapter(createMockData())
         return anotherView
     }
 
