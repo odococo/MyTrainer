@@ -1,12 +1,13 @@
 package com.example.mytrainer.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.example.mytrainer.fragment.TrainingDayFragment
 
-open class DaysTabAdapter(private var context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+open class DaysFragmentAdapter(private var context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
     private lateinit var tabs: MutableMap<Int, Fragment>
 
@@ -29,6 +30,7 @@ open class DaysTabAdapter(private var context: Context, fm: FragmentManager) : F
     }
 
     //Qui si specifica la quantità di tabs da creare, che nel nostro caso, varia in base al numero di giorni avente la scheda.
+    @SuppressLint("UseSparseArrays")
     private fun initTabMap(context: Context){
         tabs = HashMap<Int, Fragment>()
 

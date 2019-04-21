@@ -1,5 +1,6 @@
 package com.example.mytrainer.fragment
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -23,12 +24,13 @@ class TrainingDayFragment: GeneralFragment() {
 
         //Questo è il contesto passatto dal'esterno, che è diverso da quello in cui si trova la seguente classe.
         //Server per ricavare il layout ed il recycle view.
+        @SuppressLint("StaticFieldLeak")
         private lateinit var externalContext: Context
         private lateinit var daysList: List<TrainingExercise>
 
         //TODO ricevere come argomento una lista che corrisponde ad un giorno contenente tutti gli esercizi da fare.
         //Sarebe al posto del titolo, esso deve essere già contenuto all'interno del giorno di allenamento.
-        fun getInstance(context: Context, title: String): TrainingDayFragment{
+        fun getInstance(context: Context, title: String): GeneralFragment{
             externalContext = context
 
             var args: Bundle = Bundle()

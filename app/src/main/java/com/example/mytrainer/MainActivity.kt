@@ -2,14 +2,14 @@ package com.example.mytrainer
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.support.v4.app.FragmentActivity
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
-import com.example.mytrainer.adapter.DaysTabAdapter
+import com.example.mytrainer.adapter.DaysFragmentAdapter
+import com.example.mytrainer.adapter.ProfileAdapter
+import com.example.mytrainer.adapter.ScheduleHistoryAdapter
+import com.example.mytrainer.component.TrainingSchedule
 import com.example.mytrainer.database.locale.Query
 import com.example.mytrainer.fragment.GeneralFragment
-import com.example.mytrainer.fragment.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : GeneralActivity("MainActivity") {
@@ -61,13 +61,13 @@ class MainActivity : GeneralActivity("MainActivity") {
             main_drawer_layout.closeDrawers()
             when (it.itemId) {
                 R.id.profileItem -> {
-                    val fragment: GeneralFragment = ProfileFragment.getInstance(applicationContext)
+                    val adapter = ProfileAdapter()
+                    val fragment:GeneralFragment = GeneralFragment.getInstance(applicationContext, adapter)
                     FragmentsActivity.fragment = fragment
 
-                    var intent: Intent = Intent(applicationContext, FragmentsActivity()::class.java)
+                    var intent: Intent = Intent(applicationContext, FragmentsActivity::class.java)
                     intent.putExtra("toolBarName", R.string.profile)
                     startActivity(intent)
-
                     true
                 }
                 R.id.currentScheduleItem -> {
@@ -75,6 +75,18 @@ class MainActivity : GeneralActivity("MainActivity") {
                     true
                 }
                 R.id.scheduleHistoryItem -> {
+                    //Gli oggetti da visualizzare come lista
+                    val list: ArrayList<TrainingSchedule> = ArrayList<TrainingSchedule>(3)
+                    list.add(TrainingSchedule())
+                    list.add(TrainingSchedule())
+
+                    val adapter = ScheduleHistoryAdapter(list)
+                    val fragment :GeneralFragment = GeneralFragment.getInstance(applicationContext, adapter)
+                    FragmentsActivity.fragment = fragment
+
+                    val intent: Intent = Intent(applicationContext, FragmentsActivity::class.java)
+                    intent.putExtra("toolBarName", R.string.schedule_history)
+                    startActivity(intent)
                     true
                 }
                 R.id.requestScheduleItem -> {
@@ -95,7 +107,7 @@ class MainActivity : GeneralActivity("MainActivity") {
     }
 
     private fun initTabs() {
-        val adapter = DaysTabAdapter(applicationContext, supportFragmentManager)
+        val adapter = DaysFragmentAdapter(applicationContext, supportFragmentManager)
         mainViewPager?.adapter = adapter
         mainTabLayout.setupWithViewPager(mainViewPager)
     }

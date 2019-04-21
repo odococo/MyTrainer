@@ -1,5 +1,6 @@
 package com.example.mytrainer.adapter
 
+import android.annotation.SuppressLint
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -17,18 +18,16 @@ class ExerciseListAdapter: RecyclerView.Adapter<ExerciseListAdapter.Companion.Ex
         this.data = data
     }
 
-    //Qui viene passato il layout dell'esrcizio che poi verrà messo a schermo
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseListAdapter.Companion.ExerciseViewHolder {
-        return Companion.ExerciseViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_exercise, parent, false))
+        return ExerciseViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_exercise, parent, false))
     }
 
     override fun getItemCount(): Int {
-        return this.data.size
+        return data.size
     }
 
-    //Il metodo che mette a schermo le info relative ad ogni esercizio.
-    //La quantità deli esercizi può essere variabile.
-    override fun onBindViewHolder(holder: ExerciseListAdapter.Companion.ExerciseViewHolder, position: Int) {
+    @SuppressLint("SetTextI18n")
+    override fun onBindViewHolder(holder: ExerciseViewHolder, position: Int) {
         val title: String = "Esercizio ..."
         val series: String = "Series "
         val per: String = " x "
@@ -38,8 +37,8 @@ class ExerciseListAdapter: RecyclerView.Adapter<ExerciseListAdapter.Companion.Ex
 
         holder.title.text = title
         //holder.title!!.text = data!![position].id //Probabilmente c'è un bug con il nome degli esercizi. Da rivedere.
-        holder.overallWork.text = series + data!![position].series + per + data!![position].reps + reps
-        holder.recoveryTime.text = recoveryTime + data!![position].recoveryTime + timeUnit
+        holder.overallWork.text = series + data[position].series + per + data[position].reps + reps
+        holder.recoveryTime.text = recoveryTime + data[position].recoveryTime + timeUnit
 
         //holder.recoveryTime!!.text = data!![position].description
     }
@@ -48,8 +47,7 @@ class ExerciseListAdapter: RecyclerView.Adapter<ExerciseListAdapter.Companion.Ex
 
         class ExerciseViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-            //Elenco dei campi relativi ad ogni esercizio
-            var cardView: CardView = itemView.findViewById(R.id.cardView) //è la struttura grafica in cui vengono messi gli esercizi
+            var cardView: CardView = itemView.findViewById(R.id.cardView)
             var title: TextView = itemView.findViewById(R.id.exercise_title)
             var overallWork: TextView = itemView.findViewById(R.id.overall_work)//Questa variabile viene composta dalla quantita di serie per la quantità di ripetizioni che è il lavoro complessivo.
             var recoveryTime: TextView = itemView.findViewById(R.id.recovery_time)

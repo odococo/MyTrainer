@@ -1,7 +1,7 @@
 package com.example.mytrainer
 
 import android.os.Bundle
-import com.example.mytrainer.adapter.ItemTabAdapter
+import com.example.mytrainer.adapter.ItemsFragmentAdapter
 import com.example.mytrainer.fragment.GeneralFragment
 import kotlinx.android.synthetic.main.activity_fragments.*
 
@@ -20,7 +20,8 @@ class FragmentsActivity() : GeneralActivity("FragmentsActivity") {
 
         val b: Bundle = intent.extras
         initToolbar(b.getInt("toolBarName"))
-        initItemTab(fragment)
+
+        initItemPager(fragment)
     }
 
     private fun initToolbar(name: Int) {
@@ -34,7 +35,6 @@ class FragmentsActivity() : GeneralActivity("FragmentsActivity") {
         fragmentToolbar.inflateMenu(R.menu.menu_toolbar)
         setSupportActionBar(fragmentToolbar);
 
-        //TODO qui è presente la freccia indietro. Dopo ti spiego perchè lo messa, per ora commentta. L'opzione è da valutare.
         supportActionBar?.setDisplayHomeAsUpEnabled(true);
         supportActionBar?.setDisplayShowHomeEnabled(true);
         fragmentToolbar.setNavigationOnClickListener {
@@ -43,8 +43,9 @@ class FragmentsActivity() : GeneralActivity("FragmentsActivity") {
 
     }
 
-    private fun initItemTab(fragment: GeneralFragment) {
-        val adapter = ItemTabAdapter(fragment, supportFragmentManager)
+    private fun initItemPager(fragment: GeneralFragment) {
+        val adapter = ItemsFragmentAdapter(fragment, supportFragmentManager)
         fragmentViewPager?.adapter = adapter
+
     }
 }
