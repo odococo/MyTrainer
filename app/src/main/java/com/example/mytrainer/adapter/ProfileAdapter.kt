@@ -11,16 +11,16 @@ import com.example.mytrainer.R
 class ProfileAdapter: RecyclerView.Adapter<ProfileAdapter.Companion.ProfileViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileViewHolder {
-        return Companion.ProfileViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_profile, parent, false))
+        return ProfileViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_profile, parent, false))
     }
 
     override fun getItemCount(): Int {
         return 1
     }
 
-    override fun onBindViewHolder(holder: ProfileViewHolder?, position: Int) {
-       holder!!.surname.text = "Roshka"
-       holder!!.name.text = "Anatoliy"
+    override fun onBindViewHolder(holder: ProfileViewHolder, position: Int) {
+       holder.surname.text = "Roshka"
+       holder.name.text = "Anatoliy"
     }
 
     companion object {

@@ -1,14 +1,14 @@
 package com.example.mytrainer
 
 import android.os.Bundle
-import com.example.mytrainer.adapter.ItemsFragmentAdapter
+import com.example.mytrainer.adapter.FragmentAdapter
 import com.example.mytrainer.fragment.GeneralFragment
 import kotlinx.android.synthetic.main.activity_fragments.*
 
 class FragmentsActivity() : GeneralActivity("FragmentsActivity") {
 
     companion object{
-        lateinit var fragment: GeneralFragment
+        lateinit var fragment: MutableMap<Int, GeneralFragment>
     }
 
     private var LAYOUT:Int = R.layout.activity_fragments
@@ -18,10 +18,10 @@ class FragmentsActivity() : GeneralActivity("FragmentsActivity") {
         super.onCreate(savedInstanceState)
         setContentView(LAYOUT)
 
-        val b: Bundle = intent.extras
-        initToolbar(b.getInt("toolBarName"))
+        val b: Bundle? = intent.extras
+        initToolbar(b!!.getInt("toolBarName"))
 
-        initItemPager(fragment)
+        initPager(fragment)
     }
 
     private fun initToolbar(name: Int) {
@@ -43,8 +43,8 @@ class FragmentsActivity() : GeneralActivity("FragmentsActivity") {
 
     }
 
-    private fun initItemPager(fragment: GeneralFragment) {
-        val adapter = ItemsFragmentAdapter(fragment, supportFragmentManager)
+    private fun initPager(fragment: MutableMap<Int, GeneralFragment>) {
+        val adapter = FragmentAdapter(fragment, supportFragmentManager)
         fragmentViewPager?.adapter = adapter
 
     }

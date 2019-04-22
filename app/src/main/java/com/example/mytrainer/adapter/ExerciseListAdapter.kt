@@ -12,10 +12,16 @@ import com.example.mytrainer.component.TrainingExercise
 
 class ExerciseListAdapter: RecyclerView.Adapter<ExerciseListAdapter.Companion.ExerciseViewHolder> {
 
-    private var data: List<TrainingExercise> // Contiene tutti gli esercizi relativi ad un solo giorno. Viene passatto nel costruttore.
+    // Contiene tutti gli esercizi relativi ad un solo giorno.
+    //TODO Questa classe è da rivedere.
+    //TODO Bisogna capire se è possibile visualizzare, per ogni giorni, esercizi diversi. Per ora gli esercizi sono tutti uguali, quelli inizializzati nel costruttore
+    private val data: List<TrainingExercise>
 
-    constructor(data: List<TrainingExercise>){
-        this.data = data
+    constructor() {
+        this.data = ArrayList<TrainingExercise>()
+        data.add(TrainingExercise(3, 15, 90))
+        data.add(TrainingExercise(4, 10, 120))
+        data.add(TrainingExercise(5, 8, 180))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseListAdapter.Companion.ExerciseViewHolder {

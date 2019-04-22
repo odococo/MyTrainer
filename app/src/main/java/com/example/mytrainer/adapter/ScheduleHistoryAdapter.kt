@@ -11,10 +11,12 @@ import com.example.mytrainer.component.TrainingSchedule
 
 class ScheduleHistoryAdapter: RecyclerView.Adapter<ScheduleHistoryAdapter.Companion.ScheduleHistoryViewHolder> {
 
-    private var schedules: List<TrainingSchedule>
+    private val schedules: List<TrainingSchedule>
 
-    constructor(data: List<TrainingSchedule>){
-        this.schedules = data
+    constructor(){
+        this.schedules = ArrayList<TrainingSchedule>()
+        schedules.add(TrainingSchedule())
+        schedules.add(TrainingSchedule())
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleHistoryViewHolder {
@@ -26,8 +28,8 @@ class ScheduleHistoryAdapter: RecyclerView.Adapter<ScheduleHistoryAdapter.Compan
     }
 
     override fun onBindViewHolder(holder: ScheduleHistoryViewHolder, position: Int) {
-        holder.scheduleName.text = "Scheda 1"
-        holder.scheduleDescription.text = "Descrizione scheda 1"
+        holder.scheduleName.text = "Scheda "
+        holder.scheduleDescription.text = "Descrizione scheda "
     }
 
     companion object {

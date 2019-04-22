@@ -16,6 +16,7 @@ open class GeneralFragment: Fragment() {
 
     private val LAYOUT: Int = R.layout.fragment_general
     private lateinit var anotherView: View
+    lateinit var title: String
 
     companion object {
 
@@ -25,16 +26,17 @@ open class GeneralFragment: Fragment() {
         private lateinit var externalContext: Context
         private lateinit var adapter: RecyclerView.Adapter<*>
 
-        fun getInstance(context: Context, adapter: RecyclerView.Adapter<*>): GeneralFragment{
+        fun getInstance(context: Context, adapter: RecyclerView.Adapter<*>, title: String): GeneralFragment{
             externalContext = context
             this.adapter = adapter
 
             val args: Bundle = Bundle()
-            val daysFragment: GeneralFragment = GeneralFragment()
+            val fragment: GeneralFragment = GeneralFragment()
 
-            daysFragment.arguments = args
+            fragment.title = title
+            fragment.arguments = args
 
-            return daysFragment
+            return fragment
         }
     }
 
