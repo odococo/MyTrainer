@@ -3,16 +3,18 @@
               android:orientation="vertical"
               android:background="@color/colorPrimaryDark"
               android:layout_width="match_parent"
+
               android:layout_height="192dp">
 
-
     <TableRow
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:gravity="bottom|center">
 
         <TextView
+            android:textColor="@color/colorWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/myTrainer"
@@ -20,6 +22,7 @@
     </TableRow>
 
     <TableRow
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="2"
@@ -32,6 +35,7 @@
             android:gravity="center">
 
             <TextView
+                android:textColor="@color/colorWhite"
                 android:id="@+id/trainerName"
                 android:textSize="15sp"
                 android:layout_width="wrap_content"
@@ -46,6 +50,7 @@
             android:gravity="center">
 
             <TextView
+                android:textColor="@color/colorWhite"
                 android:id="@+id/trainerSurname"
                 android:textSize="15sp"
                 android:layout_width="wrap_content"

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00acc1</color>
-    <color name="colorPrimaryDark">#008a9a</color>
-    <color name="manBackground">#e2e2e2</color>
+    <!-- Main Colors, uses for style definition -->
+    <color name="colorPrimary">#b71c1c</color>
+    <color name="colorPrimaryDark">#7f0000</color>
+    <color name="colorAccent">#D81B60</color>
     <color name="colorWhite">#FFFFFFFF</color>
 
+    <!-- Secondary colors, uses by application in particolar cases-->
+    <color name="manBackground">#e2e2e2</color>
     <color name="textColorBlack">#FF050505</color>
-    <color name="colorAccent">#D81B60</color>
 
+    <!-- Color uses by login buttons -->
     <color name="facebookColor">#3b5998</color>
     <color name="gmailColor">#D44638</color>
 </resources>
