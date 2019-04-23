@@ -5,10 +5,10 @@ import com.example.mytrainer.adapter.FragmentAdapter
 import com.example.mytrainer.fragment.GeneralFragment
 import kotlinx.android.synthetic.main.activity_fragments.*
 
-class FragmentsActivity() : GeneralActivity("FragmentsActivity") {
+class FragmentsActivity : GeneralActivity("FragmentsActivity") {
 
     companion object{
-        lateinit var fragment: MutableMap<Int, GeneralFragment>
+       lateinit var fragment: MutableMap<Int, GeneralFragment>
     }
 
     private var LAYOUT:Int = R.layout.activity_fragments
@@ -43,9 +43,8 @@ class FragmentsActivity() : GeneralActivity("FragmentsActivity") {
 
     }
 
-    private fun initPager(fragment: MutableMap<Int, GeneralFragment>) {
-        val adapter = FragmentAdapter(fragment, supportFragmentManager)
+    private fun initPager(fragment: MutableMap<Int, GeneralFragment>?) {
+        val adapter = FragmentAdapter(fragment!!, supportFragmentManager)
         fragmentViewPager?.adapter = adapter
-
     }
 }

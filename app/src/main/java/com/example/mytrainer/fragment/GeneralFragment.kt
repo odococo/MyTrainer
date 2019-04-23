@@ -17,6 +17,7 @@ open class GeneralFragment: Fragment() {
     private val LAYOUT: Int = R.layout.fragment_general
     private lateinit var anotherView: View
     lateinit var title: String
+    private lateinit var adapter: RecyclerView.Adapter<*>
 
     companion object {
 
@@ -24,15 +25,15 @@ open class GeneralFragment: Fragment() {
         //Server per ricavare il layout ed il recycle view.
         @SuppressLint("StaticFieldLeak")
         private lateinit var externalContext: Context
-        private lateinit var adapter: RecyclerView.Adapter<*>
+
 
         fun getInstance(context: Context, adapter: RecyclerView.Adapter<*>, title: String): GeneralFragment{
             externalContext = context
-            this.adapter = adapter
 
-            val args: Bundle = Bundle()
-            val fragment: GeneralFragment = GeneralFragment()
+            val args = Bundle()
+            val fragment = GeneralFragment()
 
+            fragment.adapter = adapter
             fragment.title = title
             fragment.arguments = args
 
