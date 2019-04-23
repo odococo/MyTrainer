@@ -44,7 +44,6 @@ open class Auth(
         if (!isLogged() && !(context is LoginActivity)) {
             toLogin()
         }
-
     }
     //TODO controllare se l'utente già presente
     fun logged() {
