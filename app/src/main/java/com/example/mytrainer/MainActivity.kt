@@ -65,7 +65,7 @@ class MainActivity : GeneralActivity("MainActivity") {
                     fragment[0] = GeneralFragment.getInstance(applicationContext, adapter,"")
                     FragmentsActivity.fragment = fragment
 
-                    var intent: Intent = Intent(applicationContext, FragmentsActivity::class.java)
+                    val intent: Intent = Intent(applicationContext, FragmentsActivity::class.java)
                     intent.putExtra("toolBarName", R.string.profile)
                     startActivity(intent)
                     true
