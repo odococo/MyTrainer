@@ -54,6 +54,7 @@ open class Auth(
         }
     }
 
+
     open fun handleResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
     }
