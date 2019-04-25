@@ -1,8 +1,8 @@
 package com.example.mytrainer.component
 
 abstract class Component(
-    var id: String = "")
-{
+    var id: String = ""
+) {
     protected val TAG = "Component"
 
     abstract fun toMap(): Map<String, Any>

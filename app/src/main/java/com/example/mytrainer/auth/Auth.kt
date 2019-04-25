@@ -3,9 +3,10 @@ package com.example.mytrainer.auth
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import com.example.mytrainer.EmptyActivity
 import com.example.mytrainer.GeneralActivity
-import com.example.mytrainer.MainActivity
 import com.example.mytrainer.LoginActivity
+import com.example.mytrainer.MainActivity
 import com.example.mytrainer.component.User
 import com.example.mytrainer.database.remote.Firestore
 import com.facebook.login.LoginManager
@@ -43,8 +44,11 @@ open class Auth(
     fun checkLogin() {
         if (!isLogged() && !(context is LoginActivity)) {
             toLogin()
+        } else if (isLogged() && context is EmptyActivity) {
+            toHome(localDB.getInstance(context).getUser())
         }
     }
+
     //TODO controllare se l'utente già presente
     fun logged() {
         Firestore.get<User>("users", getId()) { user ->

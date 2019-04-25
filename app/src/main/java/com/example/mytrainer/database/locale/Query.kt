@@ -63,6 +63,7 @@ private constructor(private val context: Context) {
     }
 
     fun clearAndRestoreDB() {
+        Log.e(TAG, "Pulendo il db locale!")
         db.onUpgrade(db.writableDatabase, 0, SQLContract.DATABASE_VERSION)
     }
 

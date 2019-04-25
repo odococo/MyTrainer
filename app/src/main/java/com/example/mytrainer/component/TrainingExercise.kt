@@ -3,18 +3,20 @@ package com.example.mytrainer.component
 import android.util.Log
 
 data class TrainingExercise(
+    var day: Int,
     var series: Int,
     var reps: Int,
     var recoveryTime: Int
-): Exercise() {
+) : Exercise() {
 
-    constructor(): this(0, 0, 0)
+    constructor() : this(0, 0, 0, 0)
 
     override fun toMap(): MutableMap<String, Any> = mutableMapOf(
-            "series" to series,
-            "reps" to reps,
-            "recoveryTime" to recoveryTime
-        )
+        "day" to day,
+        "series" to series,
+        "reps" to reps,
+        "recoveryTime" to recoveryTime
+    )
 
     override fun fromMap(map: Map<String, Any?>): TrainingExercise {
         val trainingExercise = TrainingExercise()

@@ -6,7 +6,7 @@ data class TrainingSchedule(
     var trainer: User,
     var athlete: User,
     var exercises: List<TrainingExercise>
-): Component() {
+) : Component() {
 
     constructor() : this(User(), User(), listOf(TrainingExercise()))
 

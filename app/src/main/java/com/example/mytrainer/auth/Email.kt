@@ -37,17 +37,17 @@ class Email(
     }
 
     fun login(user: DBUser) {
-        val tag = "Login-${user.email}"
+        val tag = "LoginFragment-${user.email}"
         val auth = FirebaseAuth.getInstance()
         auth.signInWithEmailAndPassword(user.email, user.password)
             .addOnSuccessListener { result ->
                 println(result.additionalUserInfo.isNewUser)
                 println(result.user.isEmailVerified)
                 println(result)
-                Log.d(tag, "Login")
+                Log.d(tag, "LoginFragment")
             }
             .addOnFailureListener { exception ->
-                Log.w(tag, "Login fallito", exception)
+                Log.w(tag, "LoginFragment fallito", exception)
             }
     }
 

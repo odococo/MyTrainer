@@ -6,7 +6,7 @@ import android.util.Log
 open class Exercise(
     var description: String,
     var types: List<String> = emptyList()
-): Component() {
+) : Component() {
 
     constructor() : this("", listOf(""))
 

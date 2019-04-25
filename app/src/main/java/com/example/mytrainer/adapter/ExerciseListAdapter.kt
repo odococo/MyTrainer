@@ -19,9 +19,9 @@ class ExerciseListAdapter: RecyclerView.Adapter<ExerciseListAdapter.Companion.Ex
 
     constructor() {
         this.data = ArrayList<TrainingExercise>()
-        data.add(TrainingExercise(3, 15, 90))
-        data.add(TrainingExercise(4, 10, 120))
-        data.add(TrainingExercise(5, 8, 180))
+        data.add(TrainingExercise(0, 3, 15, 90))
+        data.add(TrainingExercise(0, 4, 10, 120))
+        data.add(TrainingExercise(0, 5, 8, 180))
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ExerciseListAdapter.Companion.ExerciseViewHolder {

@@ -18,13 +18,12 @@ private constructor(private val context: Context) :
     SQLiteOpenHelper(context, SQLContract.DATABASE_NAME, null, SQLContract.DATABASE_VERSION) {
 
     private val TAG: String = "DataBaseOpenHelper"
-    private var db: SQLiteDatabase
+    private lateinit var db: SQLiteDatabase
 
     companion object : SingletonHolder1<DataBaseOpenHelper, Context>(::DataBaseOpenHelper)
 
     init {
         Log.d(TAG, "Init DataBaseOpenHelper")
-        db = writableDatabase
         val clear = isEmpty("users")
         if (clear) {
             onUpgrade(db, 0, SQLContract.DATABASE_VERSION) // non lo chiama in automatico
@@ -44,7 +43,7 @@ private constructor(private val context: Context) :
         tables
             .forEach { table ->
                 table.split(";").forEach { query ->
-                    if (!query.isEmpty()) { // potrebbe essere stringa vuota, non so come pero'
+                    if (query.isNotEmpty()) { // potrebbe essere stringa vuota, non so come pero'
                         exec(query)
                         println(query)
                     }
@@ -92,7 +91,7 @@ private constructor(private val context: Context) :
                 }
             })
         map.filter { entry ->
-            entry.value is List<*> && !(entry.value as List<*>).isEmpty() && (entry.value as List<*>)[0] !is Component
+            entry.value is List<*> && (entry.value as List<*>).isNotEmpty() && (entry.value as List<*>)[0] !is Component
         }.forEach { entry ->
             val element = (entry.value as List<*>)[0]
             val columns2 = mutableListOf("id TEXT PRIMARY KEY")
@@ -140,11 +139,12 @@ private constructor(private val context: Context) :
     }
 
     private fun isEmpty(table: String): Boolean {
-        try{
-            return selectOne(table, arrayOf("COUNT(*) AS rows"))["rows"] as Int == 0
-        }catch(e: SQLiteException) {
+        return try {
+            selectOne(table, arrayOf("COUNT(*) AS rows"))["rows"] as Int == 0
+        } catch (e: SQLiteException) {
             // se entra qua probabilmente la tabella non esiste
-            return true
+            close()
+            true
         }
     }
 
@@ -195,7 +195,7 @@ private constructor(private val context: Context) :
         table: String, columns: Array<String> = emptyArray(),
         whereClause: String = "1 = 1", whereValues: Array<String> = emptyArray()
     ): Map<String, Any?> {
-        return select(table, columns, whereClause, whereValues, limit = 1).getOrElse(0) { _ -> mutableMapOf() }
+        return select(table, columns, whereClause, whereValues, limit = 1).getOrElse(0) { mutableMapOf() }
     }
 
     // select by primary key or select by foreign key (entrambi saranno id)
@@ -205,7 +205,7 @@ private constructor(private val context: Context) :
     }
 
     fun selectOneByKey(table: String, key: String, value: String): Map<String, Any?> {
-        return selectByKey(table, key, value, 1).getOrElse(0) { _ -> mutableMapOf() }
+        return selectByKey(table, key, value, 1).getOrElse(0) { mutableMapOf() }
     }
 
     private fun getRow(cursor: Cursor): Map<String, Any?> {

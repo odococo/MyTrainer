@@ -62,7 +62,7 @@ class MainActivity : GeneralActivity("MainActivity") {
                 R.id.profileItem -> {
                     val adapter = ProfileAdapter()
                     val fragment: MutableMap<Int, GeneralFragment> = HashMap<Int, GeneralFragment>()
-                    fragment[0] = GeneralFragment.getInstance(applicationContext, adapter,"")
+                    fragment[0] = GeneralFragment.getInstance(applicationContext, adapter, "")
                     FragmentsActivity.fragment = fragment
 
                     val intent: Intent = Intent(applicationContext, FragmentsActivity::class.java)
@@ -77,7 +77,7 @@ class MainActivity : GeneralActivity("MainActivity") {
                 R.id.scheduleHistoryItem -> {
                     val adapter = ScheduleHistoryAdapter()
                     val fragment: MutableMap<Int, GeneralFragment> = HashMap<Int, GeneralFragment>()
-                    fragment[0] = GeneralFragment.getInstance(applicationContext, adapter,"")
+                    fragment[0] = GeneralFragment.getInstance(applicationContext, adapter, "")
                     FragmentsActivity.fragment = fragment
 
                     val intent: Intent = Intent(applicationContext, FragmentsActivity::class.java)

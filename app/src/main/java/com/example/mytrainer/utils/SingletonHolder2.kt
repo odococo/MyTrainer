@@ -5,6 +5,11 @@ open class SingletonHolder2<out T, in A, in B>(creator: (A, B) -> T) {
     @Volatile
     private var instance: T? = null
 
+    fun getInstance(): T {
+        val i = instance ?: throw RuntimeException("Crea prima l'istanza con i parametri!")
+        return i
+    }
+
     fun getInstance(arg1: A, arg2: B): T {
         val i = instance
         if (i != null) {

@@ -6,7 +6,7 @@ open class User(
     var firstName: String,
     var lastName: String,
     var type: String = "athlete"
-): Component() {
+) : Component() {
 
     constructor() : this("", "")
 

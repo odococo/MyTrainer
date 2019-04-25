@@ -7,35 +7,30 @@ import android.util.Log
 import com.example.mytrainer.auth.Codes
 import com.example.mytrainer.auth.Facebook
 import com.example.mytrainer.auth.Google
-import kotlinx.android.synthetic.main.activity_login.*
+import com.example.mytrainer.fragment.login.LoadingFragment
+import com.example.mytrainer.fragment.login.LoginFragment
+import com.example.mytrainer.utils.FragmentManager
 
 class LoginActivity : GeneralActivity("LoginActivity") {
-
-    private lateinit var googleAuth: Google
-    private lateinit var facebookAuth: Facebook
+    private lateinit var manager: FragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        flipper.showNext() // cambia il layout. Non funziona per ora
-        flipper.showNext()
-
-        if (auth.isLogged()) auth.logged()
-
-        googleAuth = Google.getInstance(this, google_sign_in_button)
-        facebookAuth = Facebook.getInstance(this, facebook_sign_in_button)
+        manager = FragmentManager(this, R.id.root_layout)
+        manager.switch(LoginFragment())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        Log.d(TAG, "sign in with $requestCode and $resultCode and ${data?.data ?: "no data"}")
         super.onActivityResult(requestCode, resultCode, data)
+        Log.d(TAG, "sign in with $requestCode and $resultCode and ${data?.data ?: "no data"}")
+        manager.switch(LoadingFragment())
 
         val code = Codes.fromInt(requestCode)
 
         when (code) {
-            Codes.GOOGLE_SIGN_IN -> googleAuth.handleResult(requestCode, resultCode, data)
-            Codes.FACEBOOK_SIGN_IN -> facebookAuth.handleResult(requestCode, resultCode, data)
+            Codes.GOOGLE_SIGN_IN -> Google.getInstance().handleResult(requestCode, resultCode, data)
+            Codes.FACEBOOK_SIGN_IN -> Facebook.getInstance().handleResult(requestCode, resultCode, data)
             else -> Log.w(TAG, "Code $requestCode is not valid")
         }
     }
