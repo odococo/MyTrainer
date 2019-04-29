@@ -1,14 +1,14 @@
 package com.example.mytrainer.fragment.login
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import com.example.mytrainer.R
+import com.example.mytrainer.fragment.GeneralFragment
 
-class LoadingFragment : Fragment() {
+class LoadingFragment : GeneralFragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

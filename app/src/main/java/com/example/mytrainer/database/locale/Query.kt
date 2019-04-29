@@ -95,8 +95,12 @@ private constructor(private val context: Context) {
     }
 
     fun getUser(): User {
+        return getUserById(Auth.getId())
+    }
+
+    fun getUserById(id: String): User {
         val user = User()
-        user.id = Auth.getId()
+        user.id = id
         return getComponent(user) as User
     }
 

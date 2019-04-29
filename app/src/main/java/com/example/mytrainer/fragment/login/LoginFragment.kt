@@ -1,17 +1,16 @@
 package com.example.mytrainer.fragment.login
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.example.mytrainer.R
 import com.example.mytrainer.auth.Facebook
 import com.example.mytrainer.auth.Google
+import com.example.mytrainer.fragment.GeneralFragment
 import kotlinx.android.synthetic.main.fragment_login.*
 
-class LoginFragment : Fragment() {
+class LoginFragment : GeneralFragment() {
     private val TAG = "Login"
 
     override fun onCreateView(

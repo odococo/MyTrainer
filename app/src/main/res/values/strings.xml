@@ -31,8 +31,8 @@
 
     <!-- Navigation header-->
     <string name="myTrainer">My Trainer</string>
-    <string name="name">Anatoliy</string>
-    <string name="surname">Roshka</string>
+    <string name="name">Name </string>
+    <string name="surname">Surname </string>
 
 
     <!-- Auth credentials -->
