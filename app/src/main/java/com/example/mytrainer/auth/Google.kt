@@ -74,7 +74,7 @@ private constructor(
                 val lastname = GoogleSignIn.getLastSignedInAccount(context)?.familyName
                 val user = User(firstname!!, lastname!!)
                 user.id = getId()
-                toHome(user)
+                logged(user)
             } else {
                 Log.e(TAG, "Error google sign in!", task.exception)
                 Toast.makeText(context, "Google sign in failed:(", Toast.LENGTH_LONG).show()

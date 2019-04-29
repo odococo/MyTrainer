@@ -57,7 +57,7 @@ private constructor(
                     val lastname = Profile.getCurrentProfile().lastName
                     val user = User(firstname, lastname)
                     user.id = getId()
-                    toHome(user)
+                    logged(user)
                 } else {
                     // If sign in fails, display a message to the user.
                     Log.e(TAG, "Error facebook login!", task.exception)

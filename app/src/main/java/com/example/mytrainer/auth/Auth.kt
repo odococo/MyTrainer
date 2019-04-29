@@ -8,7 +8,6 @@ import com.example.mytrainer.GeneralActivity
 import com.example.mytrainer.LoginActivity
 import com.example.mytrainer.MainActivity
 import com.example.mytrainer.component.User
-import com.example.mytrainer.database.remote.Firestore
 import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.example.mytrainer.database.locale.Query as localDB
@@ -19,6 +18,8 @@ open class Auth(
     val context: Context
 ) {
     private val TAG: String = "Auth"
+    private var user: User = User()
+    private lateinit var successfulLogin: (() -> Unit)
 
     protected val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
@@ -42,20 +43,27 @@ open class Auth(
     }
 
     fun checkLogin() {
-        if (!isLogged() && !(context is LoginActivity)) {
+        if (!isLogged() && context !is LoginActivity) {
             toLogin()
         } else if (isLogged() && context is EmptyActivity) {
-            toHome(localDB.getInstance(context).getUser())
+            // gia' loggato. Recupero le info localmente
+            user = localDB.getInstance(context).getUser()
+            if (user.id.isNotEmpty()) {
+                toHome()
+            } else {
+                Log.w(TAG, "Utente loggato ma non presente nel database locale")
+                logout()
+                toLogin()
+            }
         }
     }
 
-    //TODO controllare se l'utente già presente
-    fun logged() {
-        Firestore.get<User>("users", getId()) { user ->
-            localDB.getInstance(context).addUser(user)
-            Log.d(TAG, "Aggiunto utente $user")
-            toHome(user)
-        }
+    fun logged(user: User) {
+        this.user = user
+        remoteDB.addUser(user)
+        localDB.getInstance().addUser(user)
+        Log.d(TAG, "Aggiunto utente $user")
+        successfulLogin()
     }
 
 
@@ -63,12 +71,20 @@ open class Auth(
 
     }
 
-    fun isLogged(): Boolean {
+    private fun isLogged(): Boolean {
         return Companion.isLogged()
     }
 
     fun getId(): String {
         return Companion.getId()
+    }
+
+    fun getUser(): User {
+        return user
+    }
+
+    fun setSuccessfulLogin(callback: (() -> Unit)) {
+        successfulLogin = callback
     }
 
     fun logout() {
@@ -82,8 +98,7 @@ open class Auth(
         context.startActivity(intent)
     }
 
-    fun toHome(user: User) {
-        remoteDB.addUser(user)
+    fun toHome() {
         to(MainActivity())
     }
 

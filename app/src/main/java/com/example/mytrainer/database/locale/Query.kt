@@ -8,6 +8,8 @@ import com.example.mytrainer.component.Component
 import com.example.mytrainer.component.Exercise
 import com.example.mytrainer.component.User
 import com.example.mytrainer.database.SQLContract
+import com.example.mytrainer.database.remote.Firestore
+import com.example.mytrainer.fragment.login.LoadingFragment
 import com.example.mytrainer.utils.SingletonHolder1
 
 class Query
@@ -16,6 +18,22 @@ private constructor(private val context: Context) {
     private val db: DataBaseOpenHelper = DataBaseOpenHelper.getInstance(context)
 
     companion object : SingletonHolder1<Query, Context>(::Query)
+
+    fun init(loading: LoadingFragment) {
+        if (db.isEmpty("exercises")) {
+            Firestore.getAll<Exercise>(SQLContract.getTableName(Exercise())) { exercises ->
+                exercises.forEach { exercise ->
+                    addExercise(exercise)
+                }
+                Log.d(TAG, "Aggiunti ${exercises.size} esercizi!")
+                // TODO getAll athlete for instructor
+                // TODO getAll schedule for both
+                loading.joke()
+            }
+        } else {
+            loading.joke()
+        }
+    }
 
     private fun objToContentValues(obj: Component): ContentValues {
         val values = ContentValues()

@@ -13,12 +13,13 @@ class MainActivity : GeneralActivity("MainActivity") {
 
     private val LAYOUT: Int = R.layout.activity_main
     private lateinit var contentManager: FragmentManager
+    private lateinit var db: Query
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppDefaul)
         super.onCreate(savedInstanceState)
 
-        db = Query.getInstance(this)
+        db = Query.getInstance()
         contentManager = FragmentManager(this, R.id.content_layout)
 
         setContentView(LAYOUT)
@@ -63,9 +64,11 @@ class MainActivity : GeneralActivity("MainActivity") {
                     true
                 }
                 R.id.currentScheduleItem -> {
+                    // TODO fragment di base per una scheda. All'interno avra' l'adapter
                     true
                 }
                 R.id.scheduleHistoryItem -> {
+                    // TODO stesso discorso di sopra. Eventualmente si potrebbe utilizzare un container/layout che contiene il fragment sopra
                     /*val adapter = ScheduleHistoryAdapter()
                     val fragment: MutableMap<Int, GeneralFragment> = HashMap<Int, GeneralFragment>()
                     fragment[0] = GeneralFragment.getInstance(applicationContext, adapter, "")

@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.mytrainer.component.*
 import com.example.mytrainer.database.SQLContract
-import com.example.mytrainer.database.remote.Firestore
 import com.example.mytrainer.utils.SingletonHolder1
 
 //Singleton
@@ -24,8 +23,7 @@ private constructor(private val context: Context) :
 
     init {
         Log.d(TAG, "Init DataBaseOpenHelper")
-        val clear = isEmpty("users")
-        if (clear) {
+        if (isEmpty("users")) {
             onUpgrade(db, 0, SQLContract.DATABASE_VERSION) // non lo chiama in automatico
         } else {
             onCreate(db)
@@ -45,7 +43,6 @@ private constructor(private val context: Context) :
                 table.split(";").forEach { query ->
                     if (query.isNotEmpty()) { // potrebbe essere stringa vuota, non so come pero'
                         exec(query)
-                        println(query)
                     }
                 }
             }
@@ -57,7 +54,6 @@ private constructor(private val context: Context) :
             exec("DROP TABLE ${entry["name"]}")
         }
         onCreate(db)
-        initTables()
         Log.d(TAG, "onUpgrade DataBase version from $oldVersion to $newVersion version!")
     }
 
@@ -128,21 +124,12 @@ private constructor(private val context: Context) :
                 multipleAttributes.joinToString(prefix = ";", postfix = "", separator = "")
     }
 
-    private fun initTables() {
-        // prendo tutti gli esercizi
-        Firestore.getAll<Exercise>(SQLContract.getTableName(Exercise())) { exercises ->
-            exercises.forEach { exercise ->
-                Query.getInstance(context).addExercise(exercise)
-            }
-            Log.d(TAG, "Aggiunti ${exercises.size} esercizi!")
-        }
-    }
-
-    private fun isEmpty(table: String): Boolean {
+    fun isEmpty(table: String): Boolean {
         return try {
             selectOne(table, arrayOf("COUNT(*) AS rows"))["rows"] as Int == 0
         } catch (e: SQLiteException) {
             // se entra qua probabilmente la tabella non esiste
+            Log.w(TAG, "Database vuoto")
             close()
             true
         }
@@ -169,13 +156,17 @@ private constructor(private val context: Context) :
 
     fun select(
         table: String, columns: Array<String> = emptyArray(),
-        whereClause: String = "1 = 1", whereValues: Array<String> = emptyArray(),
+        whereClause: String = "", whereValues: Array<String> = emptyArray(),
         limit: Int = -1
     ): List<Map<String, Any?>> {
         open()
         val cursor = db.query(
-            table, columns, whereClause, whereValues,
-            null, null, null, if (limit > 0) "$limit" else null
+            table,
+            if (columns.isNotEmpty()) columns else null,
+            if (whereClause.isNotEmpty()) whereClause else null,
+            if (whereValues.isNotEmpty()) whereValues else null,
+            null, null, null,
+            if (limit > 0) "$limit" else null
         )
         val list = mutableListOf<Map<String, Any?>>()
         if (cursor != null) {

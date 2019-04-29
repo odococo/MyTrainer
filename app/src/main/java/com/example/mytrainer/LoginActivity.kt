@@ -24,13 +24,18 @@ class LoginActivity : GeneralActivity("LoginActivity") {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Log.d(TAG, "sign in with $requestCode and $resultCode and ${data?.data ?: "no data"}")
-        manager.switch(LoadingFragment())
+        val loading = LoadingFragment()
+        manager.switch(loading)
 
-        val code = Codes.fromInt(requestCode)
-
-        when (code) {
-            Codes.GOOGLE_SIGN_IN -> Google.getInstance().handleResult(requestCode, resultCode, data)
-            Codes.FACEBOOK_SIGN_IN -> Facebook.getInstance().handleResult(requestCode, resultCode, data)
+        when (Codes.fromInt(requestCode)) {
+            Codes.GOOGLE_SIGN_IN -> {
+                Google.getInstance().setSuccessfulLogin { loading.init() }
+                Google.getInstance().handleResult(requestCode, resultCode, data)
+            }
+            Codes.FACEBOOK_SIGN_IN -> {
+                Facebook.getInstance().setSuccessfulLogin { loading.init() }
+                Facebook.getInstance().handleResult(requestCode, resultCode, data)
+            }
             else -> Log.w(TAG, "Code $requestCode is not valid")
         }
     }
