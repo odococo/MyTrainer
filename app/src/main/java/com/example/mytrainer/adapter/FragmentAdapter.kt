@@ -9,7 +9,7 @@ class FragmentAdapter(private val fragments: MutableMap<Int, GeneralFragment>, f
 
     override fun getPageTitle(position: Int): CharSequence? {
         val fragment: GeneralFragment = fragments[position] as GeneralFragment
-        return "ciao"
+        return "Titolo del frammento"
     }
 
     override fun getItem(position: Int): Fragment? {

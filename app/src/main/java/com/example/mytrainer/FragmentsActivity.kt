@@ -26,22 +26,23 @@ class FragmentsActivity : GeneralActivity("FragmentsActivity") {
 
     private fun initToolbar(name: Int) {
         fragmentToolbar.setTitle(name)
-        fragmentToolbar?.setOnMenuItemClickListener {
+        fragmentToolbar?.setOnMenuItemClickListener { it ->
             when (it) {
 
             }
         }
 
         fragmentToolbar.inflateMenu(R.menu.menu_toolbar)
-        setSupportActionBar(fragmentToolbar);
+        setSupportActionBar(fragmentToolbar)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true);
-        supportActionBar?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
         fragmentToolbar.setNavigationOnClickListener {
             finish()
         }
 
     }
+
 
     private fun initPager(fragment: MutableMap<Int, GeneralFragment>?) {
         val adapter = FragmentAdapter(fragment!!, supportFragmentManager)

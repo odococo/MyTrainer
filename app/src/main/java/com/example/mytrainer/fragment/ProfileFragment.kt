@@ -1,11 +1,14 @@
 package com.example.mytrainer.fragment
 
 import android.os.Bundle
+import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mytrainer.R
+import com.example.mytrainer.adapter.ProfileAdapter
 import com.example.mytrainer.component.User
 import com.example.mytrainer.database.locale.Query
 import kotlinx.android.synthetic.main.fragment_profile.*
@@ -33,6 +36,7 @@ class ProfileFragment : GeneralFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
 

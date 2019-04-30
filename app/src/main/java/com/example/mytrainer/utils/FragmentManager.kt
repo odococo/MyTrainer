@@ -18,22 +18,14 @@ class FragmentManager(
 
     fun switch(
         fragment: GeneralFragment,
-        args: Map<String, Any> = emptyMap(),
-        adapter: RecyclerView.Adapter<*>? = null
+        args: Map<String, Any> = emptyMap()
     ) {
-        if (adapter != null) {
-            fragment.setAdapter(adapter)
-        }
         fragment.arguments = setArgs(args)
         manager
             .beginTransaction()
             .replace(container, fragment)
             .commit()
         currentFragment = fragment
-    }
-
-    fun changeAdapter(adapter: RecyclerView.Adapter<*>) {
-        switch(currentFragment, adapter = adapter)
     }
 
     private fun setArgs(args: Map<String, Any>): Bundle {

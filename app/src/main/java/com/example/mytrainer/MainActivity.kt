@@ -1,16 +1,13 @@
 package com.example.mytrainer
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.View
-import com.example.mytrainer.adapter.ProfileAdapter
 import com.example.mytrainer.database.locale.Query
 import com.example.mytrainer.fragment.ProfileFragment
 import com.example.mytrainer.utils.FragmentManager
 import kotlinx.android.synthetic.main.activity_main.*
 
-@SuppressLint("UseSparseArrays")
 class MainActivity : GeneralActivity("MainActivity") {
 
     private val LAYOUT: Int = R.layout.activity_main
@@ -27,7 +24,7 @@ class MainActivity : GeneralActivity("MainActivity") {
         setContentView(LAYOUT)
         initToolbar()
         initNavigationView()
-        initFragments()
+        initPager()
 
         //Test().esercizi()
         //db.clearAndRestoreDB()
@@ -116,16 +113,16 @@ class MainActivity : GeneralActivity("MainActivity") {
         }
     }
 
-    private fun initFragments() {
-        /*val exerciseList: ExerciseListAdapter = ExerciseListAdapter()
-        val tabs: MutableMap<Int, GeneralFragment> = HashMap<Int, GeneralFragment>()
-        tabs[0] = GeneralFragment.getInstance(applicationContext, exerciseList, "Giorno 1")
-        tabs[1] = GeneralFragment.getInstance(applicationContext, exerciseList, "Giorno 2")
-        tabs[2] = GeneralFragment.getInstance(applicationContext, exerciseList, "Giorno 3")
-        tabs[3] = GeneralFragment.getInstance(applicationContext, exerciseList, "Giorno 4")
+    //Qui avviene l'inizializzazione dei pager
+    private fun initPager() {
+       /* val exerciseList: ExerciseListAdapter = ExerciseListAdapter()
+        val tabs: MutableMap<Int, GeneralFragment> = HashMap()
+
+        //tabs[0] = GeneralFragment.getInstance(applicationContext, exerciseList, "Giorno 1")
 
         val adapter = FragmentAdapter(tabs, supportFragmentManager)
         mainViewPager?.adapter = adapter
-        mainTabLayout.setupWithViewPager(mainViewPager)*/
+        mainTabLayout.setupWithViewPager(mainViewPager)
+        */
     }
 }
