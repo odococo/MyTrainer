@@ -32,6 +32,8 @@ class FragmentsActivity : GeneralActivity("FragmentsActivity") {
             }
         }
 
+
+
         fragmentToolbar.inflateMenu(R.menu.menu_toolbar)
         setSupportActionBar(fragmentToolbar)
 
