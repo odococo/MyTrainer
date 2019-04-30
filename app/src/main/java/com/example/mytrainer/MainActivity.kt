@@ -3,6 +3,8 @@ package com.example.mytrainer
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.ActionBarDrawerToggle
+import android.view.View
+import com.example.mytrainer.adapter.ProfileAdapter
 import com.example.mytrainer.database.locale.Query
 import com.example.mytrainer.fragment.ProfileFragment
 import com.example.mytrainer.utils.FragmentManager
@@ -59,8 +61,10 @@ class MainActivity : GeneralActivity("MainActivity") {
             main_drawer_layout.closeDrawers()
             when (scelta.itemId) {
                 R.id.profileItem -> {
+                    //Nasconde il tab layout nel Profile fragment
+                    mainTabLayout.visibility = View.GONE
                     contentManager.switch(ProfileFragment())
-                    mainToolbar.title = "Profilo"
+                    mainToolbar.title = "Profile"
                     true
                 }
                 R.id.currentScheduleItem -> {

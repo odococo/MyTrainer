@@ -7,7 +7,6 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         android:background="@color/manBackground"
-
     >
 
     <android.support.design.widget.CoordinatorLayout
@@ -52,7 +51,6 @@
         </android.support.design.widget.AppBarLayout>
 
     </android.support.design.widget.CoordinatorLayout>
-
 
     <android.support.design.widget.NavigationView
             android:id="@+id/mainNavigation"
