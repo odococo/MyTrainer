@@ -1,6 +1,7 @@
 package com.example.mytrainer.fragment
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
@@ -13,7 +14,7 @@ import com.example.mytrainer.component.User
 import com.example.mytrainer.database.locale.Query
 import kotlinx.android.synthetic.main.fragment_profile.*
 
-class ProfileFragment : GeneralFragment() {
+class ProfileFragment : Fragment() {
     private val TAG = "Profile"
     private lateinit var user: User
 

@@ -52,8 +52,6 @@ class ExerciseListAdapter: RecyclerView.Adapter<ExerciseListAdapter.Companion.Ex
     companion object {
 
         class ExerciseViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-
-            var cardView: CardView = itemView.findViewById(R.id.cardView)
             var title: TextView = itemView.findViewById(R.id.exercise_title)
             var overallWork: TextView = itemView.findViewById(R.id.overall_work)//Questa variabile viene composta dalla quantita di serie per la quantità di ripetizioni che è il lavoro complessivo.
             var recoveryTime: TextView = itemView.findViewById(R.id.recovery_time)

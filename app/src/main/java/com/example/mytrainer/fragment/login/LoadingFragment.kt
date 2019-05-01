@@ -2,6 +2,7 @@ package com.example.mytrainer.fragment.login
 
 import android.os.Bundle
 import android.os.Handler
+import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +10,9 @@ import com.example.mytrainer.GeneralActivity
 
 import com.example.mytrainer.R
 import com.example.mytrainer.database.locale.Query
-import com.example.mytrainer.fragment.GeneralFragment
 import kotlinx.android.synthetic.main.fragment_loading.*
 
-class LoadingFragment : GeneralFragment() {
+class LoadingFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

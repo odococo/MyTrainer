@@ -2,11 +2,9 @@ package com.example.mytrainer.utils
 
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.RecyclerView
 import android.util.Log
-
-import com.example.mytrainer.fragment.GeneralFragment
 
 class FragmentManager(
     val context: Context,
@@ -14,10 +12,10 @@ class FragmentManager(
 ) {
     private val TAG = "FragmentManager"
     private val manager = (context as AppCompatActivity).supportFragmentManager
-    private lateinit var currentFragment: GeneralFragment
+    private lateinit var currentFragment: Fragment
 
     fun switch(
-        fragment: GeneralFragment,
+        fragment: Fragment,
         args: Map<String, Any> = emptyMap()
     ) {
         fragment.arguments = setArgs(args)

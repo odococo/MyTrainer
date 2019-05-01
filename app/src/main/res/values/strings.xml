@@ -54,5 +54,8 @@ qwIDAQAB
     <string name="init_db">Inizializzando il database…</string>
     <string name="joke">Vendendo i tuoi dati personali all\'Ucraina…</string>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>
