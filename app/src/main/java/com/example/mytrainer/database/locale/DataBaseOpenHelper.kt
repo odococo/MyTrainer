@@ -10,6 +10,7 @@ import android.util.Log
 import com.example.mytrainer.component.*
 import com.example.mytrainer.database.SQLContract
 import com.example.mytrainer.utils.SingletonHolder1
+import java.util.*
 
 //Singleton
 class DataBaseOpenHelper
@@ -34,10 +35,43 @@ private constructor(private val context: Context) :
     override fun onCreate(db: SQLiteDatabase?) {
         // per alcune tabelle vengono create insieme piu' tabelle ma execSQL ne esegue una sola alla volta, fino a ;
         val tables = mutableListOf<String>()
-        tables.add(objToTable(User()))
-        tables.add(objToTable(Exercise()))
-        tables.add(objToTable(TrainingSchedule()))
-        tables.add(objToTable(TrainingExercise(), fkeys = listOf(TrainingSchedule())))
+        tables.add(
+            objToTable(SQLContract.Users.NAME, mapOf(
+                SQLContract.Users.ID to "",
+                SQLContract.Users.FIRSTNAME to "",
+                SQLContract.Users.LASTNAME to "",
+                SQLContract.Users.TYPE to "athlete"
+            ), arrayOf(SQLContract.Users.ID)))
+        tables.add(
+            objToTable(SQLContract.Exercises.NAME, mapOf(
+                SQLContract.Exercises.ID to "",
+                SQLContract.Exercises.DESCRIPTION to ""
+            ), arrayOf(SQLContract.Exercises.ID))
+        )
+        tables.add(
+            objToTable(SQLContract.TrainingSchedules.NAME, mapOf(
+                SQLContract.TrainingSchedules.ID to "",
+                SQLContract.TrainingSchedules.TRAINER to "",
+                SQLContract.TrainingSchedules.ATHLETE to "",
+                SQLContract.TrainingSchedules.STARTDATE to 0
+            ), arrayOf(SQLContract.TrainingSchedules.ID), mapOf(
+                SQLContract.TrainingSchedules.TRAINER to SQLContract.Users.NAME,
+                SQLContract.TrainingSchedules.ATHLETE to SQLContract.Users.NAME
+            ))
+        )
+        tables.add(
+            objToTable(SQLContract.TrainingExercises.NAME, mapOf(
+                SQLContract.TrainingExercises.EXERCISE to "",
+                SQLContract.TrainingExercises.SCHEDULE to "",
+                SQLContract.TrainingExercises.DAY to 0,
+                SQLContract.TrainingExercises.SERIES to 0,
+                SQLContract.TrainingExercises.REPS to 0,
+                SQLContract.TrainingExercises.RECOVERYTIME to 0
+            ), arrayOf(SQLContract.TrainingExercises.EXERCISE, SQLContract.TrainingExercises.SCHEDULE), mapOf(
+                SQLContract.TrainingExercises.EXERCISE to SQLContract.Exercises.NAME,
+                SQLContract.TrainingExercises.SCHEDULE to SQLContract.TrainingSchedules.NAME
+            ))
+        )
         tables
             .forEach { table ->
                 table.split(";").forEach { query ->
@@ -50,78 +84,58 @@ private constructor(private val context: Context) :
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-        select("sqlite_master", arrayOf("name"), "name NOT LIKE ?", arrayOf("sqlite%"), -1).forEach { entry ->
+        select("sqlite_master", arrayOf("name"), "name NOT LIKE ?", arrayOf("sqlite%"), limit = -1).forEach { entry ->
             exec("DROP TABLE ${entry["name"]}")
         }
         onCreate(db)
         Log.d(TAG, "onUpgrade DataBase version from $oldVersion to $newVersion version!")
     }
 
-    fun open() {
+    private fun open() {
         db = writableDatabase
     }
 
-    // TODO list di Component -> nuova tabella
-    private fun objToTable(obj: Component, name: String = "", fkeys: List<Component> = emptyList()): String {
-        val tablename = if (name.isEmpty()) SQLContract.getTableName(obj) else name
-        val map = obj.toMap()
-        val table = "CREATE TABLE IF NOT EXISTS $tablename"
-        val multipleAttributes = mutableListOf<String>()
-        val columns = mutableListOf("id TEXT PRIMARY KEY")
-        val foreignKeys = mutableListOf<String>()
-        columns.addAll(
-            map.filter { entry ->
-                entry.value !is List<*>
-            }.map { entry ->
-                when (entry.value) {
-                    is String -> "${entry.key} TEXT DEFAULT \"${entry.value}\""
-                    is Int -> "${entry.key} INTEGER DEFAULT ${entry.value}"
-                    is Double -> "${entry.key} REAL DEFAULT ${entry.value}"
-                    is Component -> {
-                        foreignKeys.add(
-                            "FOREIGN KEY (${entry.key}_id) REFERENCES ${entry.value.javaClass.simpleName} (id)"
-                        )
-                        "${entry.key}_id TEXT"
+    private fun objToTable(
+        tableName: String,
+        columns: Map<String, Any>,
+        primaryKeys: Array<String>,
+        foreignKeys: Map<String, String> = emptyMap()
+    ): String {
+        val table = StringBuilder("CREATE TABLE IF NOT EXISTS $tableName")
+        table
+            .append(
+                columns.filter { (_, value) ->
+                    value !is List<*> && value !is Component
+                }.map { (key, value) ->
+                    when (value) {
+                        is String -> "$key TEXT DEFAULT \"$value\""
+                        is Int -> "$key INTEGER DEFAULT $value"
+                        is Double -> "$key REAL DEFAULT $value"
+                        is Date -> "$key INTEGER DEFAULT ${value.time}"
+                        else -> throw java.lang.IllegalArgumentException("$value e' di un tipo non compatibile! --> ${value.javaClass.simpleName}")
                     }
-                    else -> throw IllegalArgumentException("$obj ha un tipo (${entry.value.javaClass} non valido!")
-                }
-            })
-        map.filter { entry ->
-            entry.value is List<*> && (entry.value as List<*>).isNotEmpty() && (entry.value as List<*>)[0] !is Component
-        }.forEach { entry ->
-            val element = (entry.value as List<*>)[0]
-            val columns2 = mutableListOf("id TEXT PRIMARY KEY")
-            val table2 = "CREATE TABLE IF NOT EXISTS ${tablename}_${entry.key}"
-            columns2.add(
-                when (element) {
-                    is String -> "${entry.key} TEXT DEFAULT \"$element\""
-                    is Int -> "${entry.key} INTEGER DEFAULT $element"
-                    is Double -> "${entry.key} REAL DEFAULT $element"
-                    else -> throw IllegalArgumentException("$obj ha un tipo (${entry.value.javaClass} non valido!")
-                }
+                }.joinToString(separator = ",", postfix = ",")
             )
-            columns2.add("FOREIGN KEY (id) REFERENCES $tablename (id)")
-            multipleAttributes.add(table2 + columns2.joinToString(prefix = "(", postfix = ")", separator = ","))
-        }
-        // per ereditarieta', mappata con un'altra tabella
-        val superclass = obj.javaClass.superclass?.simpleName
-        if (!superclass.equals("Component")) {
-            foreignKeys.add(
-                "FOREIGN KEY (id) REFERENCES $superclass (id)"
-            )
-        }
-        // per le associazioni 1 a n vengono passate come parametro
-        for (fkey in fkeys) {
-            val referenceTable = fkey.javaClass.simpleName
-            columns.add("${referenceTable}_id TEXT")
-            foreignKeys.add(
-                "FOREIGN KEY (${referenceTable}_id) REFERENCES $referenceTable (id)"
-            )
-        }
-        columns.addAll(foreignKeys)
-        return table +
-                columns.joinToString(prefix = "(", postfix = ")", separator = ",") +
-                multipleAttributes.joinToString(prefix = ";", postfix = "", separator = "")
+            .append(primaryKeys.joinToString(separator = ",", prefix = "PRIMARY KEY (", postfix = ","))
+            .append(
+                foreignKeys.map { (column, table) ->
+                    "FOREIGN KEY ($column) REFERENCES $table (id)"
+                }.joinToString(separator = ",", prefix = ",", postfix = ")"))
+
+        return table.toString()
+    }
+
+    fun beginTransaction() {
+        db.beginTransaction()
+    }
+
+    fun rollback() {
+        db.endTransaction()
+    }
+
+    fun commit() {
+        db.setTransactionSuccessful()
+        db.endTransaction()
     }
 
     fun isEmpty(table: String): Boolean {
@@ -157,6 +171,7 @@ private constructor(private val context: Context) :
     fun select(
         table: String, columns: Array<String> = emptyArray(),
         whereClause: String = "", whereValues: Array<String> = emptyArray(),
+        groupBy: String = "", having: String = "", orderBy: String = "",
         limit: Int = -1
     ): List<Map<String, Any?>> {
         open()
@@ -165,7 +180,9 @@ private constructor(private val context: Context) :
             if (columns.isNotEmpty()) columns else null,
             if (whereClause.isNotEmpty()) whereClause else null,
             if (whereValues.isNotEmpty()) whereValues else null,
-            null, null, null,
+            if (groupBy.isNotEmpty()) groupBy else null,
+            if (having.isNotEmpty()) having else null,
+            if (orderBy.isNotEmpty()) orderBy else null,
             if (limit > 0) "$limit" else null
         )
         val list = mutableListOf<Map<String, Any?>>()
@@ -191,12 +208,18 @@ private constructor(private val context: Context) :
 
     // select by primary key or select by foreign key (entrambi saranno id)
     // la foreign key servira' per prendere tutte le schede di un atleta
-    fun selectByKey(table: String, key: String, value: String, limit: Int = -1): List<Map<String, Any?>> {
-        return select(table, whereClause = "$key = ?", whereValues = arrayOf(value), limit = limit)
+    fun selectByKey(
+        table: String,
+        key: String,
+        value: String,
+        orderBy: String = "",
+        limit: Int = -1
+    ): List<Map<String, Any?>> {
+        return select(table, whereClause = "$key = ?", whereValues = arrayOf(value), orderBy = orderBy, limit = limit)
     }
 
-    fun selectOneByKey(table: String, key: String, value: String): Map<String, Any?> {
-        return selectByKey(table, key, value, 1).getOrElse(0) { mutableMapOf() }
+    fun selectOneByKey(table: String, key: String, value: String, orderBy: String = ""): Map<String, Any?> {
+        return selectByKey(table, key, value, orderBy = orderBy, limit = 1).getOrElse(0) { mutableMapOf() }
     }
 
     private fun getRow(cursor: Cursor): Map<String, Any?> {
@@ -205,7 +228,9 @@ private constructor(private val context: Context) :
             val value: Any? = when (cursor.getType(index)) {
                 Cursor.FIELD_TYPE_BLOB -> cursor.getBlob(index)
                 Cursor.FIELD_TYPE_FLOAT -> cursor.getDouble(index)
-                Cursor.FIELD_TYPE_INTEGER -> cursor.getInt(index)
+                Cursor.FIELD_TYPE_INTEGER -> if (cursor.getLong(index) > Int.MAX_VALUE) cursor.getLong(index) else cursor.getInt(
+                    index
+                )
                 Cursor.FIELD_TYPE_STRING -> cursor.getString(index)
                 else -> null
             }

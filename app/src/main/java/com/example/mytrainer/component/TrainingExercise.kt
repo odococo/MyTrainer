@@ -11,6 +11,12 @@ data class TrainingExercise(
 
     constructor() : this(0, 0, 0, 0)
 
+    override fun withId(id: String): TrainingExercise {
+        this.id = id
+
+        return this
+    }
+
     override fun toMap(): MutableMap<String, Any> = mutableMapOf(
         "day" to day,
         "series" to series,
@@ -20,15 +26,23 @@ data class TrainingExercise(
 
     override fun fromMap(map: Map<String, Any?>): TrainingExercise {
         val trainingExercise = TrainingExercise()
-        map.forEach { key, value ->
+        map.forEach { (key, value) ->
             when (key) {
                 "id" -> trainingExercise.id = value as String
                 "series" -> trainingExercise.series = value as Int
                 "reps" -> trainingExercise.reps = value as Int
                 "recoveryTime" -> trainingExercise.recoveryTime = value as Int
-                else -> Log.w(TAG, "$key: $value non appartiene a ${this.javaClass.simpleName}!")
+                else -> Log.w("TrainingExercise", "$key: $value non appartiene a ${this.javaClass.simpleName}!")
             }
         }
         return trainingExercise
+    }
+
+    fun overallWork(): String {
+        return "Series $series x $reps reps"
+    }
+
+    fun time(): String {
+        return "$recoveryTime sec"
     }
 }

@@ -10,6 +10,12 @@ open class User(
 
     constructor() : this("", "")
 
+    override fun withId(id: String): User {
+        this.id = id
+
+        return this
+    }
+
     override fun toMap(): MutableMap<String, Any> = mutableMapOf(
         "firstName" to firstName,
         "lastName" to lastName,
@@ -18,13 +24,13 @@ open class User(
 
     override fun fromMap(map: Map<String, Any?>): User {
         val user = User()
-        map.forEach { key, value ->
+        map.forEach { (key, value) ->
             when (key) {
                 "id" -> user.id = value as String
                 "firstName" -> user.firstName = value as String
                 "lastName" -> user.lastName = value as String
                 "type" -> user.type = value as String
-                else -> Log.w(TAG, "$key: $value non appartiene a ${this.javaClass.simpleName}!")
+                else -> Log.w("User", "$key: $value non appartiene a ${this.javaClass.simpleName}!")
             }
         }
         return user

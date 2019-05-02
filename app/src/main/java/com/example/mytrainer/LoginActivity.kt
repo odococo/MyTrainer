@@ -1,6 +1,5 @@
 package com.example.mytrainer
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -17,8 +16,7 @@ class LoginActivity : GeneralActivity("LoginActivity") {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        manager = FragmentManager(this, R.id.root_layout)
-        manager.switch(LoginFragment())
+        manager = FragmentManager(this, R.id.root_layout, LoginFragment())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

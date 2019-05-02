@@ -4,11 +4,9 @@ import android.content.ContentValues
 import android.content.Context
 import android.util.Log
 import com.example.mytrainer.auth.Auth
-import com.example.mytrainer.component.Component
-import com.example.mytrainer.component.Exercise
-import com.example.mytrainer.component.User
+import com.example.mytrainer.component.*
 import com.example.mytrainer.database.SQLContract
-import com.example.mytrainer.database.remote.Firestore
+import com.example.mytrainer.database.remote.Query as Remote
 import com.example.mytrainer.fragment.login.LoadingFragment
 import com.example.mytrainer.utils.SingletonHolder1
 
@@ -21,7 +19,7 @@ private constructor(private val context: Context) {
 
     fun init(loading: LoadingFragment) {
         if (db.isEmpty("exercises")) {
-            Firestore.getAll<Exercise>(SQLContract.getTableName(Exercise())) { exercises ->
+            Remote.getAllExercises {  exercises ->
                 exercises.forEach { exercise ->
                     addExercise(exercise)
                 }
@@ -35,94 +33,151 @@ private constructor(private val context: Context) {
         }
     }
 
-    private fun objToContentValues(obj: Component): ContentValues {
-        val values = ContentValues()
-        obj.toMap().forEach { entry ->
-            val value = entry.value
-            // c'e' bisogno del cast
-            when (value) {
-                is String -> values.put(entry.key, value)
-                is Byte -> values.put(entry.key, value)
-                is Short -> values.put(entry.key, value)
-                is Int -> values.put(entry.key, value)
-                is Long -> values.put(entry.key, value)
-                is Float -> values.put(entry.key, value)
-                is Double -> values.put(entry.key, value)
-                is Boolean -> values.put(entry.key, value)
-                is ByteArray -> values.put(entry.key, value)
-                is List<*> -> listToTable(obj, entry.key, entry.value as List<*>)
-                else -> Log.w(TAG, "$value e' di un tipo non compatibile con SQLite")
-            }
-        }
-        values.put("id", obj.id)
-        return values
-    }
-
-    private fun listToTable(obj: Component, key: String, value: List<*>) {
-        if (!value.isEmpty() && value[0] !is Component) {
-            for (v in value) {
-                val values = ContentValues()
-                values.put("id", obj.id)
-                when (v) {
-                    is String -> values.put(key, v)
-                    is Byte -> values.put(key, v)
-                    is Short -> values.put(key, v)
-                    is Int -> values.put(key, v)
-                    is Long -> values.put(key, v)
-                    is Float -> values.put(key, v)
-                    is Double -> values.put(key, v)
-                    is Boolean -> values.put(key, v)
-                    is ByteArray -> values.put(key, v)
-                    else -> Log.w(TAG, "$v e' di un tipo non compatibile con SQLite")
-                }
-                db.insert("${SQLContract.getTableName(obj)}_$key", values)
-            }
-        }
-    }
-
     fun clearAndRestoreDB() {
-        Log.e(TAG, "Pulendo il db locale!")
+        Log.e(TAG, "Pulendo il db e!")
+        Auth.getInstance().logout()
         db.onUpgrade(db.writableDatabase, 0, SQLContract.DATABASE_VERSION)
     }
 
-    private fun getComponent(component: Component): Component {
-        val map = db.selectOneByKey(SQLContract.getTableName(component), "id", component.id) as MutableMap
-        component.toMap().forEach { key, value ->
-            if (value is List<*>) {
-                val listName = "${SQLContract.getTableName(Exercise())}_$key"
-                map[key] = db.selectByKey(listName, "id", component.id).map { entry -> entry[key] as String }
+    fun addExercise(exercise: Exercise): Boolean {
+        db.beginTransaction()
+        val values = ContentValues()
+        values.put(SQLContract.Exercises.ID, exercise.id)
+        values.put(SQLContract.Exercises.DESCRIPTION, exercise.description)
+
+        if (db.insert(SQLContract.Exercises.NAME, values)) {
+            if (addExerciseTypes(exercise)) {
+                db.commit()
             }
+
+            return true
+        } else {
+            Log.w(TAG, "Errore inserimento esercizio in e: $exercise")
         }
-        return component.fromMap(map)
+        db.rollback()
+
+        return false
     }
 
-    // solo in locale
-    fun addExercise(exercise: Exercise): Boolean {
-        return db.insert(SQLContract.getTableName(exercise), objToContentValues(exercise))
+    private fun addExerciseTypes(exercise: Exercise): Boolean {
+        var result = 0
+        for (type in exercise.types) {
+            val values = ContentValues()
+            values.put(SQLContract.ExerciseTypes.ID, exercise.id)
+            values.put(SQLContract.ExerciseTypes.TYPE, type)
+            if (!db.insert(SQLContract.ExerciseTypes.NAME, values)) {
+                Log.w(TAG, "Errore inserimento tipi dell'esercizio in e: $exercise")
+            } else {
+                result++
+            }
+        }
+        return result == exercise.types.size
     }
 
     fun getExercise(name: String): Exercise {
-        val exercise = Exercise()
-        exercise.id = name
-        return getComponent(exercise) as Exercise
+        val map = db.selectOneByKey(SQLContract.Exercises.NAME, SQLContract.Exercises.ID, name)
+
+        return Exercise().fromMap(map)
     }
 
-    // solo in locale
     fun addUser(user: User): Boolean {
-        return db.insert(SQLContract.getTableName(user), objToContentValues(user), conflict = true)
+        val values = ContentValues()
+        values.put(SQLContract.Users.ID, user.id)
+        values.put(SQLContract.Users.FIRSTNAME, user.firstName)
+        values.put(SQLContract.Users.LASTNAME, user.lastName)
+        values.put(SQLContract.Users.TYPE, user.type)
+
+        return db.insert(SQLContract.Users.NAME, values, true)
     }
 
     fun getUser(): User {
-        return getUserById(Auth.getId())
+        return getUserById(Auth.getInstance().getId())
     }
 
     fun getUserById(id: String): User {
-        val user = User()
-        user.id = id
-        return getComponent(user) as User
+        val map = db.selectOneByKey(SQLContract.Users.NAME, SQLContract.Users.ID, id)
+
+        return User().fromMap(map)
     }
 
-    fun addTrainingSchedule() {
+    // TODO athlete teoricamente e' l'utente stesso. Non necessario. Per i test si'
+    fun addTrainingSchedule(schedule: TrainingSchedule): Boolean {
+        db.beginTransaction()
+        addUser(schedule.athlete)
+        addUser(schedule.trainer)
 
+        val values = ContentValues()
+        values.put(SQLContract.TrainingSchedules.ID, schedule.id)
+        values.put(SQLContract.TrainingSchedules.TRAINER, schedule.trainer.id)
+        values.put(SQLContract.TrainingSchedules.ATHLETE, schedule.athlete.id)
+        if (db.insert(SQLContract.TrainingSchedules.NAME, values)) {
+            if (addTrainingExercises(schedule)) {
+                db.commit()
+
+                return true
+            } else {
+                Log.w(TAG, "Errore inserimento esercizi scheda: $schedule")
+            }
+        } else {
+            Log.w(TAG, "Errore inserimento scheda: $schedule")
+        }
+        db.rollback()
+
+        return false
     }
+
+    fun addTrainingExercises(schedule: TrainingSchedule): Boolean {
+        var result = 0
+        for (exercise in schedule.exercises) {
+            val values = ContentValues()
+            values.put(SQLContract.TrainingExercises.EXERCISE, exercise.id)
+            values.put(SQLContract.TrainingExercises.SCHEDULE, schedule.id)
+            values.put(SQLContract.TrainingExercises.DAY, exercise.day)
+            values.put(SQLContract.TrainingExercises.SERIES, exercise.series)
+            values.put(SQLContract.TrainingExercises.REPS, exercise.reps)
+            values.put(SQLContract.TrainingExercises.RECOVERYTIME, exercise.recoveryTime)
+            if (!db.insert(SQLContract.TrainingExercises.NAME, values)) {
+                Log.w(TAG, "Errore inserimento esercizio scheda: $exercise")
+            } else {
+                result++
+            }
+        }
+
+        return result == schedule.exercises.size
+    }
+
+
+    fun getSchedule(id: String, day: Int = 0): TrainingSchedule {
+        val map = db.selectOneByKey(SQLContract.TrainingSchedules.NAME, SQLContract.TrainingSchedules.ID, id)
+        val schedule = TrainingSchedule().fromMap(map)
+
+        val whereClause = "${SQLContract.TrainingExercises.SCHEDULE} = ? AND " + if (day == 0) "${SQLContract.TrainingExercises.DAY} <> ?" else "${SQLContract.TrainingExercises.DAY} = ?"
+        val exercises = db.select(SQLContract.TrainingExercises.NAME, whereClause = whereClause, whereValues = arrayOf(id, "$day"))
+        schedule.exercises = exercises.map { ex -> TrainingExercise().fromMap(ex) }
+
+        return schedule
+    }
+
+    fun getCurrentSchedule(): TrainingSchedule {
+        val schedule = TrainingSchedule()
+        val map = db.selectOneByKey(
+            SQLContract.TrainingSchedules.NAME,
+            SQLContract.TrainingSchedules.ATHLETE,
+            Auth.getInstance().getId(),
+            "${SQLContract.TrainingSchedules.STARTDATE} DESC"
+        )
+        return getSchedule(map.getOrDefault(SQLContract.TrainingSchedules.ID, "") as String)
+    }
+
+    fun getSchedules(): List<TrainingSchedule> {
+        val schedule = TrainingSchedule()
+        val schedules = db.selectByKey(
+            SQLContract.TrainingSchedules.NAME,
+            SQLContract.TrainingSchedules.ATHLETE,
+            Auth.getInstance().getId(),
+            "${SQLContract.TrainingSchedules.STARTDATE} DESC"
+        )
+        return schedules.map { s -> getSchedule(s.getOrDefault(SQLContract.TrainingSchedules.ID, "") as String) }
+    }
+
 }

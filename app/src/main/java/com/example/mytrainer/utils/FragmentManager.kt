@@ -8,17 +8,22 @@ import android.util.Log
 
 class FragmentManager(
     val context: Context,
-    val container: Int
+    private val container: Int,
+    firstFragment: Fragment
 ) {
     private val TAG = "FragmentManager"
     private val manager = (context as AppCompatActivity).supportFragmentManager
-    private lateinit var currentFragment: Fragment
+    var currentFragment: Fragment = firstFragment
+
+    init {
+        switch(firstFragment)
+    }
 
     fun switch(
         fragment: Fragment,
         args: Map<String, Any> = emptyMap()
     ) {
-        fragment.arguments = setArgs(args)
+        setArgs(fragment, args)
         manager
             .beginTransaction()
             .replace(container, fragment)
@@ -26,14 +31,18 @@ class FragmentManager(
         currentFragment = fragment
     }
 
-    private fun setArgs(args: Map<String, Any>): Bundle {
-        return Bundle().apply {
-            args.forEach { (key, value) ->
-                when (value) {
-                    is String -> putString(key, value)
-                    is Int -> putInt(key, value)
-                    is Float -> putFloat(key, value)
-                    else -> Log.e(TAG, "Tipo di $value non valido! --> ${value.javaClass}")
+    companion object {
+        private const val TAG = "FragmentManager"
+
+        fun setArgs(fragment: Fragment, args: Map<String, Any>) {
+            fragment.arguments = Bundle().apply {
+                args.forEach { (key, value) ->
+                    when (value) {
+                        is String -> putString(key, value)
+                        is Int -> putInt(key, value)
+                        is Float -> putFloat(key, value)
+                        else -> Log.e(TAG, "Tipo di $value non valido! --> ${value.javaClass}")
+                    }
                 }
             }
         }

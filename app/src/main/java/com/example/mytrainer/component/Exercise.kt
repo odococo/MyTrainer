@@ -10,6 +10,12 @@ open class Exercise(
 
     constructor() : this("", listOf(""))
 
+    override fun withId(id: String): Exercise {
+        this.id = id
+
+        return this
+    }
+
     override fun toMap(): Map<String, Any> = mutableMapOf(
         "description" to description,
         "types" to types
@@ -17,12 +23,12 @@ open class Exercise(
 
     override fun fromMap(map: Map<String, Any?>): Exercise {
         val exercise = Exercise()
-        map.forEach { key, value ->
+        map.forEach { (key, value) ->
             when (key) {
                 "id" -> exercise.id = value as String
                 "description" -> exercise.description = value as String
                 "types" -> exercise.types = value as List<String>
-                else -> Log.w(TAG, "$key: $value non appartiene a ${this.javaClass.simpleName}!")
+                else -> Log.w("Exercise", "$key: $value non appartiene a ${this.javaClass.simpleName}!")
             }
         }
         return exercise

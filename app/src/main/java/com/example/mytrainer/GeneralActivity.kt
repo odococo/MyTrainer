@@ -14,7 +14,9 @@ open class GeneralActivity(
         super.onCreate(savedInstanceState)
         Log.e(TAG, "Create activity")
         // inizializzazione singleton
-        auth = Auth(this)
-        auth.checkLogin()
+        auth = Auth.getInstance(this)
+
+        if (auth.isLogged() && this !is MainActivity) auth.toHome()
+        else if (!auth.isLogged() && this !is LoginActivity) auth.toLogin()
     }
 }

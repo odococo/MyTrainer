@@ -2,18 +2,22 @@ package com.example.mytrainer.auth
 
 import android.content.Context
 import android.content.Intent
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.example.mytrainer.EmptyActivity
 import com.example.mytrainer.GeneralActivity
 import com.example.mytrainer.LoginActivity
 import com.example.mytrainer.MainActivity
 import com.example.mytrainer.component.User
+import com.example.mytrainer.utils.SingletonHolder1
+import com.example.mytrainer.utils.SingletonHolder2
 import com.facebook.login.LoginManager
+import com.google.android.gms.common.SignInButton
 import com.google.firebase.auth.FirebaseAuth
 import com.example.mytrainer.database.locale.Query as localDB
 import com.example.mytrainer.database.remote.Query as remoteDB
 
-
+// singleton puro non possibile in quanto il primo context sarebbe quello di EmptyActivity
 open class Auth(
     val context: Context
 ) {
@@ -23,45 +27,12 @@ open class Auth(
 
     protected val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
-    // alcune classi potrebbero aver bisogno dell'id senza pero' avere un context
-    companion object {
-        private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-
-        fun isLogged(): Boolean {
-            return firebaseAuth.currentUser != null
-        }
-
-        fun getId(): String {
-            return if (isLogged()) firebaseAuth.currentUser?.uid!! else ""
-        }
-
-        fun logout() {
-            firebaseAuth.signOut()
-            LoginManager.getInstance().logOut()
-            Log.d("Auth", "Logout con successo")
-        }
-    }
-
-    fun checkLogin() {
-        if (!isLogged() && context !is LoginActivity) {
-            toLogin()
-        } else if (isLogged() && context is EmptyActivity) {
-            // gia' loggato. Recupero le info localmente
-            user = localDB.getInstance(context).getUser()
-            if (user.id.isNotEmpty()) {
-                toHome()
-            } else {
-                Log.w(TAG, "Utente loggato ma non presente nel database locale")
-                logout()
-                toLogin()
-            }
-        }
-    }
+    companion object : SingletonHolder1<Auth, Context>(::Auth)
 
     fun logged(user: User) {
         this.user = user
         remoteDB.addUser(user)
-        localDB.getInstance().addUser(user)
+        localDB.getInstance(context).addUser(user)
         Log.d(TAG, "Aggiunto utente $user")
         successfulLogin()
     }
@@ -71,16 +42,16 @@ open class Auth(
 
     }
 
-    private fun isLogged(): Boolean {
-        return Companion.isLogged()
+    fun isLogged(): Boolean {
+        return firebaseAuth.currentUser != null
     }
 
     fun getId(): String {
-        return Companion.getId()
+        return if (isLogged()) firebaseAuth.currentUser?.uid!! else ""
     }
 
     fun getUser(): User {
-        return user
+        return localDB.getInstance(context).getUser()
     }
 
     fun setSuccessfulLogin(callback: (() -> Unit)) {
@@ -88,7 +59,9 @@ open class Auth(
     }
 
     fun logout() {
-        Companion.logout()
+        firebaseAuth.signOut()
+        LoginManager.getInstance().logOut()
+        Log.d("Auth", "Logout con successo")
         toLogin()
     }
 

@@ -12,7 +12,6 @@ import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FacebookAuthProvider
 
-
 class Facebook
 private constructor(
     context: Context,

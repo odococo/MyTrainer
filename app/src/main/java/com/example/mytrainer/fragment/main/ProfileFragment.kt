@@ -1,15 +1,12 @@
-package com.example.mytrainer.fragment
+package com.example.mytrainer.fragment.main
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mytrainer.R
-import com.example.mytrainer.adapter.ProfileAdapter
 import com.example.mytrainer.component.User
 import com.example.mytrainer.database.locale.Query
 import kotlinx.android.synthetic.main.fragment_profile.*

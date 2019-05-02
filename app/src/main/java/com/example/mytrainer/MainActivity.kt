@@ -2,29 +2,30 @@ package com.example.mytrainer
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import com.example.mytrainer.utils.FragmentManager
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.View
-import com.example.mytrainer.adapter.ExerciseListAdapter
+import com.example.mytrainer.database.locale.Query as LocalDB
+import com.example.mytrainer.database.remote.Query as remoteDB
 import com.example.mytrainer.adapter.FragmentAdapter
-import com.example.mytrainer.adapter.ProfileAdapter
-import com.example.mytrainer.database.locale.Query
 import com.example.mytrainer.fragment.ExerciseListFragment
-import com.example.mytrainer.fragment.ProfileFragment
-import com.example.mytrainer.utils.FragmentManager
+import com.example.mytrainer.fragment.main.HomeFragment
+import com.example.mytrainer.fragment.main.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : GeneralActivity("MainActivity") {
 
     private val LAYOUT: Int = R.layout.activity_main
     private lateinit var contentManager: FragmentManager
-    private lateinit var db: Query
+    private lateinit var localDB: LocalDB
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppDefaul)
         super.onCreate(savedInstanceState)
 
-        db = Query.getInstance()
-        contentManager = FragmentManager(this, R.id.container_fragment)
+        localDB = LocalDB.getInstance(this)
+        contentManager = FragmentManager(this, R.id.content_layout, HomeFragment())
 
         setContentView(LAYOUT)
         initToolbar()
@@ -33,8 +34,8 @@ class MainActivity : GeneralActivity("MainActivity") {
 
         //Test().esercizi()
         //db.clearAndRestoreDB()
-        println(db.getExercise("Shoulder press"))
-        println(db.getUser())
+        println(localDB.getExercise("Shoulder press"))
+        println(localDB.getUser())
 
     }
 
