@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.view.View
 import com.example.mytrainer.adapter.ExerciseListAdapter
 import com.example.mytrainer.adapter.FragmentAdapter
+import com.example.mytrainer.adapter.ProfileAdapter
 import com.example.mytrainer.database.locale.Query
 import com.example.mytrainer.fragment.ExerciseListFragment
 import com.example.mytrainer.fragment.ProfileFragment
@@ -23,7 +24,7 @@ class MainActivity : GeneralActivity("MainActivity") {
         super.onCreate(savedInstanceState)
 
         db = Query.getInstance()
-        contentManager = FragmentManager(this, R.id.viewPager)
+        contentManager = FragmentManager(this, R.id.container_fragment)
 
         setContentView(LAYOUT)
         initToolbar()

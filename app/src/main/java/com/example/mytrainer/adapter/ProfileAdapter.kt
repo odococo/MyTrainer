@@ -19,8 +19,8 @@ class ProfileAdapter: RecyclerView.Adapter<ProfileAdapter.Companion.ProfileViewH
     }
 
     override fun onBindViewHolder(holder: ProfileViewHolder, position: Int) {
-       holder.surname.text = "Roshka"
-       holder.name.text = "Anatoliy"
+      // holder.surname.text = "Roshka"
+      // holder.name.text = "Anatoliy"
     }
 
     companion object {
@@ -28,7 +28,6 @@ class ProfileAdapter: RecyclerView.Adapter<ProfileAdapter.Companion.ProfileViewH
         class ProfileViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
             //Elenco dei campi relativi ad ogni esercizio
-            val cardView: CardView = itemView.findViewById(R.id.profileCardView)
             val surname: TextView = itemView.findViewById(R.id.profileSurname)
             val name: TextView = itemView.findViewById(R.id.profileName)
         }
