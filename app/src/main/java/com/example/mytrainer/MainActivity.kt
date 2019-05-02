@@ -33,9 +33,9 @@ class MainActivity : GeneralActivity("MainActivity") {
         initPager()
 
         //Test().esercizi()
-        //db.clearAndRestoreDB()
-        println(localDB.getExercise("Shoulder press"))
-        println(localDB.getUser())
+        //localDB.clearAndRestoreDB()
+        //println(localDB.getExercise("Shoulder press"))
+        //println(localDB.getUser())
 
     }
 

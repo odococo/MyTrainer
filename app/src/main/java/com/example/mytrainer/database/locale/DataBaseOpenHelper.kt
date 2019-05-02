@@ -24,6 +24,7 @@ private constructor(private val context: Context) :
 
     init {
         Log.d(TAG, "Init DataBaseOpenHelper")
+        open()
         if (isEmpty("users")) {
             onUpgrade(db, 0, SQLContract.DATABASE_VERSION) // non lo chiama in automatico
         } else {
@@ -36,41 +37,58 @@ private constructor(private val context: Context) :
         // per alcune tabelle vengono create insieme piu' tabelle ma execSQL ne esegue una sola alla volta, fino a ;
         val tables = mutableListOf<String>()
         tables.add(
-            objToTable(SQLContract.Users.NAME, mapOf(
-                SQLContract.Users.ID to "",
-                SQLContract.Users.FIRSTNAME to "",
-                SQLContract.Users.LASTNAME to "",
-                SQLContract.Users.TYPE to "athlete"
-            ), arrayOf(SQLContract.Users.ID)))
-        tables.add(
-            objToTable(SQLContract.Exercises.NAME, mapOf(
-                SQLContract.Exercises.ID to "",
-                SQLContract.Exercises.DESCRIPTION to ""
-            ), arrayOf(SQLContract.Exercises.ID))
+            objToTable(
+                SQLContract.Users.NAME, mapOf(
+                    SQLContract.Users.ID to "",
+                    SQLContract.Users.FIRSTNAME to "",
+                    SQLContract.Users.LASTNAME to "",
+                    SQLContract.Users.TYPE to "athlete"
+                ), arrayOf(SQLContract.Users.ID)
+            )
         )
         tables.add(
-            objToTable(SQLContract.TrainingSchedules.NAME, mapOf(
-                SQLContract.TrainingSchedules.ID to "",
-                SQLContract.TrainingSchedules.TRAINER to "",
-                SQLContract.TrainingSchedules.ATHLETE to "",
-                SQLContract.TrainingSchedules.STARTDATE to 0
-            ), arrayOf(SQLContract.TrainingSchedules.ID), mapOf(
-                SQLContract.TrainingSchedules.TRAINER to SQLContract.Users.NAME,
-                SQLContract.TrainingSchedules.ATHLETE to SQLContract.Users.NAME
-            ))
+            objToTable(
+                SQLContract.Exercises.NAME, mapOf(
+                    SQLContract.Exercises.ID to "",
+                    SQLContract.Exercises.DESCRIPTION to ""
+                ), arrayOf(SQLContract.Exercises.ID)
+            )
         )
         tables.add(
-            objToTable(SQLContract.TrainingExercises.NAME, mapOf(
-                SQLContract.TrainingExercises.EXERCISE to "",
-                SQLContract.TrainingExercises.SCHEDULE to "",
-                SQLContract.TrainingExercises.DAY to 0,
-                SQLContract.TrainingExercises.SERIES to 0,
-                SQLContract.TrainingExercises.REPS to 0,
-                SQLContract.TrainingExercises.RECOVERYTIME to 0
-            ), arrayOf(SQLContract.TrainingExercises.EXERCISE, SQLContract.TrainingExercises.SCHEDULE), mapOf(
-                SQLContract.TrainingExercises.EXERCISE to SQLContract.Exercises.NAME,
-                SQLContract.TrainingExercises.SCHEDULE to SQLContract.TrainingSchedules.NAME
-            ))
+            objToTable(
+                SQLContract.ExerciseTypes.NAME, mapOf(
+                    SQLContract.ExerciseTypes.ID to "",
+                    SQLContract.ExerciseTypes.TYPE to ""
+                ), arrayOf(SQLContract.ExerciseTypes.ID)
+            )
+        )
+        tables.add(
+            objToTable(
+                SQLContract.TrainingSchedules.NAME, mapOf(
+                    SQLContract.TrainingSchedules.ID to "",
+                    SQLContract.TrainingSchedules.TRAINER to "",
+                    SQLContract.TrainingSchedules.ATHLETE to "",
+                    SQLContract.TrainingSchedules.STARTDATE to 0
+                ), arrayOf(SQLContract.TrainingSchedules.ID), mapOf(
+                    SQLContract.TrainingSchedules.TRAINER to SQLContract.Users.NAME,
+                    SQLContract.TrainingSchedules.ATHLETE to SQLContract.Users.NAME
+                )
+            )
+        )
+        tables.add(
+            objToTable(
+                SQLContract.TrainingExercises.NAME, mapOf(
+                    SQLContract.TrainingExercises.EXERCISE to "",
+                    SQLContract.TrainingExercises.SCHEDULE to "",
+                    SQLContract.TrainingExercises.DAY to 0,
+                    SQLContract.TrainingExercises.SERIES to 0,
+                    SQLContract.TrainingExercises.REPS to 0,
+                    SQLContract.TrainingExercises.RECOVERYTIME to 0
+                ), arrayOf(SQLContract.TrainingExercises.EXERCISE, SQLContract.TrainingExercises.SCHEDULE), mapOf(
+                    SQLContract.TrainingExercises.EXERCISE to SQLContract.Exercises.NAME,
+                    SQLContract.TrainingExercises.SCHEDULE to SQLContract.TrainingSchedules.NAME
+                )
+            )
         )
         tables
             .forEach { table ->
@@ -114,15 +132,18 @@ private constructor(private val context: Context) :
                         is Date -> "$key INTEGER DEFAULT ${value.time}"
                         else -> throw java.lang.IllegalArgumentException("$value e' di un tipo non compatibile! --> ${value.javaClass.simpleName}")
                     }
-                }.joinToString(separator = ",", postfix = ",")
+                }.joinToString(separator = ",", prefix = "(", postfix = ",")
             )
-            .append(primaryKeys.joinToString(separator = ",", prefix = "PRIMARY KEY (", postfix = ","))
-            .append(
+            .append(primaryKeys.joinToString(separator = ",", prefix = "PRIMARY KEY (", postfix = ")"))
+        if (foreignKeys.isNotEmpty()) {
+            table.append(
                 foreignKeys.map { (column, table) ->
                     "FOREIGN KEY ($column) REFERENCES $table (id)"
-                }.joinToString(separator = ",", prefix = ",", postfix = ")"))
+                }.joinToString(separator = ",", prefix = ",")
+            )
+        }
 
-        return table.toString()
+        return table.append(")").toString()
     }
 
     fun beginTransaction() {
@@ -144,19 +165,15 @@ private constructor(private val context: Context) :
         } catch (e: SQLiteException) {
             // se entra qua probabilmente la tabella non esiste
             Log.w(TAG, "Database vuoto")
-            close()
             true
         }
     }
 
     fun exec(query: String) {
-        open()
         db.execSQL(query)
-        close()
     }
 
     fun insert(table: String, values: ContentValues, conflict: Boolean = false): Boolean {
-        open()
         val result =
             if (conflict) {
                 db.insertWithOnConflict(table, null, values, SQLiteDatabase.CONFLICT_IGNORE)
@@ -164,7 +181,7 @@ private constructor(private val context: Context) :
                 db.insert(table, null, values)
             }
         Log.d(TAG, "Righe presenti in $table: $result")
-        close()
+
         return result.toInt() != -1
     }
 
@@ -174,7 +191,6 @@ private constructor(private val context: Context) :
         groupBy: String = "", having: String = "", orderBy: String = "",
         limit: Int = -1
     ): List<Map<String, Any?>> {
-        open()
         val cursor = db.query(
             table,
             if (columns.isNotEmpty()) columns else null,
@@ -195,7 +211,7 @@ private constructor(private val context: Context) :
             Log.d(TAG, "Righe selezionate in $table: ${list.size}")
         }
         cursor.close()
-        close()
+
         return list
     }
 
@@ -236,22 +252,21 @@ private constructor(private val context: Context) :
             }
             row[column] = value
         }
+
         return row
     }
 
     fun update(table: String, values: ContentValues, whereClause: String, whereValues: Array<String>): Boolean {
-        open()
         val result = db.update(table, values, whereClause, whereValues)
         Log.d(TAG, "Righe aggiornate in $table: $result")
-        close()
+
         return result != -1
     }
 
     fun delete(table: String, whereClause: String, whereValues: Array<String>): Boolean {
-        open()
         val result = db.delete(table, whereClause, whereValues)
         Log.d(TAG, "Righe cancellate in $table: $result")
-        close()
+
         return result != -1
     }
 

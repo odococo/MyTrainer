@@ -23,7 +23,7 @@ object SQLContract {
     }
 
     object Exercises {
-        const val NAME = "users"
+        const val NAME = "exercises"
         const val ID = "id"
         const val DESCRIPTION = "description"
     }
