@@ -9,20 +9,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mytrainer.R
-import com.example.mytrainer.adapter.ExerciseListAdapter
 
-class ExerciseListFragment: Fragment() {
+class GeneralFragment: Fragment() {
 
     private val LAYOUT: Int = R.layout.fragment_general
     private lateinit var externalContext: Context
+    private lateinit var adapter: RecyclerView.Adapter<*>
+
     private lateinit var title: String
 
     companion object{
 
-        fun getInstance(context: Context, title: String): ExerciseListFragment{
+        fun getInstance(context: Context, adapter: RecyclerView.Adapter<*>, title: String): GeneralFragment{
 
-            val fragment = ExerciseListFragment()
+            val fragment = GeneralFragment()
             fragment.externalContext = context
+            fragment.adapter = adapter
             fragment.title = title
 
             return fragment
@@ -38,7 +40,7 @@ class ExerciseListFragment: Fragment() {
 
         val rs: RecyclerView = view.findViewById(R.id.recycle_view)
         rs.layoutManager = LinearLayoutManager(externalContext)
-        rs.adapter = ExerciseListAdapter()
+        rs.adapter = adapter
 
         return view
     }

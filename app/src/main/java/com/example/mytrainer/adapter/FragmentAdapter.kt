@@ -1,14 +1,22 @@
 package com.example.mytrainer.adapter
 
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
-import com.example.mytrainer.fragment.ExerciseListFragment
+import android.content.Context
+import android.support.v4.app.*
+import com.example.mytrainer.fragment.GeneralFragment
 
-class FragmentAdapter(private val fragments: MutableMap<Int, Fragment>, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class FragmentAdapter(appContext: Context, fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+
+    private val fragments: MutableMap<Int, Fragment> = HashMap()
+
+    init {
+        val exerciseList = ExerciseListAdapter()
+        fragments[0] = GeneralFragment.getInstance(appContext, exerciseList,"Giorno 1")
+        fragments[1] = GeneralFragment.getInstance(appContext, exerciseList,"Giorno 2")
+        fragments[2] = GeneralFragment.getInstance(appContext, exerciseList,"Giorno 3")
+    }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        val fragment = fragments[position] as ExerciseListFragment
+        val fragment = fragments[position] as GeneralFragment
         return fragment.getTitle()
     }
 
@@ -19,6 +27,5 @@ class FragmentAdapter(private val fragments: MutableMap<Int, Fragment>, fm: Frag
     override fun getCount(): Int {
         return fragments.size
     }
-
 
 }

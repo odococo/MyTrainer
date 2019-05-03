@@ -4,20 +4,24 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import com.example.mytrainer.utils.FragmentManager
 import android.support.v7.app.ActionBarDrawerToggle
+import android.util.Log
 import android.view.View
+import com.example.mytrainer.adapter.*
 import com.example.mytrainer.database.locale.Query as LocalDB
 import com.example.mytrainer.database.remote.Query as remoteDB
-import com.example.mytrainer.adapter.FragmentAdapter
-import com.example.mytrainer.fragment.ExerciseListFragment
+import com.example.mytrainer.fragment.GeneralFragment
 import com.example.mytrainer.fragment.main.HomeFragment
-import com.example.mytrainer.fragment.main.ProfileFragment
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : GeneralActivity("MainActivity") {
 
+    private val GONE = "GONE"
+    private val VISIBLE = "VISIBLE"
     private val LAYOUT: Int = R.layout.activity_main
     private lateinit var contentManager: FragmentManager
     private lateinit var localDB: LocalDB
+
+    private var fragments: MutableMap<Int, Fragment> = HashMap()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,47 +68,33 @@ class MainActivity : GeneralActivity("MainActivity") {
             drawer_layout.closeDrawers()
             when (scelta.itemId) {
                 R.id.profileItem -> {
-                    tabLayout.visibility = View.GONE
-                    contentManager.switch(ProfileFragment())
-                    toolbar.title = "Profile"
+                    changeItemState(GONE)
+                    contentManager.switch(GeneralFragment.getInstance(applicationContext, ProfileAdapter(), ""))
+                    toolbar.setTitle(R.string.profile)
                     true
                 }
                 R.id.currentScheduleItem -> {
-                    // TODO fragment di base per una scheda. All'interno avra' l'adapter
+                    changeItemState(VISIBLE)
+                    //In questo caso torna a visualizzare il contenuto dell'Adapter contenente la scheda corrente.
+                    toolbar.setTitle(R.string.app_name)
                     true
                 }
                 R.id.scheduleHistoryItem -> {
-                    // TODO stesso discorso di sopra. Eventualmente si potrebbe utilizzare un container/layout che contiene il fragment sopra
-                    /*val adapter = ScheduleHistoryAdapter()
-                    val fragment: MutableMap<Int, GeneralFragment> = HashMap()
-                    fragment[0] = GeneralFragment.getInstance(applicationContext, adapter, "")
-                    FragmentsActivity.fragment = fragment
-
-                    val intent: Intent = Intent(applicationContext, FragmentsActivity::class.java)
-                    intent.putExtra("toolBarName", R.string.schedule_history)
-                    startActivity(intent)*/
+                    changeItemState(GONE)
+                    contentManager.switch(GeneralFragment.getInstance(applicationContext, ScheduleHistoryAdapter(), ""))
+                    toolbar.setTitle(R.string.schedule_history)
                     true
                 }
                 R.id.requestScheduleItem -> {
-                    /*val adapter = RequestScheduleAdapter()
-                    val fragment: MutableMap<Int, GeneralFragment> = HashMap()
-                    fragment[0] = GeneralFragment.getInstance(applicationContext, adapter, "")
-                    FragmentsActivity.fragment = fragment
-
-                    val intent: Intent = Intent(applicationContext, FragmentsActivity::class.java)
-                    intent.putExtra("toolBarName", R.string.request_schedule)
-                    startActivity(intent)*/
+                    changeItemState(GONE)
+                    contentManager.switch(GeneralFragment.getInstance(applicationContext, RequestScheduleAdapter(), ""))
+                    toolbar.setTitle(R.string.request_schedule)
                     true
                 }
                 R.id.helpItem -> {
-                    /*val adapter = HelpAdapter()
-                    val fragment: MutableMap<Int, GeneralFragment> = HashMap()
-                    fragment[0] = GeneralFragment.getInstance(applicationContext, adapter, "")
-                    FragmentsActivity.fragment = fragment
-
-                    val intent: Intent = Intent(applicationContext, FragmentsActivity::class.java)
-                    intent.putExtra("toolBarName", R.string.help)
-                    startActivity(intent)*/
+                    changeItemState(GONE)
+                    contentManager.switch(GeneralFragment.getInstance(applicationContext, HelpAdapter(), ""))
+                    toolbar.setTitle(R.string.help)
                     true
                 }
                 R.id.logoutItem -> {
@@ -118,16 +108,26 @@ class MainActivity : GeneralActivity("MainActivity") {
         }
     }
 
-    //Qui avviene l'inizializzazione dei pager
     private fun initPager() {
-        val tabs: MutableMap<Int, Fragment> = HashMap()
-
-        tabs[0] = ExerciseListFragment.getInstance(applicationContext, "Giorno 1")
-        tabs[1] = ExerciseListFragment.getInstance(applicationContext, "Giorno 2")
-        tabs[2] = ExerciseListFragment.getInstance(applicationContext, "Giorno 3")
-
-        val adapter = FragmentAdapter(tabs, supportFragmentManager)
-        viewPager?.adapter = adapter
+        viewPager?.adapter = FragmentAdapter(applicationContext, supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
     }
+
+    private fun changeItemState(state: String){
+        when(state){
+            GONE -> {
+                tabLayout.visibility = View.GONE
+                viewPager.visibility = View.GONE
+                content_layout.visibility = View.VISIBLE
+            }
+            VISIBLE -> {
+                tabLayout.visibility = View.VISIBLE
+                viewPager.visibility = View.VISIBLE
+                content_layout.visibility = View.GONE
+            }
+            else->{ Log.d(TAG, "Stato di NavigationViewItem, non riconosciuto!")}
+        }
+
+    }
+
 }
