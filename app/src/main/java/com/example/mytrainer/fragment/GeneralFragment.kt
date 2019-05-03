@@ -16,23 +16,16 @@ class GeneralFragment: Fragment() {
     private lateinit var externalContext: Context
     private lateinit var adapter: RecyclerView.Adapter<*>
 
-    private lateinit var title: String
-
     companion object{
 
-        fun getInstance(context: Context, adapter: RecyclerView.Adapter<*>, title: String): GeneralFragment{
+        fun getInstance(context: Context, adapter: RecyclerView.Adapter<*>): GeneralFragment{
 
             val fragment = GeneralFragment()
             fragment.externalContext = context
             fragment.adapter = adapter
-            fragment.title = title
 
             return fragment
         }
-    }
-
-    fun getTitle(): String{
-        return this.title
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

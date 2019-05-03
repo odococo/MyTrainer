@@ -69,7 +69,7 @@ class MainActivity : GeneralActivity("MainActivity") {
             when (scelta.itemId) {
                 R.id.profileItem -> {
                     changeItemState(GONE)
-                    contentManager.switch(GeneralFragment.getInstance(applicationContext, ProfileAdapter(), ""))
+                    contentManager.switch(GeneralFragment.getInstance(applicationContext, ProfileAdapter()))
                     toolbar.setTitle(R.string.profile)
                     true
                 }
@@ -81,19 +81,19 @@ class MainActivity : GeneralActivity("MainActivity") {
                 }
                 R.id.scheduleHistoryItem -> {
                     changeItemState(GONE)
-                    contentManager.switch(GeneralFragment.getInstance(applicationContext, ScheduleHistoryAdapter(), ""))
+                    contentManager.switch(GeneralFragment.getInstance(applicationContext, ScheduleHistoryAdapter()))
                     toolbar.setTitle(R.string.schedule_history)
                     true
                 }
                 R.id.requestScheduleItem -> {
                     changeItemState(GONE)
-                    contentManager.switch(GeneralFragment.getInstance(applicationContext, RequestScheduleAdapter(), ""))
+                    contentManager.switch(GeneralFragment.getInstance(applicationContext, RequestScheduleAdapter()))
                     toolbar.setTitle(R.string.request_schedule)
                     true
                 }
                 R.id.helpItem -> {
                     changeItemState(GONE)
-                    contentManager.switch(GeneralFragment.getInstance(applicationContext, HelpAdapter(), ""))
+                    contentManager.switch(GeneralFragment.getInstance(applicationContext, HelpAdapter()))
                     toolbar.setTitle(R.string.help)
                     true
                 }
