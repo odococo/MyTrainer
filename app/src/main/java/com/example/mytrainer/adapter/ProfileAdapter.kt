@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.mytrainer.R
+import com.example.mytrainer.database.locale.Query
 
 class ProfileAdapter: RecyclerView.Adapter<ProfileAdapter.Companion.ProfileViewHolder>() {
 
@@ -19,8 +20,11 @@ class ProfileAdapter: RecyclerView.Adapter<ProfileAdapter.Companion.ProfileViewH
     }
 
     override fun onBindViewHolder(holder: ProfileViewHolder, position: Int) {
-      // holder.surname.text = "Roshka"
-      // holder.name.text = "Anatoliy"
+        val userData = Query.getInstance().getUser()
+
+        holder.surname.text = userData.firstName
+        holder.name.text = userData.lastName
+        holder.type.text = userData.type
     }
 
     companion object {
@@ -30,6 +34,7 @@ class ProfileAdapter: RecyclerView.Adapter<ProfileAdapter.Companion.ProfileViewH
             //Elenco dei campi relativi ad ogni esercizio
             val surname: TextView = itemView.findViewById(R.id.profileSurname)
             val name: TextView = itemView.findViewById(R.id.profileName)
+            val type: TextView = itemView.findViewById(R.id.userType)
         }
     }
 }

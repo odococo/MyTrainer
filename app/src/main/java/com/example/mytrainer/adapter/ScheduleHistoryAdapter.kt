@@ -8,15 +8,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.mytrainer.R
 import com.example.mytrainer.component.TrainingSchedule
+import com.example.mytrainer.database.locale.Query
 
-class ScheduleHistoryAdapter: RecyclerView.Adapter<ScheduleHistoryAdapter.Companion.ScheduleHistoryViewHolder> {
+class ScheduleHistoryAdapter: RecyclerView.Adapter<ScheduleHistoryAdapter.Companion.ScheduleHistoryViewHolder>() {
 
-    private val schedules: List<TrainingSchedule>
+    private val schedules = Query.getInstance().getSchedules()
 
-    constructor(){
-        this.schedules = ArrayList<TrainingSchedule>()
-        schedules.add(TrainingSchedule())
-        schedules.add(TrainingSchedule())
+    init {
+        println(schedules)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleHistoryViewHolder {
@@ -29,16 +28,17 @@ class ScheduleHistoryAdapter: RecyclerView.Adapter<ScheduleHistoryAdapter.Compan
 
     override fun onBindViewHolder(holder: ScheduleHistoryViewHolder, position: Int) {
         holder.scheduleName.text = "Scheda "
-        holder.scheduleDescription.text = "Descrizione scheda "
+        holder.trainer.text = schedules[position].trainer.firstName
+        holder.startDate.text = schedules[position].startDate.toString()
     }
 
     companion object {
 
         class ScheduleHistoryViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-            val cardView: CardView = itemView.findViewById(R.id.scheduleHistoryCardView)
             val scheduleName: TextView = itemView.findViewById(R.id.scheduleName)
-            val scheduleDescription: TextView = itemView.findViewById(R.id.scheduleDescription)
+            val trainer: TextView = itemView.findViewById(R.id.trainer)
+            val startDate: TextView = itemView.findViewById(R.id.startDate)
 
         }
     }
