@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import com.example.mytrainer.adapter.*
 import com.example.mytrainer.component.TrainingSchedule
+import com.example.mytrainer.component.User
 import com.example.mytrainer.database.locale.Query as LocalDB
 import com.example.mytrainer.database.remote.Query as remoteDB
 import com.example.mytrainer.fragment.GeneralFragment
@@ -18,6 +19,8 @@ class MainActivity : GeneralActivity("MainActivity") {
     private val GONE = "GONE"
     private val VISIBLE = "VISIBLE"
     private val LAYOUT: Int = R.layout.activity_main
+
+
     private lateinit var contentManager: FragmentManager
     private lateinit var localDB: LocalDB
 

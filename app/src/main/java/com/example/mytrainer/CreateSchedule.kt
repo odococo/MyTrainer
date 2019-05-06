@@ -1,6 +1,5 @@
 package com.example.mytrainer
 
-import android.util.Log
 import com.example.mytrainer.component.TrainingExercise
 import com.example.mytrainer.component.TrainingSchedule
 import com.example.mytrainer.component.User
@@ -23,6 +22,7 @@ class CreateSchedule {
 
     private fun getAthlete(): User{
         val athlete = User()
+        athlete.id = "9pkFxvW0HlRuutwznmOL7jho5J52"
         athlete.firstName = "Anatoliy"
         athlete.lastName = "Roshka"
         athlete.type = "Athlete"

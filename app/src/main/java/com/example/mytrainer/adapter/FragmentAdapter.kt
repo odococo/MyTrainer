@@ -20,6 +20,7 @@ class FragmentAdapter(
     private var schedules: List<TrainingSchedule> = Query.getInstance().getSchedules()
 
     init {
+
         println("CURENT SCHEDULE: ${schedule}")
         println("ALL ASCHEDULES: ${schedules}")
 
