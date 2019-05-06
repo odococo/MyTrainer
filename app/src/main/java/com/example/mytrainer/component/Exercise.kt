@@ -1,6 +1,8 @@
 package com.example.mytrainer.component
 
 import android.util.Log
+import com.example.mytrainer.database.locale.SQLContract
+import com.example.mytrainer.database.remote.FirebaseContract
 
 // rimosso image ByteArray perche' firebase non lo supporta.
 open class Exercise(
@@ -17,17 +19,16 @@ open class Exercise(
     }
 
     override fun toMap(): Map<String, Any> = mutableMapOf(
-        "description" to description,
-        "types" to types
+        FirebaseContract.Exercises.DESCRIPTION to description,
+        FirebaseContract.Exercises.TYPES to types
     )
 
     override fun fromMap(map: Map<String, Any?>): Exercise {
         val exercise = Exercise()
         map.forEach { (key, value) ->
             when (key) {
-                "id" -> exercise.id = value as String
-                "description" -> exercise.description = value as String
-                "types" -> exercise.types = value as List<String>
+                SQLContract.Exercises.ID -> exercise.id = value as String
+                SQLContract.Exercises.DESCRIPTION -> exercise.description = value as String
                 else -> Log.w("Exercise", "$key: $value non appartiene a ${this.javaClass.simpleName}!")
             }
         }

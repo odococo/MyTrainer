@@ -39,10 +39,13 @@ class MainActivity : GeneralActivity("MainActivity") {
         initNavigationView()
         initPager()
 
+        //localDB.clearAndRestoreDB()
+
         //CreateSchedule().addSchedule()
+        println(localDB.getCurrentSchedule())
+        println(localDB.getSchedules())
 
         //Test().esercizi()
-        //localDB.clearAndRestoreDB()
         //println(localDB.getExercise("Shoulder press"))
         //println(localDB.getUser())
 

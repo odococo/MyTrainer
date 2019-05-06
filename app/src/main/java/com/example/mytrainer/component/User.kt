@@ -1,6 +1,8 @@
 package com.example.mytrainer.component
 
 import android.util.Log
+import com.example.mytrainer.database.locale.SQLContract
+import com.example.mytrainer.database.remote.FirebaseContract
 
 open class User(
     var firstName: String,
@@ -17,19 +19,19 @@ open class User(
     }
 
     override fun toMap(): MutableMap<String, Any> = mutableMapOf(
-        "firstName" to firstName,
-        "lastName" to lastName,
-        "type" to type
+        FirebaseContract.Users.FIRSTNAME to firstName,
+        FirebaseContract.Users.LASTNAME to lastName,
+        FirebaseContract.Users.TYPE to type
     )
 
     override fun fromMap(map: Map<String, Any?>): User {
         val user = User()
         map.forEach { (key, value) ->
             when (key) {
-                "id" -> user.id = value as String
-                "firstName" -> user.firstName = value as String
-                "lastName" -> user.lastName = value as String
-                "type" -> user.type = value as String
+                SQLContract.Users.ID -> user.id = value as String
+                SQLContract.Users.FIRSTNAME -> user.firstName = value as String
+                SQLContract.Users.LASTNAME -> user.lastName = value as String
+                SQLContract.Users.TYPE -> user.type = value as String
                 else -> Log.w("User", "$key: $value non appartiene a ${this.javaClass.simpleName}!")
             }
         }

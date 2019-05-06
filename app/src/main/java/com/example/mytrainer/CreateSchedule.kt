@@ -11,8 +11,8 @@ class CreateSchedule {
 
     fun addSchedule(){
         val trainingSchedule = TrainingSchedule(
-            getAthlete(),
             getTrainer(),
+            getAthlete(),
             Date(),
             getExercises()
         )
@@ -20,20 +20,14 @@ class CreateSchedule {
         firebase.addTrainingSchedule(trainingSchedule)
     }
 
-    private fun getAthlete(): User{
-        val athlete = User()
-        athlete.id = "9pkFxvW0HlRuutwznmOL7jho5J52"
-        athlete.firstName = "Anatoliy"
-        athlete.lastName = "Roshka"
-        athlete.type = "Athlete"
-
-        return athlete
+    private fun getAthlete(): User {
+        return local.getInstance().getUser()
     }
 
     private fun getTrainer(): User{
-        val trainer = User()
-        trainer.firstName = "Lamperti"
-        trainer.lastName = "Ivan"
+        val trainer = User().withId("rT0ynh5F8wNNOEGgjS77YVu13NM2")
+        trainer.firstName = "Ivan"
+        trainer.lastName = "Lamperti"
         trainer.type = "Trainer"
 
         return trainer

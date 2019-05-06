@@ -1,6 +1,9 @@
 package com.example.mytrainer.component
 
 import android.util.Log
+import com.example.mytrainer.database.locale.Query
+import com.example.mytrainer.database.locale.SQLContract
+import com.example.mytrainer.database.remote.FirebaseContract
 import java.util.*
 
 data class TrainingSchedule(
@@ -19,21 +22,21 @@ data class TrainingSchedule(
     }
 
     override fun toMap(): MutableMap<String, Any> = mutableMapOf(
-        "trainer" to trainer,
-        "athlete" to athlete,
-        "startDate" to startDate,
-        "exercises" to exercises
+        FirebaseContract.TrainingSchedules.TRAINER to trainer,
+        FirebaseContract.TrainingSchedules.ATHLETE to athlete,
+        FirebaseContract.TrainingSchedules.STARTDATE to startDate,
+        FirebaseContract.TrainingSchedules.EXERCISES to exercises
     )
 
     override fun fromMap(map: Map<String, Any?>): TrainingSchedule {
         val trainingSchedule = TrainingSchedule()
+        println("La mappa e' ${map}")
         map.forEach { (key, value) ->
             when (key) {
-                "id" -> trainingSchedule.id = value as String
-                "trainer" -> trainingSchedule.trainer = value as User
-                "athlete" -> trainingSchedule.athlete = value as User
-                "startDate" -> trainingSchedule.startDate = Date(value as Long)
-                "exercises" -> trainingSchedule.exercises = value as List<TrainingExercise>
+                SQLContract.TrainingSchedules.ID -> trainingSchedule.id = value as String
+                SQLContract.TrainingSchedules.TRAINER -> trainingSchedule.trainer = Query.getInstance().getUserById(value as String)
+                SQLContract.TrainingSchedules.ATHLETE -> trainingSchedule.athlete = Query.getInstance().getUserById(value as String)
+                SQLContract.TrainingSchedules.STARTDATE -> trainingSchedule.startDate = Date(value as Long)
                 else -> Log.w("TrainingSchedule", "$key: $value non appartiene a ${this.javaClass.simpleName}!")
             }
         }

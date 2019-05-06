@@ -1,18 +1,10 @@
-package com.example.mytrainer.database
+package com.example.mytrainer.database.locale
 
 import com.example.mytrainer.component.*
 
 object SQLContract {
     val DATABASE_NAME = "SQLiteDB"
     val DATABASE_VERSION = 1
-
-    fun getRemoteTableName(obj: Component) = when (obj) {
-        is TrainingExercise -> "trainingExercises"
-        is Exercise -> "exercises"
-        is TrainingSchedule -> "trainingSchedules"
-        is User -> "users"
-        else -> throw IllegalArgumentException("L'oggetto non ha una tabella correlata")
-    }
 
     object Users {
         const val NAME = "users"

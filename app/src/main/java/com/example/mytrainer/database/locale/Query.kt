@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.Log
 import com.example.mytrainer.auth.Auth
 import com.example.mytrainer.component.*
-import com.example.mytrainer.database.SQLContract
 import com.example.mytrainer.database.remote.Query as Remote
 import com.example.mytrainer.fragment.login.LoadingFragment
 import com.example.mytrainer.utils.SingletonHolder1
@@ -96,6 +95,7 @@ private constructor(private val context: Context) {
 
     fun getUserById(id: String): User {
         val map = db.selectOneByKey(SQLContract.Users.NAME, SQLContract.Users.ID, id)
+        println(map)
 
         return User().fromMap(map)
     }
@@ -110,6 +110,7 @@ private constructor(private val context: Context) {
         values.put(SQLContract.TrainingSchedules.ID, schedule.id)
         values.put(SQLContract.TrainingSchedules.TRAINER, schedule.trainer.id)
         values.put(SQLContract.TrainingSchedules.ATHLETE, schedule.athlete.id)
+        values.put(SQLContract.TrainingSchedules.STARTDATE, schedule.startDate.time)
         if (db.insert(SQLContract.TrainingSchedules.NAME, values)) {
             if (addTrainingExercises(schedule)) {
                 db.commit()
@@ -148,7 +149,8 @@ private constructor(private val context: Context) {
 
 
     fun getSchedule(id: String, day: Int = 0): TrainingSchedule {
-        val map = db.selectOneByKey(SQLContract.TrainingSchedules.NAME, SQLContract.TrainingSchedules.ID, id)
+        val map = db.selectOneByKey(SQLContract.TrainingSchedules.NAME, SQLContract.TrainingSchedules.ID, id) as MutableMap
+
         val schedule = TrainingSchedule().fromMap(map)
 
         val whereClause = "${SQLContract.TrainingExercises.SCHEDULE} = ? AND " + if (day == 0) "${SQLContract.TrainingExercises.DAY} <> ?" else "${SQLContract.TrainingExercises.DAY} = ?"
@@ -159,24 +161,28 @@ private constructor(private val context: Context) {
     }
 
     fun getCurrentSchedule(): TrainingSchedule {
-        val schedule = TrainingSchedule()
         val map = db.selectOneByKey(
             SQLContract.TrainingSchedules.NAME,
             SQLContract.TrainingSchedules.ATHLETE,
             Auth.getInstance().getId(),
             "${SQLContract.TrainingSchedules.STARTDATE} DESC"
         )
+        println(map)
+
         return getSchedule(map.getOrDefault(SQLContract.TrainingSchedules.ID, "") as String)
     }
 
     fun getSchedules(): List<TrainingSchedule> {
         val schedule = TrainingSchedule()
-        val schedules = db.selectByKey(
+        /*val schedules = db.selectByKey(
             SQLContract.TrainingSchedules.NAME,
             SQLContract.TrainingSchedules.ATHLETE,
             Auth.getInstance().getId(),
             "${SQLContract.TrainingSchedules.STARTDATE} DESC"
-        )
+        )*/
+        val schedules = db.select(SQLContract.TrainingSchedules.NAME)
+        println(schedules)
+
         return schedules.map { s -> getSchedule(s.getOrDefault(SQLContract.TrainingSchedules.ID, "") as String) }
     }
 

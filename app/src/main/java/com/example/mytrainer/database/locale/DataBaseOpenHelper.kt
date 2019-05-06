@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.mytrainer.component.*
-import com.example.mytrainer.database.SQLContract
 import com.example.mytrainer.utils.SingletonHolder1
 import java.util.*
 
@@ -244,9 +243,7 @@ private constructor(private val context: Context) :
             val value: Any? = when (cursor.getType(index)) {
                 Cursor.FIELD_TYPE_BLOB -> cursor.getBlob(index)
                 Cursor.FIELD_TYPE_FLOAT -> cursor.getDouble(index)
-                Cursor.FIELD_TYPE_INTEGER -> if (cursor.getLong(index) > Int.MAX_VALUE) cursor.getLong(index) else cursor.getInt(
-                    index
-                )
+                Cursor.FIELD_TYPE_INTEGER -> if (cursor.getLong(index) > Int.MAX_VALUE) cursor.getLong(index) else cursor.getInt(index)
                 Cursor.FIELD_TYPE_STRING -> cursor.getString(index)
                 else -> null
             }

@@ -1,6 +1,8 @@
 package com.example.mytrainer.component
 
 import android.util.Log
+import com.example.mytrainer.database.locale.SQLContract
+import com.example.mytrainer.database.remote.FirebaseContract
 
 data class TrainingExercise(
     var day: Int,
@@ -17,21 +19,24 @@ data class TrainingExercise(
         return this
     }
 
+    // TODO da rivedere perche' in remoto ho la mappa anche di exercise
     override fun toMap(): MutableMap<String, Any> = mutableMapOf(
-        "day" to day,
-        "series" to series,
-        "reps" to reps,
-        "recoveryTime" to recoveryTime
+        FirebaseContract.TrainingExercises.DAY to day,
+        FirebaseContract.TrainingExercises.SERIES to series,
+        FirebaseContract.TrainingExercises.REPS to reps,
+        FirebaseContract.TrainingExercises.RECOVERYTIME to recoveryTime
     )
 
     override fun fromMap(map: Map<String, Any?>): TrainingExercise {
         val trainingExercise = TrainingExercise()
         map.forEach { (key, value) ->
             when (key) {
-                "id" -> trainingExercise.id = value as String
-                "series" -> trainingExercise.series = value as Int
-                "reps" -> trainingExercise.reps = value as Int
-                "recoveryTime" -> trainingExercise.recoveryTime = value as Int
+                SQLContract.TrainingExercises.EXERCISE -> trainingExercise.id = value as String
+                SQLContract.TrainingExercises.DAY -> trainingExercise.day = value as Int
+                SQLContract.TrainingExercises.SERIES -> trainingExercise.series = value as Int
+                SQLContract.TrainingExercises.REPS -> trainingExercise.reps = value as Int
+                SQLContract.TrainingExercises.RECOVERYTIME -> trainingExercise.recoveryTime = value as Int
+                SQLContract.TrainingExercises.SCHEDULE -> ""
                 else -> Log.w("TrainingExercise", "$key: $value non appartiene a ${this.javaClass.simpleName}!")
             }
         }

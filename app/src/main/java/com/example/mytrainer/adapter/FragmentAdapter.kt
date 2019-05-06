@@ -17,7 +17,7 @@ class FragmentAdapter(
     private val pageTitles: MutableMap<Int, String> = HashMap()
 
     private var schedule: TrainingSchedule = Query.getInstance().getCurrentSchedule()
-    private var schedules: List<TrainingSchedule> = Query.getInstance().getSchedules()
+     private var schedules: List<TrainingSchedule> = Query.getInstance().getSchedules()
 
     init {
 
