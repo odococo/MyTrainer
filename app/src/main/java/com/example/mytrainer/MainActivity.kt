@@ -36,7 +36,7 @@ class MainActivity : GeneralActivity("MainActivity") {
         initNavigationView()
         initPager()
 
-        CreateSchedule().addSchedule()
+        //CreateSchedule().addSchedule()
 
         //Test().esercizi()
         //localDB.clearAndRestoreDB()
@@ -111,7 +111,7 @@ class MainActivity : GeneralActivity("MainActivity") {
     }
 
     private fun initPager() {
-        viewPager?.adapter = FragmentAdapter(applicationContext, supportFragmentManager)
+        viewPager?.adapter = FragmentAdapter(applicationContext, currentSchedule.exercises, supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
     }
 

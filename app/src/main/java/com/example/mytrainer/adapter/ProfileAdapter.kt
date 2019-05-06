@@ -7,9 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.mytrainer.R
+import com.example.mytrainer.component.User
 import com.example.mytrainer.database.locale.Query
 
-class ProfileAdapter: RecyclerView.Adapter<ProfileAdapter.Companion.ProfileViewHolder>() {
+class ProfileAdapter(): RecyclerView.Adapter<ProfileAdapter.Companion.ProfileViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileViewHolder {
         return ProfileViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_profile, parent, false))
@@ -21,7 +22,6 @@ class ProfileAdapter: RecyclerView.Adapter<ProfileAdapter.Companion.ProfileViewH
 
     override fun onBindViewHolder(holder: ProfileViewHolder, position: Int) {
         val userData = Query.getInstance().getUser()
-
         holder.surname.text = userData.firstName
         holder.name.text = userData.lastName
         holder.type.text = userData.type
