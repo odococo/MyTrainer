@@ -111,7 +111,7 @@ class MainActivity : GeneralActivity("MainActivity") {
     }
 
     private fun initPager() {
-        viewPager?.adapter = FragmentAdapter(applicationContext, currentSchedule.exercises, supportFragmentManager)
+        viewPager?.adapter = FragmentAdapter(applicationContext, supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
     }
 

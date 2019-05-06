@@ -19,7 +19,6 @@ class CreateSchedule {
         )
 
         firebase.addTrainingSchedule(trainingSchedule)
-        local.getInstance().addTrainingSchedule(trainingSchedule)
     }
 
     private fun getAthlete(): User{
@@ -79,7 +78,7 @@ class CreateSchedule {
         val exercise6 = TrainingExercise()
         exercise1.types = listOf("Chest Press")
         exercise1.day = 3
-        exercise1.series = 3
+        exercise1.series = 30
         exercise1.reps = 10
         exercise1.recoveryTime = 90
 

@@ -57,5 +57,16 @@ qwIDAQAB
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+    <!-- Profile fieds -->
+    <string name="profileFieldSurname">Surname:</string>
+    <string name="profileFieldName">Name:</string>
+    <string name="profileFieldUserType">User type:</string>
+
+    <!--Schedule History Fields -->
+    <string name="scheduleHistoryFieldStartDate">Start Date:</string>
+    <string name="scheduleHistoryFieldTrainer">Trainer:</string>
+    <string name="scheduleHistoryFieldScheduleName">Schedule name:</string>
+    <string name="send_request_new_schedule">Send Request New Schedule</string>
+
 
 </resources>

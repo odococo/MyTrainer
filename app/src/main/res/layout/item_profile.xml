@@ -26,10 +26,11 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="Surname: " />
+                    android:text="@string/profileFieldSurname" />
 
                 <TextView
                     android:id="@+id/profileSurname"
@@ -43,10 +44,11 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="Name: " />
+                    android:text="@string/profileFieldName" />
 
                 <TextView
                     android:id="@+id/profileName"
@@ -60,10 +62,11 @@
                 android:layout_height="wrap_content">
 
                 <TextView
+                    android:gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:text="User type: " />
+                    android:text="@string/profileFieldUserType" />
 
                 <TextView
                     android:id="@+id/userType"
