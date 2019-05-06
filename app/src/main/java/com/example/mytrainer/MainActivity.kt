@@ -1,12 +1,12 @@
 package com.example.mytrainer
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import com.example.mytrainer.utils.FragmentManager
 import android.support.v7.app.ActionBarDrawerToggle
 import android.util.Log
 import android.view.View
 import com.example.mytrainer.adapter.*
+import com.example.mytrainer.component.TrainingSchedule
 import com.example.mytrainer.database.locale.Query as LocalDB
 import com.example.mytrainer.database.remote.Query as remoteDB
 import com.example.mytrainer.fragment.GeneralFragment
@@ -21,20 +21,22 @@ class MainActivity : GeneralActivity("MainActivity") {
     private lateinit var contentManager: FragmentManager
     private lateinit var localDB: LocalDB
 
-    private var fragments: MutableMap<Int, Fragment> = HashMap()
-
+    private lateinit var currentSchedule: TrainingSchedule
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppDefaul)
         super.onCreate(savedInstanceState)
 
         localDB = LocalDB.getInstance(this)
+        currentSchedule = localDB.getCurrentSchedule()
         contentManager = FragmentManager(this, R.id.content_layout, HomeFragment())
 
         setContentView(LAYOUT)
         initToolbar()
         initNavigationView()
         initPager()
+
+        CreateSchedule().addSchedule()
 
         //Test().esercizi()
         //localDB.clearAndRestoreDB()
@@ -109,7 +111,7 @@ class MainActivity : GeneralActivity("MainActivity") {
     }
 
     private fun initPager() {
-        viewPager?.adapter = FragmentAdapter(applicationContext, supportFragmentManager)
+        viewPager?.adapter = FragmentAdapter(applicationContext, currentSchedule.exercises, supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
     }
 
