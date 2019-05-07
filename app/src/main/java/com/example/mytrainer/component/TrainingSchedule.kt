@@ -30,7 +30,6 @@ data class TrainingSchedule(
 
     override fun fromMap(map: Map<String, Any?>): TrainingSchedule {
         val trainingSchedule = TrainingSchedule()
-        println("La mappa e' ${map}")
         map.forEach { (key, value) ->
             when (key) {
                 SQLContract.TrainingSchedules.ID -> trainingSchedule.id = value as String
@@ -51,5 +50,15 @@ data class TrainingSchedule(
 
     fun getDay(day: Int): List<TrainingExercise> {
         return exercises.filter { exercise -> exercise.day == day }
+    }
+
+    fun perDay(): Map<Int, List<TrainingExercise>> {
+        val days = mutableMapOf<Int, MutableList<TrainingExercise>>()
+        for (exercise in exercises) {
+            days.putIfAbsent(exercise.day, mutableListOf())
+            days.get(exercise.day)?.add(exercise)
+        }
+
+        return days
     }
 }

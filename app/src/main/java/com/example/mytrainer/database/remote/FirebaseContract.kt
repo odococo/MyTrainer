@@ -1,19 +1,10 @@
 package com.example.mytrainer.database.remote
 
-import com.example.mytrainer.component.*
-
 object FirebaseContract {
-
-    fun getTableName(obj: Component) = when (obj) {
-        is TrainingExercise -> TrainingExercises.NAME
-        is Exercise -> Exercises.NAME
-        is TrainingSchedule -> TrainingSchedules.NAME
-        is User -> Users.NAME
-        else -> throw IllegalArgumentException("L'oggetto non ha una tabella correlata")
-    }
 
     object TrainingExercises {
         const val NAME = "trainingExercises"
+        const val EXERCISE = "id"
         const val DAY = "day"
         const val SERIES = "series"
         const val REPS = "reps"
@@ -22,12 +13,14 @@ object FirebaseContract {
 
     object Exercises {
         const val NAME = "exercises"
+        const val ID = "id"
         const val DESCRIPTION = "description"
         const val TYPES = "types"
     }
 
     object TrainingSchedules {
         const val NAME = "trainingSchedules"
+        const val ID = "id"
         const val TRAINER = "trainer"
         const val ATHLETE = "athlete"
         const val STARTDATE = "startDate"
@@ -36,6 +29,7 @@ object FirebaseContract {
 
     object Users {
         const val NAME = "users"
+        const val ID = "id"
         const val FIRSTNAME = "firstName"
         const val LASTNAME = "lastName"
         const val TYPE = "type"

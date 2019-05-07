@@ -4,37 +4,58 @@ import android.util.Log
 import com.example.mytrainer.component.Exercise
 import com.example.mytrainer.component.TrainingSchedule
 import com.example.mytrainer.component.User
-import com.example.mytrainer.database.locale.SQLContract
-import com.example.mytrainer.database.locale.Query as Locale
 
 object Query {
     private val TAG = "QueryFirestore"
 
     fun addUser(user: User) {
-        Firestore.create(FirebaseContract.getTableName(user), user) { ok, info ->
+        Firestore.create(FirebaseContract.Users.NAME, user) { ok, info ->
             if (ok) Log.d(TAG, "Utente $info aggiunto con successo")
             else Log.w(TAG, "Utente $user non aggiunto con successo")
         }
     }
 
     fun addExercise(exercise: Exercise) {
-        Firestore.create(FirebaseContract.getTableName(exercise), exercise) { ok, info ->
+        Firestore.create(FirebaseContract.Exercises.NAME, exercise) { ok, info ->
             if (ok) Log.d(TAG, "Aggiunto esercizio: ${exercise.id}")
             else Log.w(TAG, "Errore aggiunta esercizio ${exercise.id}: $info")
         }
     }
 
-    fun getAllExercises(callback: (List<Exercise>) -> Unit) {
-        return Firestore.getAll(FirebaseContract.getTableName(Exercise()), callback)
-    }
-
-    fun addTrainingSchedule(schedule: TrainingSchedule) {
-        Firestore.create(FirebaseContract.getTableName(schedule), schedule) { ok, info ->
+    fun addTrainingSchedule(schedule: TrainingSchedule, callback: (TrainingSchedule) -> Unit) {
+        Firestore.create(FirebaseContract.TrainingSchedules.NAME, schedule) { ok, info ->
             if (ok) {
                 Log.d(TAG, "Aggiunta scheda: ${(info as TrainingSchedule).id}")
-                Locale.getInstance().addTrainingSchedule(info)
-            }
-            else Log.w(TAG, "Errore aggiunta scheda ${schedule}: $info")
+                callback(info)
+            } else Log.w(TAG, "Errore aggiunta scheda $schedule: $info")
         }
+    }
+
+    fun getAllExercises(callback: (List<Exercise>) -> Unit) {
+        Firestore.getAll(FirebaseContract.Exercises.NAME, callback)
+    }
+
+    fun getAllSchedules(user: User, callback: (List<TrainingSchedule>) -> Unit) {
+        getAllAthleteSchedules(user) { athletes ->
+            getAllTrainerSchedules(user) { trainers ->
+                callback(athletes + trainers)
+            }
+        }
+    }
+
+    private fun getAllAthleteSchedules(user: User, callback: (List<TrainingSchedule>) -> Unit) {
+        Firestore.find(
+            FirebaseContract.TrainingSchedules.NAME,
+            "${FirebaseContract.TrainingSchedules.ATHLETE}.${FirebaseContract.Users.ID}", user.id,
+            callback
+        )
+    }
+
+    private fun getAllTrainerSchedules(user: User, callback: (List<TrainingSchedule>) -> Unit) {
+        Firestore.find(
+            FirebaseContract.TrainingSchedules.NAME,
+            "${FirebaseContract.TrainingSchedules.TRAINER}.${FirebaseContract.Users.ID}", user.id,
+            callback
+        )
     }
 }

@@ -77,7 +77,9 @@ object Firestore {
             .whereEqualTo(field, value)
             .get()
             .addOnSuccessListener { document ->
-                val list = document.documents.map { dc -> dc.toObject(T::class.java) as T }
+                val list = document.documents.map { dc ->
+                    (dc.toObject(T::class.java) as T).withId(dc.id) as T
+                }
                 callback(list)
             }
             .addOnFailureListener { exception ->

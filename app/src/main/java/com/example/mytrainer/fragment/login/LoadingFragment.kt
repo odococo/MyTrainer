@@ -20,10 +20,18 @@ class LoadingFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_loading, container, false)
     }
+    private val steps = 2
 
     fun init() {
         info.text = getString(R.string.init_db)
         Query.getInstance(context).init(this)
+    }
+
+    fun step(n: Int) {
+        info.text = String.format(getString(R.string.fase_db, n, steps))
+        if (n > steps) {
+            joke()
+        }
     }
 
     fun joke() {
@@ -32,7 +40,7 @@ class LoadingFragment : Fragment() {
             {
                 (context as GeneralActivity).auth.toHome()
             },
-            5000
+            3000
         )
     }
 }

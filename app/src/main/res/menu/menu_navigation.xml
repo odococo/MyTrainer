@@ -41,4 +41,9 @@
         android:title="@string/logout"
         android:icon="@drawable/exit_to_app" />
 
+    <item
+        android:id="@+id/clean"
+        android:orderInCategory="7"
+        android:title="@string/clean" />
+
 </menu>

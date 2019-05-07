@@ -17,18 +17,23 @@ private constructor(private val context: Context) {
     companion object : SingletonHolder1<Query, Context>(::Query)
 
     fun init(loading: LoadingFragment) {
+        loading.step(1)
         if (db.isEmpty("exercises")) {
-            Remote.getAllExercises {  exercises ->
+            Remote.getAllExercises { exercises ->
                 exercises.forEach { exercise ->
                     addExercise(exercise)
                 }
-                Log.d(TAG, "Aggiunti ${exercises.size} esercizi!")
-                // TODO getAll athlete for instructor
-                // TODO getAll schedule for both
-                loading.joke()
             }
+            loading.step(2)
         } else {
-            loading.joke()
+            loading.step(2)
+        }
+        Remote.getAllSchedules(getUser()) { schedules ->
+            schedules.forEach { schedule ->
+                println("init ${schedule.id}")
+                addTrainingSchedule(schedule)
+            }
+            loading.step(3)
         }
     }
 
@@ -95,12 +100,10 @@ private constructor(private val context: Context) {
 
     fun getUserById(id: String): User {
         val map = db.selectOneByKey(SQLContract.Users.NAME, SQLContract.Users.ID, id)
-        println(map)
 
         return User().fromMap(map)
     }
 
-    // TODO athlete teoricamente e' l'utente stesso. Non necessario. Per i test si'
     fun addTrainingSchedule(schedule: TrainingSchedule): Boolean {
         db.beginTransaction()
         addUser(schedule.athlete)
@@ -111,7 +114,7 @@ private constructor(private val context: Context) {
         values.put(SQLContract.TrainingSchedules.TRAINER, schedule.trainer.id)
         values.put(SQLContract.TrainingSchedules.ATHLETE, schedule.athlete.id)
         values.put(SQLContract.TrainingSchedules.STARTDATE, schedule.startDate.time)
-        if (db.insert(SQLContract.TrainingSchedules.NAME, values)) {
+        if (db.insert(SQLContract.TrainingSchedules.NAME, values, true)) {
             if (addTrainingExercises(schedule)) {
                 db.commit()
 
@@ -149,12 +152,15 @@ private constructor(private val context: Context) {
 
 
     fun getSchedule(id: String, day: Int = 0): TrainingSchedule {
-        val map = db.selectOneByKey(SQLContract.TrainingSchedules.NAME, SQLContract.TrainingSchedules.ID, id) as MutableMap
+        val map =
+            db.selectOneByKey(SQLContract.TrainingSchedules.NAME, SQLContract.TrainingSchedules.ID, id) as MutableMap
 
         val schedule = TrainingSchedule().fromMap(map)
 
-        val whereClause = "${SQLContract.TrainingExercises.SCHEDULE} = ? AND " + if (day == 0) "${SQLContract.TrainingExercises.DAY} <> ?" else "${SQLContract.TrainingExercises.DAY} = ?"
-        val exercises = db.select(SQLContract.TrainingExercises.NAME, whereClause = whereClause, whereValues = arrayOf(id, "$day"))
+        val whereClause =
+            "${SQLContract.TrainingExercises.SCHEDULE} = ? AND " + if (day == 0) "${SQLContract.TrainingExercises.DAY} <> ?" else "${SQLContract.TrainingExercises.DAY} = ?"
+        val exercises =
+            db.select(SQLContract.TrainingExercises.NAME, whereClause = whereClause, whereValues = arrayOf(id, "$day"))
         schedule.exercises = exercises.map { ex -> TrainingExercise().fromMap(ex) }
 
         return schedule
@@ -167,21 +173,17 @@ private constructor(private val context: Context) {
             Auth.getInstance().getId(),
             "${SQLContract.TrainingSchedules.STARTDATE} DESC"
         )
-        println(map)
 
         return getSchedule(map.getOrDefault(SQLContract.TrainingSchedules.ID, "") as String)
     }
 
     fun getSchedules(): List<TrainingSchedule> {
-        val schedule = TrainingSchedule()
-        /*val schedules = db.selectByKey(
+        val schedules = db.selectByKey(
             SQLContract.TrainingSchedules.NAME,
             SQLContract.TrainingSchedules.ATHLETE,
             Auth.getInstance().getId(),
             "${SQLContract.TrainingSchedules.STARTDATE} DESC"
-        )*/
-        val schedules = db.select(SQLContract.TrainingSchedules.NAME)
-        println(schedules)
+        )
 
         return schedules.map { s -> getSchedule(s.getOrDefault(SQLContract.TrainingSchedules.ID, "") as String) }
     }

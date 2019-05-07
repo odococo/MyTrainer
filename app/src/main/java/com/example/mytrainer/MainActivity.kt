@@ -39,6 +39,8 @@ class MainActivity : GeneralActivity("MainActivity") {
         initNavigationView()
         initPager()
 
+        println(auth.getId())
+
         //localDB.clearAndRestoreDB()
 
         //CreateSchedule().addSchedule()
@@ -108,6 +110,11 @@ class MainActivity : GeneralActivity("MainActivity") {
                     true
                 }
 
+                R.id.clean -> {
+                    localDB.clearAndRestoreDB()
+                    true
+                }
+
                 else -> true
             }
 
@@ -115,7 +122,7 @@ class MainActivity : GeneralActivity("MainActivity") {
     }
 
     private fun initPager() {
-        viewPager?.adapter = FragmentAdapter(applicationContext, currentSchedule.exercises, supportFragmentManager)
+        viewPager?.adapter = FragmentAdapter(applicationContext, currentSchedule, supportFragmentManager)
         tabLayout.setupWithViewPager(viewPager)
     }
 

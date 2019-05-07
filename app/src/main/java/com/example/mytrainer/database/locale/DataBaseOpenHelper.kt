@@ -102,6 +102,7 @@ private constructor(private val context: Context) :
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         select("sqlite_master", arrayOf("name"), "name NOT LIKE ?", arrayOf("sqlite%"), limit = -1).forEach { entry ->
+            println(entry["name"])
             exec("DROP TABLE ${entry["name"]}")
         }
         onCreate(db)

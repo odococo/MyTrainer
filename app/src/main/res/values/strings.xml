@@ -23,6 +23,7 @@
     <string name="request_schedule">Request Schedule</string>
     <string name="help">Help</string>
     <string name="logout">Logout</string>
+    <string name="clean">Clean</string>
 
     <!--Sono due stati del navigation view: open and close -->
     <string name="view_navigation_open">Open</string>
@@ -52,6 +53,7 @@ qwIDAQAB
 
     <string name="check_login">Verificando le credenziali…</string>
     <string name="init_db">Inizializzando il database…</string>
+    <string name="fase_db">Fase %d su %d in corso…</string>
     <string name="joke">Vendendo i tuoi dati personali all\'Ucraina…</string>
 
     <!-- TODO: Remove or change this placeholder text -->
