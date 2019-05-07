@@ -25,6 +25,7 @@ class FragmentAdapter(
                 numeroGiorni = i.day
         }
 
+
         //Verifico per ogni esercizio al quale giorno appartiene.
         //Titti gli esercizi di un determinato giorni vengono messi nell'Array.
         //Array poi viene messo in HashMap in cui ogni posizione corrisponde ad un giorno, ed ogni giorno ha n eserizi.
