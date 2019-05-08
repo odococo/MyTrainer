@@ -8,10 +8,18 @@ import com.example.mytrainer.component.User
 object Query {
     private val TAG = "QueryFirestore"
 
-    fun addUser(user: User) {
-        Firestore.create(FirebaseContract.Users.NAME, user) { ok, info ->
-            if (ok) Log.d(TAG, "Utente $info aggiunto con successo")
-            else Log.w(TAG, "Utente $user non aggiunto con successo")
+    fun addUser(user: User, callback: (User) -> Unit) {
+        Firestore.get<User>(FirebaseContract.Users.NAME, user.id) { u ->
+            if (u.id.isEmpty()) {
+                Firestore.create(FirebaseContract.Users.NAME, user) { ok, info ->
+                    if (ok) {
+                        Log.d(TAG, "Utente ${(info as User).id} aggiunto con successo")
+                        callback(info)
+                    } else Log.w(TAG, "Utente $user non aggiunto con successo")
+                }
+            } else {
+                callback(u)
+            }
         }
     }
 

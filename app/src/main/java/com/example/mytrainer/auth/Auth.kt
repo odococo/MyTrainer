@@ -2,18 +2,13 @@ package com.example.mytrainer.auth
 
 import android.content.Context
 import android.content.Intent
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
-import com.example.mytrainer.EmptyActivity
 import com.example.mytrainer.GeneralActivity
 import com.example.mytrainer.LoginActivity
 import com.example.mytrainer.MainActivity
 import com.example.mytrainer.component.User
 import com.example.mytrainer.utils.SingletonHolder1
-import com.example.mytrainer.utils.SingletonHolder2
 import com.facebook.login.LoginManager
-import com.google.android.gms.common.SignInButton
 import com.google.firebase.auth.FirebaseAuth
 import com.example.mytrainer.database.locale.Query as localDB
 import com.example.mytrainer.database.remote.Query as remoteDB
@@ -33,8 +28,9 @@ open class Auth(
 
     fun logged(user: User) {
         this.user = user
-        remoteDB.addUser(user)
-        localDB.getInstance(context).addUser(user)
+        remoteDB.addUser(user) { u ->
+            localDB.getInstance().addUser(u)
+        }
         Log.d(TAG, "Aggiunto utente $user")
         successfulLogin()
     }

@@ -4,10 +4,13 @@ import android.content.ContentValues
 import android.content.Context
 import android.util.Log
 import com.example.mytrainer.auth.Auth
-import com.example.mytrainer.component.*
-import com.example.mytrainer.database.remote.Query as Remote
+import com.example.mytrainer.component.Exercise
+import com.example.mytrainer.component.TrainingExercise
+import com.example.mytrainer.component.TrainingSchedule
+import com.example.mytrainer.component.User
 import com.example.mytrainer.fragment.login.LoadingFragment
 import com.example.mytrainer.utils.SingletonHolder1
+import com.example.mytrainer.database.remote.Query as Remote
 
 class Query
 private constructor(val context: Context) {
@@ -30,7 +33,6 @@ private constructor(val context: Context) {
         }
         Remote.getAllSchedules(getUser()) { schedules ->
             schedules.forEach { schedule ->
-                println("init ${schedule.id}")
                 addTrainingSchedule(schedule)
             }
             loading.step(3)
