@@ -10,7 +10,7 @@ import com.example.mytrainer.fragment.login.LoadingFragment
 import com.example.mytrainer.utils.SingletonHolder1
 
 class Query
-private constructor(private val context: Context) {
+private constructor(val context: Context) {
     private val TAG = "QuerySQLite"
     private val db: DataBaseOpenHelper = DataBaseOpenHelper.getInstance(context)
 

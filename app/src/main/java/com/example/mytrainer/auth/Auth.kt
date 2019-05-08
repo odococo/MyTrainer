@@ -2,6 +2,7 @@ package com.example.mytrainer.auth
 
 import android.content.Context
 import android.content.Intent
+import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import com.example.mytrainer.EmptyActivity
@@ -23,7 +24,8 @@ open class Auth(
 ) {
     private val TAG: String = "Auth"
     private var user: User = User()
-    private lateinit var successfulLogin: (() -> Unit)
+    private lateinit var successfulLogin: () -> Unit
+    private lateinit var failedLogin: () -> Unit
 
     protected val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
 
@@ -37,6 +39,10 @@ open class Auth(
         successfulLogin()
     }
 
+    fun failed() {
+        Log.d(TAG, "Login fallito!")
+        failedLogin()
+    }
 
     open fun handleResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
@@ -54,8 +60,12 @@ open class Auth(
         return localDB.getInstance(context).getUser()
     }
 
-    fun setSuccessfulLogin(callback: (() -> Unit)) {
+    fun setSuccessfulLogin(callback: () -> Unit) {
         successfulLogin = callback
+    }
+
+    fun setFailedLogin(callback: () -> Unit) {
+        failedLogin = callback
     }
 
     fun logout() {

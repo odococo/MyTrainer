@@ -33,10 +33,12 @@ private constructor(
 
             override fun onCancel() {
                 Log.d(TAG, "Facebook cancel")
+                failed()
             }
 
             override fun onError(error: FacebookException?) {
                 Log.w(TAG, "Facebook error", error)
+                failed()
             }
         })
     }
@@ -61,6 +63,7 @@ private constructor(
                     // If sign in fails, display a message to the user.
                     Log.e(TAG, "Error facebook login!", task.exception)
                     Toast.makeText(context, "Facebook sign in failer:(", Toast.LENGTH_SHORT).show()
+                    failed()
                 }
             }
     }

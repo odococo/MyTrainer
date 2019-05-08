@@ -61,6 +61,7 @@ private constructor(
         } else {
             Log.e(TAG, "Error google login!")
             Toast.makeText(context, "Google select account failed:(", Toast.LENGTH_LONG).show()
+            failed()
         }
 
     }
@@ -78,6 +79,7 @@ private constructor(
             } else {
                 Log.e(TAG, "Error google sign in!", task.exception)
                 Toast.makeText(context, "Google sign in failed:(", Toast.LENGTH_LONG).show()
+                failed()
             }
         }
     }

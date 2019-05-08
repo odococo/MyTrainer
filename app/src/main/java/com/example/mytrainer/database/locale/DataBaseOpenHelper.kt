@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
-import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.example.mytrainer.component.*
@@ -16,24 +15,27 @@ class DataBaseOpenHelper
 private constructor(private val context: Context) :
     SQLiteOpenHelper(context, SQLContract.DATABASE_NAME, null, SQLContract.DATABASE_VERSION) {
 
-    private val TAG: String = "DataBaseOpenHelper"
+    private val TAG: String = "DataBaseopenDBHelper"
     private lateinit var db: SQLiteDatabase
 
     companion object : SingletonHolder1<DataBaseOpenHelper, Context>(::DataBaseOpenHelper)
 
     init {
-        Log.d(TAG, "Init DataBaseOpenHelper")
-        open()
-        if (isEmpty("users")) {
-            onUpgrade(db, 0, SQLContract.DATABASE_VERSION) // non lo chiama in automatico
-        } else {
-            onCreate(db)
-        }
+        Log.d(TAG, "Init DataBaseopenDBHelper")
+        openDB() // forzo chiamata onCreate
     }
 
 
     override fun onCreate(db: SQLiteDatabase?) {
-        // per alcune tabelle vengono create insieme piu' tabelle ma execSQL ne esegue una sola alla volta, fino a ;
+        this.db = db!!
+        if (isEmpty("users")) {
+            onUpgrade(db, 0, SQLContract.DATABASE_VERSION)
+        }
+        create()
+        Log.d(TAG, "onCreate new DataBase")
+    }
+
+    private fun create() {
         val tables = mutableListOf<String>()
         tables.add(
             objToTable(
@@ -97,7 +99,6 @@ private constructor(private val context: Context) :
                     }
                 }
             }
-        Log.d(TAG, "onCreate new DataBase")
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
@@ -105,12 +106,17 @@ private constructor(private val context: Context) :
             println(entry["name"])
             exec("DROP TABLE ${entry["name"]}")
         }
-        onCreate(db)
         Log.d(TAG, "onUpgrade DataBase version from $oldVersion to $newVersion version!")
     }
 
-    private fun open() {
+    fun openDB() {
+        Log.d(TAG, "Apro database")
         db = writableDatabase
+    }
+
+    fun closeDB() {
+        Log.d(TAG, "Chiudo database")
+        close()
     }
 
     private fun objToTable(
@@ -160,12 +166,16 @@ private constructor(private val context: Context) :
     }
 
     fun isEmpty(table: String): Boolean {
-        return try {
-            selectOne(table, arrayOf("COUNT(*) AS rows"))["rows"] as Int == 0
-        } catch (e: SQLiteException) {
-            // se entra qua probabilmente la tabella non esiste
-            Log.w(TAG, "Database vuoto")
+        return if (selectOne("sqlite_master", arrayOf("name"), "name = ?", arrayOf(table)).isEmpty()) {
+            Log.d(TAG, "Database non ha la tabella $table")
             true
+        } else {
+            if (selectOne(table, arrayOf("COUNT(*) as rows"))["rows"] == 0) {
+                Log.d(TAG, "Tabella $table vuota")
+                true
+            } else {
+                false
+            }
         }
     }
 
@@ -217,7 +227,7 @@ private constructor(private val context: Context) :
 
     fun selectOne(
         table: String, columns: Array<String> = emptyArray(),
-        whereClause: String = "1 = 1", whereValues: Array<String> = emptyArray()
+        whereClause: String = "", whereValues: Array<String> = emptyArray()
     ): Map<String, Any?> {
         return select(table, columns, whereClause, whereValues, limit = 1).getOrElse(0) { mutableMapOf() }
     }

@@ -9,14 +9,15 @@ import android.util.Log
 class FragmentManager(
     val context: Context,
     private val container: Int,
-    firstFragment: Fragment
+    firstFragment: Fragment,
+    args: Map<String, Any> = emptyMap()
 ) {
     private val TAG = "FragmentManager"
     private val manager = (context as AppCompatActivity).supportFragmentManager
     var currentFragment: Fragment = firstFragment
 
     init {
-        switch(firstFragment)
+        switch(firstFragment, args)
     }
 
     fun switch(
@@ -41,6 +42,7 @@ class FragmentManager(
                         is String -> putString(key, value)
                         is Int -> putInt(key, value)
                         is Float -> putFloat(key, value)
+                        is Boolean -> putBoolean(key, value)
                         else -> Log.e(TAG, "Tipo di $value non valido! --> ${value.javaClass}")
                     }
                 }

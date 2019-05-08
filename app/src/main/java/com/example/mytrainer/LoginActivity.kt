@@ -3,6 +3,7 @@ package com.example.mytrainer
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import com.example.mytrainer.auth.Auth
 import com.example.mytrainer.auth.Codes
 import com.example.mytrainer.auth.Facebook
 import com.example.mytrainer.auth.Google
@@ -16,7 +17,11 @@ class LoginActivity : GeneralActivity("LoginActivity") {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        manager = FragmentManager(this, R.id.root_layout, LoginFragment())
+        if (auth.isLogged()) {
+            manager = FragmentManager(this, R.id.root_layout, LoadingFragment(), mapOf("force" to true))
+        } else {
+            manager = FragmentManager(this, R.id.root_layout, LoginFragment())
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -25,16 +30,22 @@ class LoginActivity : GeneralActivity("LoginActivity") {
         val loading = LoadingFragment()
         manager.switch(loading)
 
-        when (Codes.fromInt(requestCode)) {
+        val auth: Auth? = when (Codes.fromInt(requestCode)) {
             Codes.GOOGLE_SIGN_IN -> {
-                Google.getInstance().setSuccessfulLogin { loading.init() }
-                Google.getInstance().handleResult(requestCode, resultCode, data)
+                Google.getInstance()
             }
             Codes.FACEBOOK_SIGN_IN -> {
-                Facebook.getInstance().setSuccessfulLogin { loading.init() }
-                Facebook.getInstance().handleResult(requestCode, resultCode, data)
+                Facebook.getInstance()
             }
-            else -> Log.w(TAG, "Code $requestCode is not valid")
+            else -> {
+                Log.w(TAG, "Code $requestCode is not valid")
+                null
+            }
+        }
+        if (auth != null) {
+            auth.setSuccessfulLogin { loading.init() }
+            auth.setFailedLogin { manager.switch(LoginFragment()) }
+            auth.handleResult(requestCode, resultCode, data)
         }
     }
 
