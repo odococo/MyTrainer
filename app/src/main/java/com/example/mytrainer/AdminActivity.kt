@@ -15,6 +15,7 @@ class AdminActivity : GeneralActivity("Admin") {
     private lateinit var manager: FragmentManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setTheme(R.style.AppDefaul) //Mancava questa riga per i colori
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
 
