@@ -7,9 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mytrainer.GeneralActivity
-
 import com.example.mytrainer.R
-import com.example.mytrainer.database.locale.DataBaseOpenHelper
+import com.example.mytrainer.auth.Auth
 import com.example.mytrainer.database.locale.Query
 import kotlinx.android.synthetic.main.fragment_loading.*
 
@@ -21,20 +20,21 @@ class LoadingFragment : Fragment() {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_loading, container, false)
     }
-    private var force: Boolean = false
+
+    private var logged: Boolean = false
     private val steps = 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            force = it.getBoolean("force", false)
+            logged = it.getBoolean("logged", false)
         }
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (force) {
-            init()
+        if (logged) {
+            Auth.getInstance().logged()
         }
     }
 

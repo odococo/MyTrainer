@@ -25,6 +25,16 @@ class UsersFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         list.adapter = UsersAdapter(users, context)
+
+        list.setOnItemClickListener { parent, view, position, id ->
+            println("item clicked $id ${users[position]}")
+
+        }
+
+        list.setOnItemLongClickListener { parent, view, position, id ->
+            println("item long clicked $id ${users[position]}")
+            true
+        }
     }
 
 }

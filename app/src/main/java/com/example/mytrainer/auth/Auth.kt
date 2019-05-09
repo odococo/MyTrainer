@@ -26,7 +26,7 @@ open class Auth(
 
     companion object : SingletonHolder1<Auth, Context>(::Auth)
 
-    fun logged(user: User) {
+    fun logged(user: User = getUser()) {
         remoteDB.addUser(user) { u ->
             localDB.getInstance().addUser(u)
             this.user = u
