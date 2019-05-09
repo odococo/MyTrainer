@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.example.mytrainer.Codes
 import com.example.mytrainer.MainActivity
 import org.telegram.passport.PassportScope
 import org.telegram.passport.PassportScopeElementOneOfSeveral

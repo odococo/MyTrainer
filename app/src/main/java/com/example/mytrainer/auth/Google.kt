@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.example.mytrainer.Codes
 import com.example.mytrainer.R
 import com.example.mytrainer.component.User
 import com.example.mytrainer.utils.SingletonHolder2

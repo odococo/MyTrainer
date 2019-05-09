@@ -1,18 +1,17 @@
 package com.example.mytrainer
 
 import android.os.Bundle
-import com.example.mytrainer.utils.FragmentManager
 import android.support.v7.app.ActionBarDrawerToggle
 import android.util.Log
 import android.view.View
 import com.example.mytrainer.adapter.*
 import com.example.mytrainer.component.TrainingSchedule
-import com.example.mytrainer.component.User
-import com.example.mytrainer.database.locale.Query as LocalDB
-import com.example.mytrainer.database.remote.Query as remoteDB
 import com.example.mytrainer.fragment.GeneralFragment
 import com.example.mytrainer.fragment.main.HomeFragment
+import com.example.mytrainer.utils.FragmentManager
 import kotlinx.android.synthetic.main.activity_main.*
+import com.example.mytrainer.database.locale.Query as LocalDB
+import com.example.mytrainer.database.remote.Query as remoteDB
 
 class MainActivity : GeneralActivity("MainActivity") {
 
@@ -72,6 +71,29 @@ class MainActivity : GeneralActivity("MainActivity") {
         drawer_layout.addDrawerListener(toolBarToogle)
         toolBarToogle.syncState()
 
+        val type = auth.getUser().type
+        if (type == "trainer") {
+            mainNavigation.menu.add(
+                R.id.switchProfile,
+                Codes.SWITCH_TO_TRAINER.code,
+                mainNavigation.menu.size() + 1,
+                getString(R.string.switch_to_trainer)
+            )
+        } else if (type == "admin") {
+            mainNavigation.menu.add(
+                R.id.switchProfile,
+                Codes.SWITCH_TO_TRAINER.code,
+                mainNavigation.menu.size() + 1,
+                getString(R.string.switch_to_trainer)
+            )
+            mainNavigation.menu.add(
+                R.id.switchProfile,
+                Codes.SWITCH_TO_ADMIN.code,
+                mainNavigation.menu.size() + 1,
+                getString(R.string.switch_to_admin)
+            )
+        }
+
         mainNavigation.setNavigationItemSelectedListener { scelta ->
             drawer_layout.closeDrawers()
             when (scelta.itemId) {
@@ -110,8 +132,18 @@ class MainActivity : GeneralActivity("MainActivity") {
                     true
                 }
 
-                R.id.clean -> {
+                R.id.cleanItem -> {
                     localDB.clearAndRestoreDB()
+                    true
+                }
+
+                Codes.SWITCH_TO_TRAINER.code -> {
+                    // activity del trainer, se necessaria
+                    true
+                }
+
+                Codes.SWITCH_TO_ADMIN.code -> {
+                    auth.to(AdminActivity())
                     true
                 }
 

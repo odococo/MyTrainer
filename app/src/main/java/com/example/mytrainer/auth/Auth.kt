@@ -27,9 +27,9 @@ open class Auth(
     companion object : SingletonHolder1<Auth, Context>(::Auth)
 
     fun logged(user: User) {
-        this.user = user
         remoteDB.addUser(user) { u ->
             localDB.getInstance().addUser(u)
+            this.user = u
         }
         Log.d(TAG, "Aggiunto utente $user")
         successfulLogin()

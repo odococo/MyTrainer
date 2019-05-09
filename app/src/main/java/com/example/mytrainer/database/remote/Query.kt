@@ -66,4 +66,8 @@ object Query {
             callback
         )
     }
+
+    fun getAllUsers(callback: (List<User>) -> Unit) {
+        Firestore.getAll(FirebaseContract.Users.NAME, callback)
+    }
 }

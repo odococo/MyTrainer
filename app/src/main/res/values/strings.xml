@@ -70,5 +70,10 @@ qwIDAQAB
     <string name="scheduleHistoryFieldScheduleName">Schedule name:</string>
     <string name="send_request_new_schedule">Send Request New Schedule</string>
 
+    <string name="admin_all">Tutti gli utenti</string>
+    <string name="switch_to_athlete">Switch to Athlete</string>
+    <string name="switch_to_trainer">Switch to Trainer</string>
+    <string name="switch_to_admin">Switch to Admin</string>
+
 
 </resources>

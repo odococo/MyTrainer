@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import com.example.mytrainer.auth.Auth
-import com.example.mytrainer.auth.Codes
 import com.example.mytrainer.auth.Facebook
 import com.example.mytrainer.auth.Google
 import com.example.mytrainer.fragment.login.LoadingFragment
@@ -30,11 +29,11 @@ class LoginActivity : GeneralActivity("LoginActivity") {
         val loading = LoadingFragment()
         manager.switch(loading)
 
-        val auth: Auth? = when (Codes.fromInt(requestCode)) {
-            Codes.GOOGLE_SIGN_IN -> {
+        val auth: Auth? = when (requestCode) {
+            Codes.GOOGLE_SIGN_IN.code -> {
                 Google.getInstance()
             }
-            Codes.FACEBOOK_SIGN_IN -> {
+            Codes.FACEBOOK_SIGN_IN.code -> {
                 Facebook.getInstance()
             }
             else -> {

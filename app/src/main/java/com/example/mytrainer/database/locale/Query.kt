@@ -2,12 +2,10 @@ package com.example.mytrainer.database.locale
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.sqlite.SQLiteDatabase
 import android.util.Log
 import com.example.mytrainer.auth.Auth
-import com.example.mytrainer.component.Exercise
-import com.example.mytrainer.component.TrainingExercise
-import com.example.mytrainer.component.TrainingSchedule
-import com.example.mytrainer.component.User
+import com.example.mytrainer.component.*
 import com.example.mytrainer.fragment.login.LoadingFragment
 import com.example.mytrainer.utils.SingletonHolder1
 import com.example.mytrainer.database.remote.Query as Remote
@@ -23,19 +21,26 @@ private constructor(val context: Context) {
         loading.step(1)
         if (db.isEmpty("exercises")) {
             Remote.getAllExercises { exercises ->
-                exercises.forEach { exercise ->
-                    addExercise(exercise)
-                }
+                addAll(exercises)
             }
             loading.step(2)
         } else {
             loading.step(2)
         }
         Remote.getAllSchedules(getUser()) { schedules ->
-            schedules.forEach { schedule ->
-                addTrainingSchedule(schedule)
-            }
+            addAll(schedules)
             loading.step(3)
+        }
+    }
+
+    fun addAll(list: List<Component>) {
+        list.forEach { el ->
+            when (el) {
+                is Exercise -> addExercise(el)
+                is TrainingSchedule -> addTrainingSchedule(el)
+                is User -> addUser(el)
+                else -> IllegalArgumentException("Non c'e' una query per $el")
+            }
         }
     }
 
@@ -93,7 +98,7 @@ private constructor(val context: Context) {
         values.put(SQLContract.Users.LASTNAME, user.lastName)
         values.put(SQLContract.Users.TYPE, user.type)
 
-        return db.insert(SQLContract.Users.NAME, values, true)
+        return db.insert(SQLContract.Users.NAME, values, SQLiteDatabase.CONFLICT_REPLACE)
     }
 
     fun getUser(): User {
@@ -106,6 +111,18 @@ private constructor(val context: Context) {
         return User().fromMap(map)
     }
 
+    fun getAllUsers(): List<User> {
+        return db.select(SQLContract.Users.NAME).map { user -> User().fromMap(user) }
+    }
+
+    fun getAllUsersType(type: String): List<User> {
+        return db.select(
+            SQLContract.Users.NAME,
+            whereClause = "${SQLContract.Users.TYPE} = ?",
+            whereValues = arrayOf(type)
+        ).map { user -> User().fromMap(user) }
+    }
+
     fun addTrainingSchedule(schedule: TrainingSchedule): Boolean {
         db.beginTransaction()
         addUser(schedule.athlete)
@@ -116,7 +133,7 @@ private constructor(val context: Context) {
         values.put(SQLContract.TrainingSchedules.TRAINER, schedule.trainer.id)
         values.put(SQLContract.TrainingSchedules.ATHLETE, schedule.athlete.id)
         values.put(SQLContract.TrainingSchedules.STARTDATE, schedule.startDate.time)
-        if (db.insert(SQLContract.TrainingSchedules.NAME, values, true)) {
+        if (db.insert(SQLContract.TrainingSchedules.NAME, values, SQLiteDatabase.CONFLICT_IGNORE)) {
             if (addTrainingExercises(schedule)) {
                 db.commit()
 

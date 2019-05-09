@@ -6,7 +6,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
-import com.example.mytrainer.component.*
+import com.example.mytrainer.component.Component
 import com.example.mytrainer.utils.SingletonHolder1
 import java.util.*
 
@@ -23,6 +23,7 @@ private constructor(private val context: Context) :
     init {
         Log.d(TAG, "Init DataBaseopenDBHelper")
         openDB() // forzo chiamata onCreate
+        onCreate(db)
     }
 
 
@@ -183,10 +184,10 @@ private constructor(private val context: Context) :
         db.execSQL(query)
     }
 
-    fun insert(table: String, values: ContentValues, conflict: Boolean = false): Boolean {
+    fun insert(table: String, values: ContentValues, conflict: Int = 0): Boolean {
         val result =
-            if (conflict) {
-                db.insertWithOnConflict(table, null, values, SQLiteDatabase.CONFLICT_IGNORE)
+            if (conflict != 0) {
+                db.insertWithOnConflict(table, null, values, conflict)
             } else {
                 db.insert(table, null, values)
             }

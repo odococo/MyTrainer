@@ -8,26 +8,12 @@
         android:title="@string/profile" />
 
     <group
-        android:id="@+id/schedule"
+        android:id="@+id/users"
         android:checkableBehavior="single">
-
         <item
-            android:id="@+id/currentScheduleItem"
-            android:icon="@drawable/account_badge_outline"
+            android:id="@+id/allUsers"
             android:orderInCategory="2"
-            android:title="@string/current_schedule" />
-
-        <item
-            android:id="@+id/scheduleHistoryItem"
-            android:icon="@drawable/account_badge_horizontal_outline"
-            android:orderInCategory="3"
-            android:title="@string/schedule_history" />
-
-        <item
-            android:id="@+id/requestScheduleItem"
-            android:icon="@drawable/account_badge_alert_outline"
-            android:orderInCategory="4"
-            android:title="@string/request_schedule" />
+            android:title="@string/admin_all" />
 
     </group>
 
@@ -37,24 +23,34 @@
         <item
             android:id="@+id/helpItem"
             android:icon="@drawable/help_circle_outline"
-            android:orderInCategory="5"
+            android:orderInCategory="3"
             android:title="@string/help" />
 
         <item
             android:id="@+id/logoutItem"
             android:icon="@drawable/exit_to_app"
-            android:orderInCategory="6"
+            android:orderInCategory="4"
             android:title="@string/logout" />
 
         <item
             android:id="@+id/cleanItem"
-            android:orderInCategory="7"
+            android:orderInCategory="5"
             android:title="@string/clean" />
 
     </group>
 
     <group
         android:id="@+id/switchProfile"
-        android:checkableBehavior="single"></group>
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/switchToAthleteItem"
+            android:orderInCategory="6"
+            android:title="@string/switch_to_athlete" />
+
+        <item
+            android:id="@+id/switchToTrainerItem"
+            android:orderInCategory="7"
+            android:title="@string/switch_to_trainer" />
+    </group>
 
 </menu>
