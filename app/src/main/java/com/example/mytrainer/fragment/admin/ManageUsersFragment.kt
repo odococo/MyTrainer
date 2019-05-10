@@ -11,6 +11,14 @@ import com.example.mytrainer.adapter.AllUsers
 import kotlinx.android.synthetic.main.fragment_manage_users.*
 
 class ManageUsersFragment : Fragment() {
+    private var list = 0
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            list = it.getInt(LIST, 0)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,6 +31,12 @@ class ManageUsersFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewpager.adapter = AllUsers(context)
+        viewpager.currentItem = list
+        println(list)
         sliding_tabs.setupWithViewPager(viewpager)
+    }
+
+    companion object {
+        const val LIST = "list"
     }
 }

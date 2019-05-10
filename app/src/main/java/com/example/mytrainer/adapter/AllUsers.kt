@@ -19,9 +19,14 @@ class AllUsers(
             3 -> Query.getInstance().getAllUsersType("admin")
             else -> emptyList()
         }
+        fragment.positionInViewPager = position
         println(fragment.users)
 
         return fragment
+    }
+
+    override fun getItemPosition(`object`: Any?): Int {
+        return super.getItemPosition(`object`)
     }
 
     override fun getCount(): Int {

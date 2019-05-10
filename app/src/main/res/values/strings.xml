@@ -23,7 +23,7 @@
     <string name="request_schedule">Request Schedule</string>
     <string name="help">Help</string>
     <string name="logout">Logout</string>
-    <string name="clean">Clean</string>
+    <string name="clean">Pulisci cache</string>
 
     <!--Sono due stati del navigation view: open and close -->
     <string name="view_navigation_open">Open</string>
@@ -70,7 +70,7 @@ qwIDAQAB
     <string name="scheduleHistoryFieldScheduleName">Schedule name:</string>
     <string name="send_request_new_schedule">Send Request New Schedule</string>
 
-    <string name="admin_all">Tutti gli utenti</string>
+    <string name="admin_all">Gestisci gli utenti</string>
     <string name="switch_to_athlete">Switch to Athlete</string>
     <string name="switch_to_trainer">Switch to Trainer</string>
     <string name="switch_to_admin">Switch to Admin</string>
