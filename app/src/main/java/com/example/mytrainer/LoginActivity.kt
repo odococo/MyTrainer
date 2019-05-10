@@ -18,6 +18,8 @@ class LoginActivity : GeneralActivity("LoginActivity") {
         setContentView(R.layout.activity_login)
         loading = LoadingFragment()
 
+        if (auth.isLogged()) auth.logout()
+
         auth.setSuccessfulLogin { loading.init() }
         auth.setFailedLogin { manager.switch(LoginFragment()) }
 
