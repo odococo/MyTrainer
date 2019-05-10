@@ -51,7 +51,6 @@ class LoginActivity : GeneralActivity("LoginActivity") {
             auth.setSuccessfulLogin { loading.init() }
             auth.setFailedLogin { manager.switch(LoginFragment()) }
             auth.handleResult(requestCode, resultCode, data)
-
         }
 
 
