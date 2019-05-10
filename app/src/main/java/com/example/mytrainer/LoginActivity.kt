@@ -34,7 +34,7 @@ class LoginActivity : GeneralActivity("LoginActivity") {
         val loading = LoadingFragment()
         manager.switch(loading)
 
-        when (requestCode) {
+        val auth = when (requestCode) {
             Codes.GOOGLE_SIGN_IN.code -> {
                 Google.getInstance()
             }
