@@ -2,7 +2,6 @@ package com.example.mytrainer.fragment.main
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,6 @@ class ProfileFragment : Fragment() {
     // tramite parametri perche' forse vogliamo che tipo gli istruttori vedano il profilo di altri utenti
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.e(TAG, "chiamato on create ${arguments.size()}")
         arguments?.let {
             val id = it.getString(USER, "")
             user = if (id.isNotEmpty()) {

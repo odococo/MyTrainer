@@ -2,14 +2,14 @@ package com.example.mytrainer.adapter
 
 import android.content.Context
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
+import android.support.v4.app.FragmentStatePagerAdapter
 import com.example.mytrainer.GeneralActivity
 import com.example.mytrainer.database.locale.Query
 import com.example.mytrainer.fragment.admin.UsersFragment
 
 class AllUsers(
     context: Context
-) : FragmentPagerAdapter((context as GeneralActivity).supportFragmentManager) {
+) : FragmentStatePagerAdapter((context as GeneralActivity).supportFragmentManager) {
     override fun getItem(position: Int): Fragment {
         val fragment = UsersFragment()
         fragment.users = when (position) {
@@ -20,13 +20,8 @@ class AllUsers(
             else -> emptyList()
         }
         fragment.positionInViewPager = position
-        println(fragment.users)
 
         return fragment
-    }
-
-    override fun getItemPosition(`object`: Any?): Int {
-        return super.getItemPosition(`object`)
     }
 
     override fun getCount(): Int {

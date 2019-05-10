@@ -101,6 +101,16 @@ private constructor(val context: Context) {
         return db.insert(SQLContract.Users.NAME, values, SQLiteDatabase.CONFLICT_REPLACE)
     }
 
+    fun updateUser(user: User): Boolean {
+        val values = ContentValues()
+        values.put(SQLContract.Users.ID, user.id)
+        values.put(SQLContract.Users.FIRSTNAME, user.firstName)
+        values.put(SQLContract.Users.LASTNAME, user.lastName)
+        values.put(SQLContract.Users.TYPE, user.type)
+
+        return db.update(SQLContract.Users.NAME, values, "${SQLContract.Users.ID} = ?", arrayOf(user.id))
+    }
+
     fun getUser(): User {
         return getUserById(Auth.getInstance().getId())
     }

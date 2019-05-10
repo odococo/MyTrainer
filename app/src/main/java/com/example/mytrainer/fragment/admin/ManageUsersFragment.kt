@@ -30,10 +30,10 @@ class ManageUsersFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewpager.offscreenPageLimit = 4
         viewpager.adapter = AllUsers(context)
-        viewpager.currentItem = list
-        println(list)
         sliding_tabs.setupWithViewPager(viewpager)
+        viewpager.currentItem = list
     }
 
     companion object {

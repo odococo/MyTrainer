@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_admin.*
 import com.example.mytrainer.database.locale.Query as locale
 import com.example.mytrainer.database.remote.Query as remote
 
-class AdminActivity : GeneralActivity("Admin"), UsersFragment.ProfileListener {
+class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
 
     private lateinit var manager: FragmentManager
     private var fromListUsers = -1
@@ -90,11 +90,15 @@ class AdminActivity : GeneralActivity("Admin"), UsersFragment.ProfileListener {
         manager.switch(ProfileFragment(), mapOf(ProfileFragment.USER to user.id))
     }
 
+    override fun reload(fromList: Int) {
+        manager.switch(ManageUsersFragment(), mapOf(ManageUsersFragment.LIST to fromListUsers))
+    }
+
     override fun onBackPressed() {
-        //super.onBackPressed()
-        println(fromListUsers)
         if (fromListUsers != -1) {
             manager.switch(ManageUsersFragment(), mapOf(ManageUsersFragment.LIST to fromListUsers))
+        } else {
+            super.onBackPressed()
         }
     }
 

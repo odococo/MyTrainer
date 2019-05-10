@@ -15,10 +15,23 @@ object Query {
                     if (ok) {
                         Log.d(TAG, "Utente ${(info as User).id} aggiunto con successo")
                         callback(info)
-                    } else Log.w(TAG, "Utente $user non aggiunto con successo")
+                    } else {
+                        Log.w(TAG, "Utente $user non aggiunto con successo")
+                    }
                 }
             } else {
                 callback(u)
+            }
+        }
+    }
+
+    fun updateUser(user: User, callback: (User) -> Unit) {
+        Firestore.update(FirebaseContract.Users.NAME, user) { ok, info ->
+            if (ok) {
+                Log.d(TAG, "Utente ${(info as User).id} aggiornato con successo")
+                callback(info)
+            } else {
+                Log.w(TAG, "Utente $user non aggiornato con successo")
             }
         }
     }
