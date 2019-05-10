@@ -52,8 +52,6 @@ class LoginActivity : GeneralActivity("LoginActivity") {
             auth.setFailedLogin { manager.switch(LoginFragment()) }
             auth.handleResult(requestCode, resultCode, data)
         }
-
-
     }
 
 }
