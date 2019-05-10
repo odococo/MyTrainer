@@ -45,7 +45,16 @@ class LoginActivity : GeneralActivity("LoginActivity") {
                 Log.w(TAG, "Code $requestCode is not valid")
                 null
             }
-        }?.handleResult(requestCode, resultCode, data)
+
+        }
+        if (auth != null) {
+            auth.setSuccessfulLogin { loading.init() }
+            auth.setFailedLogin { manager.switch(LoginFragment()) }
+            auth.handleResult(requestCode, resultCode, data)
+
+        }
+
+
     }
 
 }
