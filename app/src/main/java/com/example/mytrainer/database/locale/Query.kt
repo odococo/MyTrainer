@@ -214,7 +214,34 @@ private constructor(val context: Context) {
             "${SQLContract.TrainingSchedules.STARTDATE} DESC"
         )
 
-        return schedules.map { s -> getSchedule(s.getOrDefault(SQLContract.TrainingSchedules.ID, "") as String) }
+        return schedules.map { schedule ->
+            getSchedule(
+                schedule.getOrDefault(
+                    SQLContract.TrainingSchedules.ID,
+                    ""
+                ) as String
+            )
+        }
+    }
+
+    fun addScheduleRequest(request: ScheduleRequest): Boolean {
+        val values = ContentValues()
+        values.put(SQLContract.Requests.ID, request.id)
+        values.put(SQLContract.Requests.FROM, request.from.id)
+        values.put(SQLContract.Requests.TO, request.to.id)
+        values.put(SQLContract.Requests.INFO, request.info)
+
+        return db.insert(SQLContract.Requests.NAME, values, SQLiteDatabase.CONFLICT_IGNORE)
+    }
+
+    fun getRequests(): List<ScheduleRequest> {
+        val requests = db.selectByKey(
+            SQLContract.Requests.NAME,
+            SQLContract.Requests.TO,
+            Auth.getInstance().getId()
+        )
+
+        return requests.map { request -> ScheduleRequest().fromMap(request) }
     }
 
 }

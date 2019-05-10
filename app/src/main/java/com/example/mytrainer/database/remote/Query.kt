@@ -2,6 +2,7 @@ package com.example.mytrainer.database.remote
 
 import android.util.Log
 import com.example.mytrainer.component.Exercise
+import com.example.mytrainer.component.ScheduleRequest
 import com.example.mytrainer.component.TrainingSchedule
 import com.example.mytrainer.component.User
 
@@ -25,21 +26,13 @@ object Query {
         }
     }
 
-    fun updateUser(user: User, callback: (User) -> Unit) {
-        Firestore.update(FirebaseContract.Users.NAME, user) { ok, info ->
-            if (ok) {
-                Log.d(TAG, "Utente ${(info as User).id} aggiornato con successo")
-                callback(info)
-            } else {
-                Log.w(TAG, "Utente $user non aggiornato con successo")
-            }
-        }
-    }
-
     fun addExercise(exercise: Exercise) {
         Firestore.create(FirebaseContract.Exercises.NAME, exercise) { ok, info ->
-            if (ok) Log.d(TAG, "Aggiunto esercizio: ${exercise.id}")
-            else Log.w(TAG, "Errore aggiunta esercizio ${exercise.id}: $info")
+            if (ok) {
+                Log.d(TAG, "Aggiunto esercizio: ${exercise.id}")
+            } else {
+                Log.w(TAG, "Errore aggiunta esercizio ${exercise.id}: $info")
+            }
         }
     }
 
@@ -48,7 +41,20 @@ object Query {
             if (ok) {
                 Log.d(TAG, "Aggiunta scheda: ${(info as TrainingSchedule).id}")
                 callback(info)
-            } else Log.w(TAG, "Errore aggiunta scheda $schedule: $info")
+            } else {
+                Log.w(TAG, "Errore aggiunta scheda $schedule: $info")
+            }
+        }
+    }
+
+    fun addScheduleRequest(request: ScheduleRequest, callback: (ScheduleRequest) -> Unit) {
+        Firestore.create(FirebaseContract.Requests.NAME, request) { ok, info ->
+            if (ok) {
+                Log.d(TAG, "Aggiunta richiesta: ${(info as ScheduleRequest).id}")
+                callback(info)
+            } else {
+                Log.w(TAG, "Errore aggiunta richiesta $request: $info")
+            }
         }
     }
 
@@ -82,5 +88,20 @@ object Query {
 
     fun getAllUsers(callback: (List<User>) -> Unit) {
         Firestore.getAll(FirebaseContract.Users.NAME, callback)
+    }
+
+    fun getAllRequests(callback: (List<ScheduleRequest>) -> Unit) {
+        Firestore.getAll(FirebaseContract.Requests.NAME, callback)
+    }
+
+    fun updateUser(user: User, callback: (User) -> Unit) {
+        Firestore.update(FirebaseContract.Users.NAME, user) { ok, info ->
+            if (ok) {
+                Log.d(TAG, "Utente ${(info as User).id} aggiornato con successo")
+                callback(info)
+            } else {
+                Log.w(TAG, "Utente $user non aggiornato con successo")
+            }
+        }
     }
 }
