@@ -48,7 +48,7 @@ object Query {
     }
 
     fun addScheduleRequest(request: ScheduleRequest, callback: (ScheduleRequest) -> Unit) {
-        Firestore.create(FirebaseContract.Requests.NAME, request) { ok, info ->
+        Firestore.create(FirebaseContract.ScheduleRequests.NAME, request) { ok, info ->
             if (ok) {
                 Log.d(TAG, "Aggiunta richiesta: ${(info as ScheduleRequest).id}")
                 callback(info)
@@ -91,7 +91,7 @@ object Query {
     }
 
     fun getAllRequests(callback: (List<ScheduleRequest>) -> Unit) {
-        Firestore.getAll(FirebaseContract.Requests.NAME, callback)
+        Firestore.getAll(FirebaseContract.ScheduleRequests.NAME, callback)
     }
 
     fun updateUser(user: User, callback: (User) -> Unit) {

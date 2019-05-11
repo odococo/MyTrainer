@@ -30,6 +30,9 @@ private constructor(val context: Context) {
         Remote.getAllSchedules(getUser()) { schedules ->
             addAll(schedules)
             loading.step(3)
+            Remote.getAllRequests { requests ->
+                addAll(requests)
+            }
         }
     }
 
@@ -39,6 +42,7 @@ private constructor(val context: Context) {
                 is Exercise -> addExercise(el)
                 is TrainingSchedule -> addTrainingSchedule(el)
                 is User -> addUser(el)
+                is ScheduleRequest -> addScheduleRequest(el)
                 else -> IllegalArgumentException("Non c'e' una query per $el")
             }
         }
@@ -226,18 +230,18 @@ private constructor(val context: Context) {
 
     fun addScheduleRequest(request: ScheduleRequest): Boolean {
         val values = ContentValues()
-        values.put(SQLContract.Requests.ID, request.id)
-        values.put(SQLContract.Requests.FROM, request.from.id)
-        values.put(SQLContract.Requests.TO, request.to.id)
-        values.put(SQLContract.Requests.INFO, request.info)
+        values.put(SQLContract.ScheduleRequests.ID, request.id)
+        values.put(SQLContract.ScheduleRequests.FROM, request.from.id)
+        values.put(SQLContract.ScheduleRequests.TO, request.to.id)
+        values.put(SQLContract.ScheduleRequests.INFO, request.info)
 
-        return db.insert(SQLContract.Requests.NAME, values, SQLiteDatabase.CONFLICT_IGNORE)
+        return db.insert(SQLContract.ScheduleRequests.NAME, values, SQLiteDatabase.CONFLICT_IGNORE)
     }
 
     fun getRequests(): List<ScheduleRequest> {
         val requests = db.selectByKey(
-            SQLContract.Requests.NAME,
-            SQLContract.Requests.TO,
+            SQLContract.ScheduleRequests.NAME,
+            SQLContract.ScheduleRequests.TO,
             Auth.getInstance().getId()
         )
 

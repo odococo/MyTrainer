@@ -20,18 +20,18 @@ class ScheduleRequest(
     }
 
     override fun toMap(): Map<String, Any> = mutableMapOf(
-        FirebaseContract.Requests.FROM to from,
-        FirebaseContract.Requests.TO to to,
-        FirebaseContract.Requests.INFO to info
+        FirebaseContract.ScheduleRequests.FROM to from,
+        FirebaseContract.ScheduleRequests.TO to to,
+        FirebaseContract.ScheduleRequests.INFO to info
     )
 
     override fun fromMap(map: Map<String, Any?>): ScheduleRequest {
         val request = ScheduleRequest()
         map.forEach { (key, value) ->
             when (key) {
-                SQLContract.Requests.FROM -> request.from = Query.getInstance().getUserById(value as String)
-                SQLContract.Requests.TO -> request.to = Query.getInstance().getUserById(value as String)
-                SQLContract.Requests.INFO -> request.info = value as String
+                SQLContract.ScheduleRequests.FROM -> request.from = Query.getInstance().getUserById(value as String)
+                SQLContract.ScheduleRequests.TO -> request.to = Query.getInstance().getUserById(value as String)
+                SQLContract.ScheduleRequests.INFO -> request.info = value as String
                 else -> Log.w("ScheduleRequest", "$key: $value non appartiene a ${this.javaClass.simpleName}!")
             }
         }

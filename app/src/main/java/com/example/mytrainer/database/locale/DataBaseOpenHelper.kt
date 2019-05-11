@@ -92,6 +92,19 @@ private constructor(private val context: Context) :
                 )
             )
         )
+        tables.add(
+            objToTable(
+                SQLContract.ScheduleRequests.NAME, mapOf(
+                    SQLContract.ScheduleRequests.ID to "",
+                    SQLContract.ScheduleRequests.FROM to "",
+                    SQLContract.ScheduleRequests.TO to "",
+                    SQLContract.ScheduleRequests.INFO to ""
+                ), arrayOf(SQLContract.ScheduleRequests.ID), mapOf(
+                    SQLContract.ScheduleRequests.FROM to SQLContract.Users.NAME,
+                    SQLContract.ScheduleRequests.TO to SQLContract.Users.NAME
+                )
+            )
+        )
         tables
             .forEach { table ->
                 table.split(";").forEach { query ->

@@ -40,6 +40,8 @@ class MainActivity : GeneralActivity("MainActivity") {
 
         println(auth.getId())
 
+        CreateSchedule().addRequest()
+
         //localDB.clearAndRestoreDB()
 
         //CreateSchedule().addSchedule()
