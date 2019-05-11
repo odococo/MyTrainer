@@ -74,6 +74,7 @@ qwIDAQAB
     <string name="switch_to_athlete">Switch to Athlete</string>
     <string name="switch_to_trainer">Switch to Trainer</string>
     <string name="switch_to_admin">Switch to Admin</string>
+    <string name="schedule_info">Inserisci informazioni aggiuntive sulla scheda</string>
 
 
 </resources>

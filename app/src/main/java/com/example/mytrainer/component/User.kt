@@ -37,4 +37,8 @@ open class User(
         }
         return user
     }
+
+    override fun toString(): String {
+        return "$firstName $lastName"
+    }
 }
