@@ -125,7 +125,6 @@ object Firestore {
                 } else {
                     default
                 }
-                obj.id = doc
                 callback(obj)
             }
             .addOnFailureListener { exception ->

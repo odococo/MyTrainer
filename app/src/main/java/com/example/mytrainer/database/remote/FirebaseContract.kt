@@ -34,4 +34,12 @@ object FirebaseContract {
         const val LASTNAME = "lastName"
         const val TYPE = "type"
     }
+
+    object Requests {
+        const val NAME = "requests"
+        const val ID = "id"
+        const val FROM = "athlete"
+        const val TO = "trainer"
+        const val INFO = "info"
+    }
 }

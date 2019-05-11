@@ -14,7 +14,7 @@ class FragmentManager(
 ) {
     private val TAG = "FragmentManager"
     private val manager = (context as AppCompatActivity).supportFragmentManager
-    var currentFragment: Fragment = firstFragment
+    lateinit var currentFragment: Fragment
 
     init {
         switch(firstFragment, args)

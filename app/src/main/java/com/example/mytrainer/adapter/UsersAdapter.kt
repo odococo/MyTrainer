@@ -10,7 +10,6 @@ import android.widget.TextView
 import com.example.mytrainer.R
 import com.example.mytrainer.component.User
 
-
 class UsersAdapter(
     dataSet: List<User>,
     context: Context
@@ -21,13 +20,16 @@ class UsersAdapter(
 
     // View lookup cache
     private class ViewHolder {
-        internal var userId: TextView? = null
+        internal var id: TextView? = null
+        internal var firstname: TextView? = null
+        internal var lastname: TextView? = null
+        internal var type: TextView? = null
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var newview = convertView
         // Get the data item for this position
-        val dataModel = getItem(position)
+        val dataModel = getItem(position)!!
         // Check if an existing view is being reused, otherwise inflate the view
         val viewHolder: ViewHolder // view lookup cache stored in tag
 
@@ -38,7 +40,10 @@ class UsersAdapter(
             viewHolder = ViewHolder()
             val inflater = LayoutInflater.from(context)
             newview = inflater.inflate(R.layout.user_template, parent, false)
-            viewHolder.userId = newview.findViewById(R.id.user_id)
+            viewHolder.id = newview.findViewById(R.id.user_id)
+            viewHolder.firstname = newview.findViewById(R.id.user_first_name)
+            viewHolder.lastname = newview.findViewById(R.id.user_last_name)
+            viewHolder.type = newview.findViewById(R.id.user_type)
 
             result = newview
 
@@ -55,7 +60,11 @@ class UsersAdapter(
         result.startAnimation(animation)
         lastPosition = position
 
-        viewHolder.userId!!.text = dataModel!!.id
+        viewHolder.id!!.text = dataModel.id
+        viewHolder.firstname!!.text = dataModel.firstName
+        viewHolder.lastname!!.text = dataModel.lastName
+        viewHolder.type!!.text = dataModel.type
+
         // Return the completed view to render on screen
         return newview
     }

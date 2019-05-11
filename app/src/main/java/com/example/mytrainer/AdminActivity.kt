@@ -2,17 +2,20 @@ package com.example.mytrainer
 
 import android.os.Bundle
 import android.support.v7.app.ActionBarDrawerToggle
+import com.example.mytrainer.component.User
 import com.example.mytrainer.fragment.admin.AdminHomeFragment
 import com.example.mytrainer.fragment.admin.ManageUsersFragment
+import com.example.mytrainer.fragment.admin.UsersFragment
 import com.example.mytrainer.fragment.main.ProfileFragment
 import com.example.mytrainer.utils.FragmentManager
 import kotlinx.android.synthetic.main.activity_admin.*
 import com.example.mytrainer.database.locale.Query as locale
 import com.example.mytrainer.database.remote.Query as remote
 
-class AdminActivity : GeneralActivity("Admin") {
+class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
 
     private lateinit var manager: FragmentManager
+    private var fromListUsers = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppDefaul) //Mancava questa riga per i colori
@@ -76,8 +79,26 @@ class AdminActivity : GeneralActivity("Admin") {
                     // switch a trainer
                 }
             }
+            fromListUsers = -1
             setToolbarTitle()
             true
+        }
+    }
+
+    override fun view(user: User, fromList: Int) {
+        fromListUsers = fromList
+        manager.switch(ProfileFragment(), mapOf(ProfileFragment.USER to user.id))
+    }
+
+    override fun reload(fromList: Int) {
+        manager.switch(ManageUsersFragment(), mapOf(ManageUsersFragment.LIST to fromListUsers))
+    }
+
+    override fun onBackPressed() {
+        if (fromListUsers != -1) {
+            manager.switch(ManageUsersFragment(), mapOf(ManageUsersFragment.LIST to fromListUsers))
+        } else {
+            super.onBackPressed()
         }
     }
 

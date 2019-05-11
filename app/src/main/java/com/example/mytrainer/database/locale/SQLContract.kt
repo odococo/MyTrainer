@@ -1,7 +1,5 @@
 package com.example.mytrainer.database.locale
 
-import com.example.mytrainer.component.*
-
 object SQLContract {
     val DATABASE_NAME = "SQLiteDB"
     val DATABASE_VERSION = 1
@@ -42,5 +40,13 @@ object SQLContract {
         const val TRAINER = "trainer_id"
         const val ATHLETE = "athlete_id"
         const val STARTDATE = "start_date"
+    }
+
+    object Requests {
+        const val NAME = "requests"
+        const val ID = "id"
+        const val FROM = "athlete_id"
+        const val TO = "trainer_id"
+        const val INFO = "info"
     }
 }
