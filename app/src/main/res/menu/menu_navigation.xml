@@ -55,6 +55,6 @@
 
     <group
         android:id="@+id/switchProfile"
-        android:checkableBehavior="single"></group>
+        android:checkableBehavior="single" />
 
 </menu>

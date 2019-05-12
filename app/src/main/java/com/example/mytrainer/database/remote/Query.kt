@@ -90,8 +90,12 @@ object Query {
         Firestore.getAll(FirebaseContract.Users.NAME, callback)
     }
 
-    fun getAllRequests(callback: (List<ScheduleRequest>) -> Unit) {
-        Firestore.getAll(FirebaseContract.ScheduleRequests.NAME, callback)
+    fun getAllRequests(user: User, callback: (List<ScheduleRequest>) -> Unit) {
+        Firestore.find(
+            FirebaseContract.ScheduleRequests.NAME,
+            "${FirebaseContract.ScheduleRequests.TO}.${FirebaseContract.Users.ID}", user.id,
+            callback
+        )
     }
 
     fun updateUser(user: User, callback: (User) -> Unit) {

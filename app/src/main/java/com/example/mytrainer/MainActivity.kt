@@ -73,27 +73,29 @@ class MainActivity : GeneralActivity("MainActivity") {
         drawer_layout.addDrawerListener(toolBarToogle)
         toolBarToogle.syncState()
 
-        val type = auth.getUser().type
-        if (type == "trainer") {
-            mainNavigation.menu.add(
+        println(auth.getUser().toMap())
+
+        when (auth.getUser().type) {
+            "trainer" -> mainNavigation.menu.add(
                 R.id.switchProfile,
                 Codes.SwitchTO.TRAINER,
                 mainNavigation.menu.size() + 1,
                 getString(R.string.switch_to_trainer)
             )
-        } else if (type == "admin") {
-            mainNavigation.menu.add(
-                R.id.switchProfile,
-                Codes.SwitchTO.TRAINER,
-                mainNavigation.menu.size() + 1,
-                getString(R.string.switch_to_trainer)
-            )
-            mainNavigation.menu.add(
-                R.id.switchProfile,
-                Codes.SwitchTO.ADMIN,
-                mainNavigation.menu.size() + 1,
-                getString(R.string.switch_to_admin)
-            )
+            "admin" -> {
+                mainNavigation.menu.add(
+                    R.id.switchProfile,
+                    Codes.SwitchTO.TRAINER,
+                    mainNavigation.menu.size() + 1,
+                    getString(R.string.switch_to_trainer)
+                )
+                mainNavigation.menu.add(
+                    R.id.switchProfile,
+                    Codes.SwitchTO.ADMIN,
+                    mainNavigation.menu.size() + 1,
+                    getString(R.string.switch_to_admin)
+                )
+            }
         }
 
         mainNavigation.setNavigationItemSelectedListener { scelta ->
@@ -140,12 +142,12 @@ class MainActivity : GeneralActivity("MainActivity") {
                 }
 
                 Codes.SwitchTO.TRAINER -> {
-                    // activity del trainer, se necessaria
+                    auth.toTrainer()
                     true
                 }
 
                 Codes.SwitchTO.ADMIN -> {
-                    auth.to(AdminActivity())
+                    auth.toAdmin()
                     true
                 }
 

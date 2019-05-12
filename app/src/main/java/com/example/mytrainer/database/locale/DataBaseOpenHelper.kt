@@ -12,7 +12,7 @@ import java.util.*
 
 //Singleton
 class DataBaseOpenHelper
-private constructor(private val context: Context) :
+private constructor(context: Context) :
     SQLiteOpenHelper(context, SQLContract.DATABASE_NAME, null, SQLContract.DATABASE_VERSION) {
 
     private val TAG: String = "DataBaseopenDBHelper"
@@ -31,8 +31,9 @@ private constructor(private val context: Context) :
         this.db = db!!
         if (isEmpty("users")) {
             onUpgrade(db, 0, SQLContract.DATABASE_VERSION)
+        } else {
+            create()
         }
-        create()
         Log.d(TAG, "onCreate new DataBase")
     }
 
@@ -120,6 +121,7 @@ private constructor(private val context: Context) :
             println(entry["name"])
             exec("DROP TABLE ${entry["name"]}")
         }
+        create()
         Log.d(TAG, "onUpgrade DataBase version from $oldVersion to $newVersion version!")
     }
 

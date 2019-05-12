@@ -2,29 +2,23 @@ package com.example.mytrainer
 
 import android.os.Bundle
 import android.support.v7.app.ActionBarDrawerToggle
+import com.example.mytrainer.component.ScheduleRequest
 import com.example.mytrainer.component.User
-import com.example.mytrainer.fragment.admin.ManageUsersFragment
-import com.example.mytrainer.fragment.admin.UsersFragment
 import com.example.mytrainer.fragment.main.ProfileFragment
+import com.example.mytrainer.fragment.trainer.PendingRequestsFragment
 import com.example.mytrainer.utils.FragmentManager
-import kotlinx.android.synthetic.main.activity_admin.*
-import com.example.mytrainer.database.locale.Query as locale
-import com.example.mytrainer.database.remote.Query as remote
+import kotlinx.android.synthetic.main.activity_trainer.*
 
-class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
-
+class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.RequestsListener {
     private lateinit var manager: FragmentManager
-    private var fromListUsers = -1
+    private var fromRequests = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppDefaul) //Mancava questa riga per i colori
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_admin)
+        setContentView(R.layout.activity_trainer)
 
-        remote.getAllUsers { users ->
-            locale.getInstance().addAll(users)
-        }
-        manager = FragmentManager(this, R.id.content_layout, ManageUsersFragment())
+        manager = FragmentManager(this, R.id.content_layout, PendingRequestsFragment())
 
         setToolbarTitle()
         initNavigationView()
@@ -34,7 +28,7 @@ class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
     private fun setToolbarTitle() {
         toolbar.title = when (manager.currentFragment) {
             is ProfileFragment -> "Profilo"
-            is ManageUsersFragment -> "Elenco utenti"
+            is PendingRequestsFragment -> "Richieste"
             else -> getString(R.string.app_name)
         }
     }
@@ -52,6 +46,12 @@ class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
         toolBarToogle.syncState()
 
         when (auth.getUser().type) {
+            "trainer" -> mainNavigation.menu.add(
+                R.id.switchProfile,
+                Codes.SwitchTO.ATHLETE,
+                mainNavigation.menu.size() + 1,
+                getString(R.string.switch_to_athlete)
+            )
             "admin" -> {
                 mainNavigation.menu.add(
                     R.id.switchProfile,
@@ -61,9 +61,9 @@ class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
                 )
                 mainNavigation.menu.add(
                     R.id.switchProfile,
-                    Codes.SwitchTO.TRAINER,
+                    Codes.SwitchTO.ADMIN,
                     mainNavigation.menu.size() + 1,
-                    getString(R.string.switch_to_trainer)
+                    getString(R.string.switch_to_admin)
                 )
             }
             else -> auth.toHome()
@@ -75,8 +75,11 @@ class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
                 R.id.profileItem -> {
                     manager.switch(ProfileFragment())
                 }
-                R.id.allUsers -> {
-                    manager.switch(ManageUsersFragment())
+                R.id.pendingScheduleRequest -> {
+                    manager.switch(PendingRequestsFragment())
+                }
+                R.id.createSchedule -> {
+                    // creazione scheda
                 }
                 R.id.helpItem -> {
                 }
@@ -84,37 +87,36 @@ class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
                     auth.logout()
                 }
                 R.id.cleanItem -> {
-                    locale.getInstance().clearAndRestoreDB()
+                    com.example.mytrainer.database.locale.Query.getInstance().clearAndRestoreDB()
                 }
                 Codes.SwitchTO.ATHLETE -> {
                     auth.toHome()
                 }
-                Codes.SwitchTO.TRAINER -> {
-                    auth.toTrainer()
+                Codes.SwitchTO.ADMIN -> {
+                    auth.toAdmin()
                 }
             }
-            fromListUsers = -1
             setToolbarTitle()
+            fromRequests = false
             true
         }
     }
 
-    override fun view(user: User, fromList: Int) {
-        fromListUsers = fromList
+    override fun view(user: User) {
+        fromRequests = true
         manager.switch(ProfileFragment(), mapOf(ProfileFragment.USER to user.id))
     }
 
-    override fun reload(fromList: Int) {
-        manager.switch(ManageUsersFragment(), mapOf(ManageUsersFragment.LIST to fromListUsers))
+    override fun create(request: ScheduleRequest) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onBackPressed() {
-        if (fromListUsers != -1) {
-            manager.switch(ManageUsersFragment(), mapOf(ManageUsersFragment.LIST to fromListUsers))
-            fromListUsers = -1
+        if (fromRequests) {
+            manager.switch(PendingRequestsFragment())
+            fromRequests = false
         } else {
             super.onBackPressed()
         }
     }
-
 }

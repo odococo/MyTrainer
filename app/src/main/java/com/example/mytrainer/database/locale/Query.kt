@@ -19,19 +19,16 @@ private constructor(val context: Context) {
 
     fun init(loading: LoadingFragment) {
         loading.step(1)
-        if (db.isEmpty("exercises")) {
-            Remote.getAllExercises { exercises ->
-                addAll(exercises)
-            }
+        Remote.getAllExercises { exercises ->
+            addAll(exercises)
             loading.step(2)
-        } else {
-            loading.step(2)
-        }
-        Remote.getAllSchedules(getUser()) { schedules ->
-            addAll(schedules)
-            loading.step(3)
-            Remote.getAllRequests { requests ->
-                addAll(requests)
+            Remote.getAllSchedules(getUser()) { schedules ->
+                addAll(schedules)
+                loading.step(3)
+                Remote.getAllRequests(getUser()) { requests ->
+                    addAll(requests)
+                    loading.step(4)
+                }
             }
         }
     }
@@ -60,7 +57,7 @@ private constructor(val context: Context) {
         values.put(SQLContract.Exercises.ID, exercise.id)
         values.put(SQLContract.Exercises.DESCRIPTION, exercise.description)
 
-        if (db.insert(SQLContract.Exercises.NAME, values)) {
+        if (db.insert(SQLContract.Exercises.NAME, values, SQLiteDatabase.CONFLICT_IGNORE)) {
             if (addExerciseTypes(exercise)) {
                 db.commit()
             }
@@ -231,19 +228,20 @@ private constructor(val context: Context) {
     fun addScheduleRequest(request: ScheduleRequest): Boolean {
         val values = ContentValues()
         values.put(SQLContract.ScheduleRequests.ID, request.id)
-        values.put(SQLContract.ScheduleRequests.FROM, request.from.id)
-        values.put(SQLContract.ScheduleRequests.TO, request.to.id)
+        values.put(SQLContract.ScheduleRequests.FROM, request.athlete.id)
+        values.put(SQLContract.ScheduleRequests.TO, request.trainer.id)
         values.put(SQLContract.ScheduleRequests.INFO, request.info)
 
         return db.insert(SQLContract.ScheduleRequests.NAME, values, SQLiteDatabase.CONFLICT_IGNORE)
     }
 
     fun getRequests(): List<ScheduleRequest> {
-        val requests = db.selectByKey(
+        /*val requests = db.selectByKey(
             SQLContract.ScheduleRequests.NAME,
             SQLContract.ScheduleRequests.TO,
             Auth.getInstance().getId()
-        )
+        )*/
+        val requests = db.select(SQLContract.ScheduleRequests.NAME)
 
         return requests.map { request -> ScheduleRequest().fromMap(request) }
     }

@@ -13,4 +13,12 @@ object Codes {
         const val TRAINER = 2345
         const val ADMIN = 3456
     }
+
+    object View {
+        const val PROFILE = 537
+    }
+
+    object Create {
+        const val SCHEDULE = 839
+    }
 }

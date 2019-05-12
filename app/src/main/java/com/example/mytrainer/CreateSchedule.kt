@@ -43,7 +43,7 @@ class CreateSchedule {
         val trainer = User().withId("rT0ynh5F8wNNOEGgjS77YVu13NM2")
         trainer.firstName = "Ivan"
         trainer.lastName = "Lamperti"
-        trainer.type = "Trainer"
+        trainer.type = "trainer"
 
         return trainer
     }
