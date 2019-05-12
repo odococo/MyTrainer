@@ -1,11 +1,16 @@
 package com.example.mytrainer
 
-enum class Codes(val code: Int) {
-    GOOGLE_SIGN_IN(1),
-    FACEBOOK_SIGN_IN(64206),
-    TELEGRAM_SIGN_IN(352),
+object Codes {
 
-    SWITCH_TO_ATHLETE(1234),
-    SWITCH_TO_TRAINER(2345),
-    SWITCH_TO_ADMIN(3456);
+    object SignIn {
+        const val GOOGLE = 1
+        const val FACEBOOK = 64206
+        const val TELEGRAM = 352
+    }
+
+    object SwitchTO {
+        const val ATHLETE = 1234
+        const val TRAINER = 2345
+        const val ADMIN = 3456
+    }
 }

@@ -36,7 +36,7 @@ open class Auth(
     }
 
     fun failed() {
-        Log.d(TAG, "Login fallito!")
+        Log.d(TAG, "SignIn fallito!")
         failedLogin()
     }
 

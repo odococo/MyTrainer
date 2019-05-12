@@ -35,10 +35,10 @@ class LoginActivity : GeneralActivity("LoginActivity") {
         manager.switch(loading)
 
         val auth = when (requestCode) {
-            Codes.GOOGLE_SIGN_IN.code -> {
+            Codes.SignIn.GOOGLE -> {
                 Google.getInstance()
             }
-            Codes.FACEBOOK_SIGN_IN.code -> {
+            Codes.SignIn.FACEBOOK -> {
                 Facebook.getInstance()
             }
             else -> {

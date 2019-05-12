@@ -77,20 +77,20 @@ class MainActivity : GeneralActivity("MainActivity") {
         if (type == "trainer") {
             mainNavigation.menu.add(
                 R.id.switchProfile,
-                Codes.SWITCH_TO_TRAINER.code,
+                Codes.SwitchTO.TRAINER,
                 mainNavigation.menu.size() + 1,
                 getString(R.string.switch_to_trainer)
             )
         } else if (type == "admin") {
             mainNavigation.menu.add(
                 R.id.switchProfile,
-                Codes.SWITCH_TO_TRAINER.code,
+                Codes.SwitchTO.TRAINER,
                 mainNavigation.menu.size() + 1,
                 getString(R.string.switch_to_trainer)
             )
             mainNavigation.menu.add(
                 R.id.switchProfile,
-                Codes.SWITCH_TO_ADMIN.code,
+                Codes.SwitchTO.ADMIN,
                 mainNavigation.menu.size() + 1,
                 getString(R.string.switch_to_admin)
             )
@@ -139,12 +139,12 @@ class MainActivity : GeneralActivity("MainActivity") {
                     true
                 }
 
-                Codes.SWITCH_TO_TRAINER.code -> {
+                Codes.SwitchTO.TRAINER -> {
                     // activity del trainer, se necessaria
                     true
                 }
 
-                Codes.SWITCH_TO_ADMIN.code -> {
+                Codes.SwitchTO.ADMIN -> {
                     auth.to(AdminActivity())
                     true
                 }
