@@ -32,8 +32,12 @@
 
     <!-- Navigation header-->
     <string name="myTrainer">My Trainer</string>
-    <string name="name">Name </string>
-    <string name="surname">Surname </string>
+    <string name="firstname">FirstName</string>
+    <string name="lastname">LastName</string>
+
+    <string name="switch_to_athlete">Switch to Athlete</string>
+    <string name="switch_to_trainer">Switch to Trainer</string>
+    <string name="switch_to_admin">Switch to Admin</string>
 
 
     <!-- Auth credentials -->
@@ -70,17 +74,26 @@ qwIDAQAB
     <string name="scheduleHistoryFieldScheduleName">Schedule name:</string>
     <string name="send_request_new_schedule">Send Request New Schedule</string>
 
+    <!-- Admin section -->
     <string name="admin_all">Gestisci gli utenti</string>
-    <string name="switch_to_athlete">Switch to Athlete</string>
-    <string name="switch_to_trainer">Switch to Trainer</string>
-    <string name="switch_to_admin">Switch to Admin</string>
-    <string name="schedule_info">Inserisci informazioni aggiuntive sulla scheda</string>
-    <string name="pending_requests">Richieste pendenti</string>
     <string name="update_to_trainer">Cambia in Trainer</string>
     <string name="update_to_admin">Cambia in Admin</string>
     <string name="update_to_athlete">Cambia in Athlete</string>
+
+
+    <string name="schedule_info">Inserisci informazioni aggiuntive sulla scheda</string>
+    <string name="pending_requests">Richieste pendenti</string>
+
     <string name="view_profile">Visualizza profilo</string>
     <string name="create_schedule">Crea scheda</string>
+
+    <!-- Help field -->
+    <string name="name1">Ivan Lamperti</string>
+    <string name="email1">ilamperti@studenti.uninsubria.it</string>
+    <string name="studentId1">730654</string>
+    <string name="name2">Anatoliy Roshka</string>
+    <string name="email2">aaaaaaa</string>
+    <string name="studentId2">777777</string>
 
 
 </resources>

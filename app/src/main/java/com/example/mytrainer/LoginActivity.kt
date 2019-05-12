@@ -10,7 +10,6 @@ import com.example.mytrainer.fragment.login.LoginFragment
 import com.example.mytrainer.utils.FragmentManager
 
 class LoginActivity : GeneralActivity("LoginActivity") {
-    private lateinit var manager: FragmentManager
     private lateinit var loading: LoadingFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {

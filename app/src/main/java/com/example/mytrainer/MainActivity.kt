@@ -7,9 +7,9 @@ import android.view.View
 import com.example.mytrainer.adapter.*
 import com.example.mytrainer.component.TrainingSchedule
 import com.example.mytrainer.fragment.GeneralFragment
-import com.example.mytrainer.fragment.main.HomeFragment
 import com.example.mytrainer.utils.FragmentManager
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.navigation_header.view.*
 import com.example.mytrainer.database.locale.Query as LocalDB
 import com.example.mytrainer.database.remote.Query as remoteDB
 
@@ -19,8 +19,6 @@ class MainActivity : GeneralActivity("MainActivity") {
     private val VISIBLE = "VISIBLE"
     private val LAYOUT: Int = R.layout.activity_main
 
-
-    private lateinit var contentManager: FragmentManager
     private lateinit var localDB: LocalDB
 
     private lateinit var currentSchedule: TrainingSchedule
@@ -31,7 +29,7 @@ class MainActivity : GeneralActivity("MainActivity") {
 
         localDB = LocalDB.getInstance(this)
         currentSchedule = localDB.getCurrentSchedule()
-        contentManager = FragmentManager(this, R.id.content_layout, HomeFragment())
+        manager = FragmentManager(this, R.id.content_layout)
 
         setContentView(LAYOUT)
         initToolbar()
@@ -73,9 +71,10 @@ class MainActivity : GeneralActivity("MainActivity") {
         drawer_layout.addDrawerListener(toolBarToogle)
         toolBarToogle.syncState()
 
-        println(auth.getUser().toMap())
+        mainNavigation.getHeaderView(0).trainerFirstName.text = user.firstName
+        mainNavigation.getHeaderView(0).trainerLastName.text = user.lastName
 
-        when (auth.getUser().type) {
+        when (user.type) {
             "trainer" -> mainNavigation.menu.add(
                 R.id.switchProfile,
                 Codes.SwitchTO.TRAINER,
@@ -103,7 +102,7 @@ class MainActivity : GeneralActivity("MainActivity") {
             when (scelta.itemId) {
                 R.id.profileItem -> {
                     changeItemState(GONE)
-                    contentManager.switch(GeneralFragment.getInstance(applicationContext, ProfileAdapter()))
+                    manager.switch(GeneralFragment.getInstance(applicationContext, ProfileAdapter()))
                     toolbar.setTitle(R.string.profile)
                     true
                 }
@@ -115,19 +114,19 @@ class MainActivity : GeneralActivity("MainActivity") {
                 }
                 R.id.scheduleHistoryItem -> {
                     changeItemState(GONE)
-                    contentManager.switch(GeneralFragment.getInstance(applicationContext, ScheduleHistoryAdapter()))
+                    manager.switch(GeneralFragment.getInstance(applicationContext, ScheduleHistoryAdapter()))
                     toolbar.setTitle(R.string.schedule_history)
                     true
                 }
                 R.id.requestScheduleItem -> {
                     changeItemState(GONE)
-                    contentManager.switch(GeneralFragment.getInstance(applicationContext, RequestScheduleAdapter()))
+                    manager.switch(GeneralFragment.getInstance(applicationContext, RequestScheduleAdapter()))
                     toolbar.setTitle(R.string.request_schedule)
                     true
                 }
                 R.id.helpItem -> {
                     changeItemState(GONE)
-                    contentManager.switch(GeneralFragment.getInstance(applicationContext, HelpAdapter()))
+                    manager.switch(GeneralFragment.getInstance(applicationContext, HelpAdapter()))
                     toolbar.setTitle(R.string.help)
                     true
                 }

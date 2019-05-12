@@ -12,6 +12,7 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/allUsers"
+            android:icon="@drawable/people"
             android:orderInCategory="2"
             android:title="@string/admin_all" />
 
@@ -34,6 +35,7 @@
 
         <item
             android:id="@+id/cleanItem"
+            android:icon="@drawable/clear"
             android:orderInCategory="5"
             android:title="@string/clean" />
 

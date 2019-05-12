@@ -34,7 +34,10 @@ class RequestScheduleAdapter : RecyclerView.Adapter<RequestScheduleAdapter.Compa
     override fun onBindViewHolder(holder: RequestScheduleViewHolder, position: Int) {
         val spinner = holder.spinner
         trainers = trainers + locale.getInstance().getAllUsersType("trainer")
-        val adapter = ArrayAdapter<User>(holder.context, R.layout.support_simple_spinner_dropdown_item, trainers)
+        val adapter = ArrayAdapter<String>(
+            holder.context,
+            R.layout.support_simple_spinner_dropdown_item,
+            trainers.map { trainer -> trainer.name() })
         spinner.adapter = adapter
         spinner.onItemSelectedListener = this
         holder.button.setOnClickListener {

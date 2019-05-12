@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+
 import com.example.mytrainer.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -42,9 +42,8 @@ class BlankFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return TextView(activity).apply {
-            setText(R.string.hello_blank_fragment)
-        }
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_blank, container, false)
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -57,7 +56,7 @@ class BlankFragment : Fragment() {
         if (context is OnFragmentInteractionListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+            //throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
         }
     }
 

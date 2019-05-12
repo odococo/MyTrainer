@@ -4,13 +4,14 @@ import android.os.Bundle
 import android.support.v7.app.ActionBarDrawerToggle
 import com.example.mytrainer.component.ScheduleRequest
 import com.example.mytrainer.component.User
-import com.example.mytrainer.fragment.main.ProfileFragment
+import com.example.mytrainer.fragment.HelpFragment
+import com.example.mytrainer.fragment.ProfileFragment
 import com.example.mytrainer.fragment.trainer.PendingRequestsFragment
 import com.example.mytrainer.utils.FragmentManager
 import kotlinx.android.synthetic.main.activity_trainer.*
+import kotlinx.android.synthetic.main.navigation_header.view.*
 
 class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.RequestsListener {
-    private lateinit var manager: FragmentManager
     private var fromRequests = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +46,10 @@ class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.Requ
         drawer_layout.addDrawerListener(toolBarToogle)
         toolBarToogle.syncState()
 
-        when (auth.getUser().type) {
+        mainNavigation.getHeaderView(0).trainerFirstName.text = user.firstName
+        mainNavigation.getHeaderView(0).trainerLastName.text = user.lastName
+
+        when (user.type) {
             "trainer" -> mainNavigation.menu.add(
                 R.id.switchProfile,
                 Codes.SwitchTO.ATHLETE,
@@ -82,6 +86,7 @@ class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.Requ
                     // creazione scheda
                 }
                 R.id.helpItem -> {
+                    manager.switch(HelpFragment())
                 }
                 R.id.logoutItem -> {
                     auth.logout()

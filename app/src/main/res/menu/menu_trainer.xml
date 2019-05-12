@@ -12,10 +12,12 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/pendingScheduleRequest"
+            android:icon="@drawable/messages"
             android:orderInCategory="2"
             android:title="@string/pending_requests" />
         <item
             android:id="@+id/createSchedule"
+            android:icon="@drawable/create"
             android:orderInCategory="3"
             android:title="@string/create_schedule" />
 
@@ -38,6 +40,7 @@
 
         <item
             android:id="@+id/cleanItem"
+            android:icon="@drawable/clear"
             android:orderInCategory="6"
             android:title="@string/clean" />
 

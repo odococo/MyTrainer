@@ -3,17 +3,18 @@ package com.example.mytrainer
 import android.os.Bundle
 import android.support.v7.app.ActionBarDrawerToggle
 import com.example.mytrainer.component.User
+import com.example.mytrainer.fragment.HelpFragment
+import com.example.mytrainer.fragment.ProfileFragment
 import com.example.mytrainer.fragment.admin.ManageUsersFragment
 import com.example.mytrainer.fragment.admin.UsersFragment
-import com.example.mytrainer.fragment.main.ProfileFragment
 import com.example.mytrainer.utils.FragmentManager
 import kotlinx.android.synthetic.main.activity_admin.*
+import kotlinx.android.synthetic.main.navigation_header.view.*
 import com.example.mytrainer.database.locale.Query as locale
 import com.example.mytrainer.database.remote.Query as remote
 
 class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
 
-    private lateinit var manager: FragmentManager
     private var fromListUsers = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +52,10 @@ class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
         drawer_layout.addDrawerListener(toolBarToogle)
         toolBarToogle.syncState()
 
-        when (auth.getUser().type) {
+        mainNavigation.getHeaderView(0).trainerFirstName.text = user.firstName
+        mainNavigation.getHeaderView(0).trainerLastName.text = user.lastName
+
+        when (user.type) {
             "admin" -> {
                 mainNavigation.menu.add(
                     R.id.switchProfile,
@@ -79,6 +83,7 @@ class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
                     manager.switch(ManageUsersFragment())
                 }
                 R.id.helpItem -> {
+                    manager.switch(HelpFragment())
                 }
                 R.id.logoutItem -> {
                     auth.logout()
