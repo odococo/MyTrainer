@@ -11,7 +11,7 @@ import com.example.mytrainer.auth.Google
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment() {
-    private val TAG = "Login"
+    private val TAG = "SignIn"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

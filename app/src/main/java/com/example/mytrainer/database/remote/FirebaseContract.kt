@@ -35,7 +35,7 @@ object FirebaseContract {
         const val TYPE = "type"
     }
 
-    object Requests {
+    object ScheduleRequests {
         const val NAME = "requests"
         const val ID = "id"
         const val FROM = "athlete"

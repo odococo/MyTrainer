@@ -45,7 +45,7 @@ private constructor(
 
     private fun selectAccount() {
         val intent: Intent = client.signInIntent
-        (context as Activity).startActivityForResult(intent, Codes.GOOGLE_SIGN_IN.code)
+        (context as Activity).startActivityForResult(intent, Codes.SignIn.GOOGLE)
     }
 
     override fun handleResult(requestCode: Int, resultCode: Int, data: Intent?) {

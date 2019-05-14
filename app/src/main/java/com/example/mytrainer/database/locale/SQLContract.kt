@@ -42,7 +42,7 @@ object SQLContract {
         const val STARTDATE = "start_date"
     }
 
-    object Requests {
+    object ScheduleRequests {
         const val NAME = "requests"
         const val ID = "id"
         const val FROM = "athlete_id"

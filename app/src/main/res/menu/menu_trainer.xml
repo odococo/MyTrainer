@@ -8,13 +8,18 @@
         android:title="@string/profile" />
 
     <group
-        android:id="@+id/users"
+        android:id="@+id/requests"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/allUsers"
-            android:icon="@drawable/people"
+            android:id="@+id/pendingScheduleRequest"
+            android:icon="@drawable/messages"
             android:orderInCategory="2"
-            android:title="@string/admin_all" />
+            android:title="@string/pending_requests" />
+        <item
+            android:id="@+id/createSchedule"
+            android:icon="@drawable/create"
+            android:orderInCategory="3"
+            android:title="@string/create_schedule" />
 
     </group>
 
@@ -24,19 +29,19 @@
         <item
             android:id="@+id/helpItem"
             android:icon="@drawable/help_circle_outline"
-            android:orderInCategory="3"
+            android:orderInCategory="4"
             android:title="@string/help" />
 
         <item
             android:id="@+id/logoutItem"
             android:icon="@drawable/exit_to_app"
-            android:orderInCategory="4"
+            android:orderInCategory="5"
             android:title="@string/logout" />
 
         <item
             android:id="@+id/cleanItem"
             android:icon="@drawable/clear"
-            android:orderInCategory="5"
+            android:orderInCategory="6"
             android:title="@string/clean" />
 
     </group>

@@ -37,4 +37,8 @@ open class User(
         }
         return user
     }
+
+    fun name(): String {
+        return "$firstName $lastName"
+    }
 }

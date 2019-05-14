@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:background="@color/colorPrimaryDark"
-              android:layout_width="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="192dp"
+    android:background="@color/colorPrimaryDark"
 
-              android:layout_height="192dp">
+    android:orientation="vertical">
 
     <TableRow
 
@@ -14,10 +14,10 @@
         android:gravity="bottom|center">
 
         <TextView
-            android:textColor="@color/colorWhite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/myTrainer"
+            android:textColor="@color/colorWhite"
             android:textSize="25sp" />
     </TableRow>
 
@@ -35,12 +35,12 @@
             android:gravity="center">
 
             <TextView
-                android:textColor="@color/colorWhite"
-                android:id="@+id/trainerName"
-                android:textSize="15sp"
+                android:id="@+id/trainerFirstName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/name" />
+                android:text="@string/firstname"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp" />
         </TableRow>
 
         <TableRow
@@ -50,12 +50,12 @@
             android:gravity="center">
 
             <TextView
-                android:textColor="@color/colorWhite"
-                android:id="@+id/trainerSurname"
-                android:textSize="15sp"
+                android:id="@+id/trainerLastName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/surname" />
+                android:text="@string/lastname"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp" />
         </TableRow>
 
     </TableRow>

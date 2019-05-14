@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.example.mytrainer.R
 
 class HelpAdapter: RecyclerView.Adapter<HelpAdapter.Companion.HelpViewHolder>(){
@@ -18,14 +17,11 @@ class HelpAdapter: RecyclerView.Adapter<HelpAdapter.Companion.HelpViewHolder>(){
     }
 
     override fun onBindViewHolder(holder: HelpViewHolder, position: Int) {
-        holder.helpText.text = "Some Help Text"
+
     }
 
     companion object {
 
-        class HelpViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
-
-            val helpText: TextView = itemView.findViewById(R.id.help)
-        }
+        class HelpViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     }
 }

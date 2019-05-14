@@ -9,7 +9,7 @@ import android.widget.AdapterView
 import android.widget.Toast
 import com.example.mytrainer.Codes
 import com.example.mytrainer.R
-import com.example.mytrainer.adapter.UsersAdapter
+import com.example.mytrainer.adapter.UserAdapter
 import com.example.mytrainer.auth.Auth
 import com.example.mytrainer.component.User
 import kotlinx.android.synthetic.main.fragment_users.*
@@ -31,9 +31,9 @@ class UsersFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list.adapter = UsersAdapter(users, context)
+        list.adapter = UserAdapter(users, context)
 
-        list.setOnItemClickListener { _, _, position, id ->
+        list.setOnItemClickListener { _, _, position, _ ->
             listener?.view(users[position], positionInViewPager)
         }
 
@@ -46,16 +46,16 @@ class UsersFragment : Fragment() {
             val user = list.getItemAtPosition((menuInfo as AdapterView.AdapterContextMenuInfo).position) as User
             when (user.type) {
                 "athlete" -> {
-                    menu?.add(0, Codes.SWITCH_TO_TRAINER.code, 1, "Cambia in Trainer")
-                    menu?.add(0, Codes.SWITCH_TO_ADMIN.code, 2, "Cambia in Admin")
+                    menu?.add(0, Codes.SwitchTO.TRAINER, 1, getString(R.string.update_to_trainer))
+                    menu?.add(0, Codes.SwitchTO.ADMIN, 2, getString(R.string.update_to_admin))
                 }
                 "trainer" -> {
-                    menu?.add(0, Codes.SWITCH_TO_ATHLETE.code, 1, "Cambia in Athlete")
-                    menu?.add(0, Codes.SWITCH_TO_ADMIN.code, 2, "Cambia in Admin")
+                    menu?.add(0, Codes.SwitchTO.ATHLETE, 1, getString(R.string.update_to_athlete))
+                    menu?.add(0, Codes.SwitchTO.ADMIN, 2, getString(R.string.update_to_admin))
                 }
                 else -> {
-                    menu?.add(0, Codes.SWITCH_TO_ATHLETE.code, 1, "Cambia in Athlete")
-                    menu?.add(0, Codes.SWITCH_TO_TRAINER.code, 2, "Cambia in Trainer")
+                    menu?.add(0, Codes.SwitchTO.ATHLETE, 1, getString(R.string.update_to_athlete))
+                    menu?.add(0, Codes.SwitchTO.TRAINER, 2, getString(R.string.update_to_trainer))
                 }
             }
         }
@@ -64,9 +64,9 @@ class UsersFragment : Fragment() {
     override fun onContextItemSelected(item: MenuItem?): Boolean {
         val user = list.getItemAtPosition((item?.menuInfo as AdapterView.AdapterContextMenuInfo).position) as User
         val type = when (item.itemId) {
-            Codes.SWITCH_TO_ATHLETE.code -> "athlete"
-            Codes.SWITCH_TO_TRAINER.code -> "trainer"
-            Codes.SWITCH_TO_ADMIN.code -> "admin"
+            Codes.SwitchTO.ATHLETE -> "athlete"
+            Codes.SwitchTO.TRAINER -> "trainer"
+            Codes.SwitchTO.ADMIN -> "admin"
             else -> user.type
         }
 

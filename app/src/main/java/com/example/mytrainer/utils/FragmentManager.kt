@@ -5,11 +5,12 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import com.example.mytrainer.fragment.BlankFragment
 
 class FragmentManager(
     val context: Context,
     private val container: Int,
-    firstFragment: Fragment,
+    firstFragment: Fragment = BlankFragment(),
     args: Map<String, Any> = emptyMap()
 ) {
     private val TAG = "FragmentManager"

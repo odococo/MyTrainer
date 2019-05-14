@@ -31,7 +31,7 @@ class Telegram(
                 PassportScope.ADDRESS_DOCUMENT,
                 PassportScope.PHONE_NUMBER
             )
-            TelegramPassport.request(context, request, Codes.TELEGRAM_SIGN_IN.code)
+            TelegramPassport.request(context, request, Codes.SignIn.TELEGRAM)
         }
     }
 

@@ -10,7 +10,6 @@ import com.example.mytrainer.fragment.login.LoginFragment
 import com.example.mytrainer.utils.FragmentManager
 
 class LoginActivity : GeneralActivity("LoginActivity") {
-    private lateinit var manager: FragmentManager
     private lateinit var loading: LoadingFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,10 +36,10 @@ class LoginActivity : GeneralActivity("LoginActivity") {
         manager.switch(loading)
 
         val auth = when (requestCode) {
-            Codes.GOOGLE_SIGN_IN.code -> {
+            Codes.SignIn.GOOGLE -> {
                 Google.getInstance()
             }
-            Codes.FACEBOOK_SIGN_IN.code -> {
+            Codes.SignIn.FACEBOOK -> {
                 Facebook.getInstance()
             }
             else -> {

@@ -36,7 +36,8 @@ data class TrainingExercise(
                 SQLContract.TrainingExercises.SERIES -> trainingExercise.series = value as Int
                 SQLContract.TrainingExercises.REPS -> trainingExercise.reps = value as Int
                 SQLContract.TrainingExercises.RECOVERYTIME -> trainingExercise.recoveryTime = value as Int
-                SQLContract.TrainingExercises.SCHEDULE -> ""
+                SQLContract.TrainingExercises.SCHEDULE -> {
+                }
                 else -> Log.w("TrainingExercise", "$key: $value non appartiene a ${this.javaClass.simpleName}!")
             }
         }

@@ -1,4 +1,4 @@
-package com.example.mytrainer.fragment.admin
+package com.example.mytrainer.fragment
 
 
 import android.os.Bundle
@@ -9,14 +9,14 @@ import android.view.ViewGroup
 
 import com.example.mytrainer.R
 
-class AdminHomeFragment : Fragment() {
+class HelpFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_admin_home, container, false)
+        return inflater.inflate(R.layout.fragment_help, container, false)
     }
 
 

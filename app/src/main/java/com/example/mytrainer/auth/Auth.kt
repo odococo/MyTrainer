@@ -3,9 +3,7 @@ package com.example.mytrainer.auth
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.example.mytrainer.GeneralActivity
-import com.example.mytrainer.LoginActivity
-import com.example.mytrainer.MainActivity
+import com.example.mytrainer.*
 import com.example.mytrainer.component.User
 import com.example.mytrainer.utils.SingletonHolder1
 import com.facebook.login.LoginManager
@@ -36,7 +34,7 @@ open class Auth(
     }
 
     fun failed() {
-        Log.d(TAG, "Login fallito!")
+        Log.d(TAG, "SignIn fallito!")
         failedLogin()
     }
 
@@ -71,7 +69,7 @@ open class Auth(
         toLogin()
     }
 
-    fun to(activity: GeneralActivity) {
+    private fun to(activity: GeneralActivity) {
         val intent = Intent(context, activity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         context.startActivity(intent)
@@ -81,7 +79,15 @@ open class Auth(
         to(MainActivity())
     }
 
-    fun toLogin() {
+    fun toTrainer() {
+        to(TrainerActivity())
+    }
+
+    fun toAdmin() {
+        to(AdminActivity())
+    }
+
+    private fun toLogin() {
         to(LoginActivity())
     }
 }
