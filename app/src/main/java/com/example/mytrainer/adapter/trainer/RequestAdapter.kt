@@ -1,4 +1,4 @@
-package com.example.mytrainer.adapter
+package com.example.mytrainer.adapter.trainer
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,22 +8,20 @@ import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.mytrainer.R
-import com.example.mytrainer.component.User
+import com.example.mytrainer.component.ScheduleRequest
 
-class UserAdapter(
-    dataSet: List<User>,
+class RequestAdapter(
+    dataSet: List<ScheduleRequest>,
     context: Context
 ) :
-    ArrayAdapter<User>(context, R.layout.template_user, dataSet) {
+    ArrayAdapter<ScheduleRequest>(context, R.layout.template_request, dataSet) {
 
     private var lastPosition = -1
 
     // View lookup cache
     private class ViewHolder {
-        internal var id: TextView? = null
-        internal var firstname: TextView? = null
-        internal var lastname: TextView? = null
-        internal var type: TextView? = null
+        internal var athlete: TextView? = null
+        internal var info: TextView? = null
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -39,11 +37,9 @@ class UserAdapter(
 
             viewHolder = ViewHolder()
             val inflater = LayoutInflater.from(context)
-            newview = inflater.inflate(R.layout.template_user, parent, false)
-            viewHolder.id = newview.findViewById(R.id.user_id)
-            viewHolder.firstname = newview.findViewById(R.id.user_first_name)
-            viewHolder.lastname = newview.findViewById(R.id.user_last_name)
-            viewHolder.type = newview.findViewById(R.id.user_type)
+            newview = inflater.inflate(R.layout.template_request, parent, false)
+            viewHolder.athlete = newview.findViewById(R.id.request_from)
+            viewHolder.info = newview.findViewById(R.id.request_info)
 
             result = newview
 
@@ -60,10 +56,8 @@ class UserAdapter(
         result.startAnimation(animation)
         lastPosition = position
 
-        viewHolder.id!!.text = dataModel.id
-        viewHolder.firstname!!.text = dataModel.firstName
-        viewHolder.lastname!!.text = dataModel.lastName
-        viewHolder.type!!.text = dataModel.type
+        viewHolder.athlete!!.text = dataModel.athlete.name()
+        viewHolder.info!!.text = dataModel.info
 
         // Return the completed view to render on screen
         return newview

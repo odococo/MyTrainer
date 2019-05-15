@@ -36,7 +36,7 @@ class FragmentManager(
     companion object {
         private const val TAG = "FragmentManager"
 
-        fun setArgs(fragment: Fragment, args: Map<String, Any>) {
+        fun setArgs(fragment: Fragment, args: Map<String, Any>): Fragment {
             fragment.arguments = Bundle().apply {
                 args.forEach { (key, value) ->
                     when (value) {
@@ -48,6 +48,8 @@ class FragmentManager(
                     }
                 }
             }
+
+            return fragment
         }
     }
 }

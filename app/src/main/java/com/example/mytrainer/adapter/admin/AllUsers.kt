@@ -1,4 +1,4 @@
-package com.example.mytrainer.adapter
+package com.example.mytrainer.adapter.admin
 
 import android.content.Context
 import android.support.v4.app.Fragment

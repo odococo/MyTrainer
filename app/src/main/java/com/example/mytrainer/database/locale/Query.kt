@@ -237,13 +237,22 @@ private constructor(val context: Context) {
         return db.insert(SQLContract.ScheduleRequests.NAME, values, SQLiteDatabase.CONFLICT_IGNORE)
     }
 
+    fun getRequest(id: String): ScheduleRequest {
+        val map = db.selectOneByKey(
+            SQLContract.ScheduleRequests.NAME,
+            SQLContract.ScheduleRequests.ID,
+            id
+        )
+
+        return ScheduleRequest().fromMap(map)
+    }
+
     fun getRequests(): List<ScheduleRequest> {
-        /*val requests = db.selectByKey(
+        val requests = db.selectByKey(
             SQLContract.ScheduleRequests.NAME,
             SQLContract.ScheduleRequests.TO,
             Auth.getInstance().getId()
-        )*/
-        val requests = db.select(SQLContract.ScheduleRequests.NAME)
+        )
 
         return requests.map { request -> ScheduleRequest().fromMap(request) }
     }

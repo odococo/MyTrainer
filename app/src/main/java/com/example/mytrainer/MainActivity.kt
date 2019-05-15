@@ -37,7 +37,7 @@ class MainActivity : GeneralActivity("MainActivity") {
         initNavigationView()
         initPager()
 
-        println(auth.getId())
+        println("id = ${auth.getId()} tipo = ${user.type}")
 
         //CreateSchedule().addRequest()
 

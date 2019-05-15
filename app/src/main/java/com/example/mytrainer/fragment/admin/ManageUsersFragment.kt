@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.example.mytrainer.R
-import com.example.mytrainer.adapter.AllUsers
+import com.example.mytrainer.adapter.admin.AllUsers
 import kotlinx.android.synthetic.main.fragment_manage_users.*
 
 class ManageUsersFragment : Fragment() {
@@ -30,7 +30,6 @@ class ManageUsersFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewpager.offscreenPageLimit = 4
         viewpager.adapter = AllUsers(context)
         sliding_tabs.setupWithViewPager(viewpager)
         viewpager.currentItem = list

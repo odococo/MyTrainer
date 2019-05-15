@@ -1,4 +1,4 @@
-package com.example.mytrainer.adapter
+package com.example.mytrainer.adapter.trainer
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,20 +8,21 @@ import android.view.animation.AnimationUtils
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import com.example.mytrainer.R
-import com.example.mytrainer.component.ScheduleRequest
+import com.example.mytrainer.component.TrainingExercise
 
-class RequestAdapter(
-    dataSet: List<ScheduleRequest>,
+class ExercisesAdapter(
+    dataSet: List<TrainingExercise>,
     context: Context
 ) :
-    ArrayAdapter<ScheduleRequest>(context, R.layout.template_request, dataSet) {
+    ArrayAdapter<TrainingExercise>(context, R.layout.template_exercise, dataSet) {
 
     private var lastPosition = -1
 
     // View lookup cache
     private class ViewHolder {
-        internal var athlete: TextView? = null
-        internal var info: TextView? = null
+        internal var title: TextView? = null
+        internal var overallWork: TextView? = null
+        internal var recoveryTime: TextView? = null
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -37,9 +38,10 @@ class RequestAdapter(
 
             viewHolder = ViewHolder()
             val inflater = LayoutInflater.from(context)
-            newview = inflater.inflate(R.layout.template_request, parent, false)
-            viewHolder.athlete = newview.findViewById(R.id.request_from)
-            viewHolder.info = newview.findViewById(R.id.request_info)
+            newview = inflater.inflate(R.layout.template_exercise, parent, false)
+            viewHolder.title = newview.findViewById(R.id.exercise_title)
+            viewHolder.overallWork = newview.findViewById(R.id.overall_work)
+            viewHolder.recoveryTime = newview.findViewById(R.id.recovery_time)
 
             result = newview
 
@@ -56,8 +58,9 @@ class RequestAdapter(
         result.startAnimation(animation)
         lastPosition = position
 
-        viewHolder.athlete!!.text = dataModel.athlete.name()
-        viewHolder.info!!.text = dataModel.info
+        viewHolder.title!!.text = dataModel.id
+        viewHolder.overallWork!!.text = dataModel.overallWork()
+        viewHolder.recoveryTime!!.text = dataModel.time()
 
         // Return the completed view to render on screen
         return newview

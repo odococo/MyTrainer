@@ -9,7 +9,7 @@ import android.widget.AdapterView
 import com.example.mytrainer.Codes
 
 import com.example.mytrainer.R
-import com.example.mytrainer.adapter.RequestAdapter
+import com.example.mytrainer.adapter.trainer.RequestAdapter
 import com.example.mytrainer.component.ScheduleRequest
 import com.example.mytrainer.component.User
 import com.example.mytrainer.database.locale.Query

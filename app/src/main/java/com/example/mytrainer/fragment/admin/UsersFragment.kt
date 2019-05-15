@@ -9,7 +9,7 @@ import android.widget.AdapterView
 import android.widget.Toast
 import com.example.mytrainer.Codes
 import com.example.mytrainer.R
-import com.example.mytrainer.adapter.UserAdapter
+import com.example.mytrainer.adapter.admin.UserAdapter
 import com.example.mytrainer.auth.Auth
 import com.example.mytrainer.component.User
 import kotlinx.android.synthetic.main.fragment_users.*

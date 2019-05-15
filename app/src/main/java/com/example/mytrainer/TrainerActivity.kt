@@ -6,13 +6,17 @@ import com.example.mytrainer.component.ScheduleRequest
 import com.example.mytrainer.component.User
 import com.example.mytrainer.fragment.HelpFragment
 import com.example.mytrainer.fragment.ProfileFragment
+import com.example.mytrainer.fragment.trainer.CreateGeneralFragment
 import com.example.mytrainer.fragment.trainer.PendingRequestsFragment
+import com.example.mytrainer.fragment.trainer.ScheduleFragment
 import com.example.mytrainer.utils.FragmentManager
 import kotlinx.android.synthetic.main.activity_trainer.*
 import kotlinx.android.synthetic.main.navigation_header.view.*
 
-class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.RequestsListener {
+class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.RequestsListener,
+    CreateGeneralFragment.CreateGeneralListener {
     private var fromRequests = false
+    private var scheduleFragment = ScheduleFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppDefaul) //Mancava questa riga per i colori
@@ -82,9 +86,6 @@ class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.Requ
                 R.id.pendingScheduleRequest -> {
                     manager.switch(PendingRequestsFragment())
                 }
-                R.id.createSchedule -> {
-                    // creazione scheda
-                }
                 R.id.helpItem -> {
                     manager.switch(HelpFragment())
                 }
@@ -113,7 +114,7 @@ class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.Requ
     }
 
     override fun create(request: ScheduleRequest) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        manager.switch(ScheduleFragment(), mapOf(ScheduleFragment.REQUEST to request.id))
     }
 
     override fun onBackPressed() {
@@ -123,5 +124,8 @@ class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.Requ
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun complete() {
     }
 }
