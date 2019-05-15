@@ -3,7 +3,7 @@ package com.example.mytrainer
 object Codes {
 
     object SignIn {
-        const val GOOGLE = 1
+        const val GOOGLE = 986
         const val FACEBOOK = 64206
         const val TELEGRAM = 352
     }
@@ -20,5 +20,11 @@ object Codes {
 
     object Create {
         const val SCHEDULE = 839
+    }
+
+    object Database {
+        const val OK = 1
+        const val ALREADY_PRESENT = 0
+        const val ERROR = -1
     }
 }

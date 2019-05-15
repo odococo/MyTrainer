@@ -6,8 +6,7 @@ open class SingletonHolder3<out T, in A, in B, in C>(creator: (A, B, C) -> T) {
     private var instance: T? = null
 
     fun getInstance(): T {
-        val i = instance ?: throw RuntimeException("Crea prima l'istanza con i parametri!")
-        return i
+        return instance ?: throw RuntimeException("Crea prima l'istanza con i parametri!")
     }
 
     fun getInstance(arg1: A, arg2: B, arg3: C): T {
@@ -17,15 +16,13 @@ open class SingletonHolder3<out T, in A, in B, in C>(creator: (A, B, C) -> T) {
         }
 
         return synchronized(this) {
-            val i2 = instance
-            if (i2 != null) {
-                i2
-            } else {
-                val created = creator!!(arg1, arg2, arg3)
-                instance = created
-                creator = null
-                created
-            }
+            instance ?: newInstance(arg1, arg2, arg3)
         }
+    }
+
+    fun newInstance(arg1: A, arg2: B, arg3: C): T {
+        val created = creator!!(arg1, arg2, arg3)
+        instance = created
+        return created
     }
 }

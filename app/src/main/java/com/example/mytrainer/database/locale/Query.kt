@@ -57,7 +57,7 @@ private constructor(val context: Context) {
         values.put(SQLContract.Exercises.ID, exercise.id)
         values.put(SQLContract.Exercises.DESCRIPTION, exercise.description)
 
-        if (db.insert(SQLContract.Exercises.NAME, values, SQLiteDatabase.CONFLICT_IGNORE)) {
+        if (db.insert(SQLContract.Exercises.NAME, values, SQLiteDatabase.CONFLICT_REPLACE)) {
             if (addExerciseTypes(exercise)) {
                 db.commit()
             }

@@ -6,7 +6,6 @@ import android.util.Log
 import com.example.mytrainer.*
 import com.example.mytrainer.component.User
 import com.example.mytrainer.utils.SingletonHolder1
-import com.facebook.login.LoginManager
 import com.google.firebase.auth.FirebaseAuth
 import com.example.mytrainer.database.locale.Query as localDB
 import com.example.mytrainer.database.remote.Query as remoteDB
@@ -64,7 +63,6 @@ open class Auth(
 
     fun logout() {
         firebaseAuth.signOut()
-        LoginManager.getInstance().logOut()
         Log.d("Auth", "Logout con successo")
         toLogin()
     }

@@ -199,9 +199,9 @@ private constructor(context: Context) :
         db.execSQL(query)
     }
 
-    fun insert(table: String, values: ContentValues, conflict: Int = 0): Boolean {
+    fun insert(table: String, values: ContentValues, conflict: Int = SQLiteDatabase.CONFLICT_NONE): Boolean {
         val result =
-            if (conflict != 0) {
+            if (conflict != SQLiteDatabase.CONFLICT_NONE) {
                 db.insertWithOnConflict(table, null, values, conflict)
             } else {
                 db.insert(table, null, values)

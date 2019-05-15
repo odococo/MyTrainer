@@ -11,7 +11,6 @@ import com.example.mytrainer.component.User
 import com.example.mytrainer.utils.SingletonHolder2
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
@@ -25,27 +24,21 @@ private constructor(
 ) : Auth(context) {
 
     private val TAG: String = "GoogleAuth"
-    private val client: GoogleSignInClient
 
     companion object : SingletonHolder2<Google, Context, SignInButton>(::Google)
 
     init {
-        button.setOnClickListener {
-            selectAccount()
-        }
-
         // Configure Google Sign In
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(context.getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
 
-        client = GoogleSignIn.getClient(context, googleSignInOptions)
-    }
-
-    private fun selectAccount() {
-        val intent: Intent = client.signInIntent
-        (context as Activity).startActivityForResult(intent, Codes.SignIn.GOOGLE)
+        val client = GoogleSignIn.getClient(context, googleSignInOptions)
+        button.setOnClickListener {
+            val intent: Intent = client.signInIntent
+            (context as Activity).startActivityForResult(intent, Codes.SignIn.GOOGLE)
+        }
     }
 
     override fun handleResult(requestCode: Int, resultCode: Int, data: Intent?) {

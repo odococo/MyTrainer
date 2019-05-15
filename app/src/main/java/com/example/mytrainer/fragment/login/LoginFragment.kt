@@ -23,7 +23,7 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Google.getInstance(context, google_sign_in_button)
-        Facebook.getInstance(context, facebook_sign_in_button)
+        Google.newInstance(context, google_sign_in_button)
+        Facebook.newInstance(context, facebook_sign_in_button)
     }
 }

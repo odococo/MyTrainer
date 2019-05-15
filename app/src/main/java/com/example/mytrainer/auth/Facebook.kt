@@ -8,6 +8,7 @@ import android.widget.Toast
 import com.example.mytrainer.component.User
 import com.example.mytrainer.utils.SingletonHolder2
 import com.facebook.*
+import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.facebook.login.widget.LoginButton
 import com.google.firebase.auth.FacebookAuthProvider
@@ -23,7 +24,7 @@ private constructor(
     private val callbackManager: CallbackManager = CallbackManager.Factory.create()
 
     init {
-
+        LoginManager.getInstance().logOut() // nel caso fosse loggato
         button.setReadPermissions("email")
         button.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(result: LoginResult?) {
