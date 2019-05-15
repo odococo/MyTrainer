@@ -1,7 +1,6 @@
 package com.example.mytrainer
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
 import android.util.Log
 import android.view.View
@@ -10,7 +9,6 @@ import com.example.mytrainer.component.TrainingSchedule
 import com.example.mytrainer.fragment.GeneralFragment
 import com.example.mytrainer.utils.FragmentManager
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_manage_users.*
 import kotlinx.android.synthetic.main.navigation_header.view.*
 import com.example.mytrainer.database.locale.Query as LocalDB
 import com.example.mytrainer.database.remote.Query as remoteDB
@@ -30,7 +28,7 @@ class MainActivity : GeneralActivity("MainActivity") {
         setTheme(R.style.AppDefaul)
         super.onCreate(savedInstanceState)
 
-        localDB = LocalDB.getInstance(this)
+        localDB = LocalDB.getInstance()
         currentSchedule = localDB.getCurrentSchedule()
         manager = FragmentManager(this, R.id.content_layout)
 

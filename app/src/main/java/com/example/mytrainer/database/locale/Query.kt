@@ -13,7 +13,7 @@ import com.example.mytrainer.database.remote.Query as Remote
 class Query
 private constructor(val context: Context) {
     private val TAG = "QuerySQLite"
-    private val db: DataBaseOpenHelper = DataBaseOpenHelper.getInstance(context)
+    private var db: DataBaseOpenHelper = DataBaseOpenHelper.getInstance(context)
 
     companion object : SingletonHolder1<Query, Context>(::Query)
 
@@ -77,7 +77,7 @@ private constructor(val context: Context) {
             val values = ContentValues()
             values.put(SQLContract.ExerciseTypes.ID, exercise.id)
             values.put(SQLContract.ExerciseTypes.TYPE, type)
-            if (!db.insert(SQLContract.ExerciseTypes.NAME, values)) {
+            if (!db.insert(SQLContract.ExerciseTypes.NAME, values, SQLiteDatabase.CONFLICT_IGNORE)) {
                 Log.w(TAG, "Errore inserimento tipi dell'esercizio in e: $exercise")
             } else {
                 result++
@@ -203,6 +203,8 @@ private constructor(val context: Context) {
             Auth.getInstance().getId(),
             "${SQLContract.TrainingSchedules.STARTDATE} DESC"
         )
+
+        println(db.select(SQLContract.TrainingSchedules.NAME))
 
         return getSchedule(map.getOrDefault(SQLContract.TrainingSchedules.ID, "") as String)
     }

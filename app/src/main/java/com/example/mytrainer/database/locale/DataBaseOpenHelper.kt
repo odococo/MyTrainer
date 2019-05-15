@@ -132,6 +132,7 @@ private constructor(context: Context) :
 
     fun closeDB() {
         Log.d(TAG, "Chiudo database")
+        db.close()
         close()
     }
 
