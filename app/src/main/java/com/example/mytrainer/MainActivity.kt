@@ -1,6 +1,7 @@
 package com.example.mytrainer
 
 import android.os.Bundle
+import android.support.v4.app.Fragment
 import android.support.v7.app.ActionBarDrawerToggle
 import android.util.Log
 import android.view.View
@@ -9,6 +10,7 @@ import com.example.mytrainer.component.TrainingSchedule
 import com.example.mytrainer.fragment.GeneralFragment
 import com.example.mytrainer.utils.FragmentManager
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_manage_users.*
 import kotlinx.android.synthetic.main.navigation_header.view.*
 import com.example.mytrainer.database.locale.Query as LocalDB
 import com.example.mytrainer.database.remote.Query as remoteDB
@@ -22,6 +24,7 @@ class MainActivity : GeneralActivity("MainActivity") {
     private lateinit var localDB: LocalDB
 
     private lateinit var currentSchedule: TrainingSchedule
+    private lateinit var adapter: FragmentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppDefaul)
@@ -157,7 +160,8 @@ class MainActivity : GeneralActivity("MainActivity") {
     }
 
     private fun initPager() {
-        viewPager?.adapter = FragmentAdapter(applicationContext, currentSchedule, supportFragmentManager)
+        adapter = FragmentAdapter(applicationContext, currentSchedule, supportFragmentManager)
+        viewPager?.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
     }
 
@@ -175,7 +179,5 @@ class MainActivity : GeneralActivity("MainActivity") {
             }
             else->{ Log.d(TAG, "Stato di NavigationViewItem, non riconosciuto!")}
         }
-
     }
-
 }

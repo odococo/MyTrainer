@@ -18,13 +18,14 @@ class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
     private var fromListUsers = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.AppDefaul) //Mancava questa riga per i colori
+        setTheme(R.style.AppDefaul)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin)
 
         remote.getAllUsers { users ->
             locale.getInstance().addAll(users)
         }
+
         manager = FragmentManager(this, R.id.content_layout, ManageUsersFragment())
 
         setToolbarTitle()

@@ -9,6 +9,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.mytrainer.R
+import com.example.mytrainer.adapter.ExerciseListAdapter
+import com.example.mytrainer.adapter.FragmentAdapter
+import com.example.mytrainer.database.locale.Query
+import kotlinx.android.synthetic.main.activity_main.*
 
 class GeneralFragment: Fragment() {
 

@@ -10,6 +10,7 @@ import com.example.mytrainer.fragment.admin.UsersFragment
 class AllUsers(
     context: Context
 ) : FragmentStatePagerAdapter((context as GeneralActivity).supportFragmentManager) {
+
     override fun getItem(position: Int): Fragment {
         val fragment = UsersFragment()
         fragment.users = when (position) {

@@ -2,7 +2,7 @@ package com.example.mytrainer.adapter
 
 import android.content.Context
 import android.support.v4.app.*
-import com.example.mytrainer.component.TrainingExercise
+import android.view.ViewGroup
 import com.example.mytrainer.component.TrainingSchedule
 import com.example.mytrainer.fragment.GeneralFragment
 import com.example.mytrainer.fragment.login.LoadingFragment
@@ -13,17 +13,16 @@ class FragmentAdapter(
     fm: FragmentManager
 ) : FragmentStatePagerAdapter(fm) {
 
-    private val fragments: MutableMap<Int, Fragment> = HashMap()
-    private val pageTitles: MutableMap<Int, String> = HashMap()
-
-    private var trainingDays: HashMap<Int, List<TrainingExercise>> = HashMap()
+    private val fragments: ArrayList<Fragment> = ArrayList()
+    private val pageTitles: ArrayList<String> = ArrayList()
 
     init {
-        fragments[0] = LoadingFragment() // se assente uno schedule potrebbe essere la pagina che lo invita a chiedere una scheda oppure il riepilogo della stessa
-        pageTitles[0] = "Generale"
+        // fragments[0] = LoadingFragment() // se assente uno schedule potrebbe essere la pagina che lo invita a chiedere una scheda oppure il riepilogo della stessa
+       // pageTitles[0] = "Generale"
+
         for ((day, exercises) in schedule.perDay()) {
-            fragments[day] = GeneralFragment.getInstance(appContext, ExerciseListAdapter(exercises))
-            pageTitles[day] = "Giorno $day"
+            fragments.add(GeneralFragment.getInstance(appContext,ExerciseListAdapter(exercises)))
+            pageTitles.add("Giorno $day")
         }
     }
 
@@ -38,5 +37,4 @@ class FragmentAdapter(
     override fun getCount(): Int {
         return fragments.size
     }
-
 }

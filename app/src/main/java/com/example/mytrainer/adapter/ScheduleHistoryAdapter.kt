@@ -26,6 +26,8 @@ class ScheduleHistoryAdapter: RecyclerView.Adapter<ScheduleHistoryAdapter.Compan
         return schedules.size
     }
 
+
+
     override fun onBindViewHolder(holder: ScheduleHistoryViewHolder, position: Int) {
         holder.scheduleName.text = "Scheda "
         holder.trainer.text = schedules[position].trainer.firstName
