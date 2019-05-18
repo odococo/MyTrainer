@@ -100,7 +100,7 @@ qwIDAQAB
     <string name="schedule_days">La scheda deve avere almeno un giorno!</string>
     <string name="input_exercise_series">Inserisci il numero di serie</string>
     <string name="input_exercise_reps">Inserisci il numero di ripetizioni</string>
-    <string name="input_exercise_recovery_time">Inserisci il tempo di recupero</string>
+    <string name="input_exercise_recovery_time">Inserisci il tempo di recupero (in secondi)</string>
     <string name="add_exercise">Aggiungi esercizio</string>
 
 

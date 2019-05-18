@@ -104,7 +104,18 @@ object Query {
                 Log.d(TAG, "Utente ${(info as User).id} aggiornato con successo")
                 callback(info)
             } else {
-                Log.w(TAG, "Utente $user non aggiornato con successo")
+                Log.w(TAG, "Utente $user non aggiornato")
+            }
+        }
+    }
+
+    fun deleteRequest(request: ScheduleRequest, callback: () -> Unit) {
+        Firestore.delete(FirebaseContract.ScheduleRequests.NAME, request) { ok, info ->
+            if (ok) {
+                Log.d(TAG, "Richiesta $request eliminata con successo")
+                callback()
+            } else {
+                Log.w(TAG, "Errore cancellazione richiesta: $info")
             }
         }
     }

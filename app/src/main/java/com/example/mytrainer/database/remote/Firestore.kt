@@ -80,10 +80,12 @@ object Firestore {
                 val list = document.documents.map { dc ->
                     (dc.toObject(T::class.java) as T).withId(dc.id) as T
                 }
+                Log.d(TAG, "find $table con ${list.size}")
                 callback(list)
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Errore con il database", exception)
+                callback(emptyList())
             }
     }
 
@@ -105,6 +107,7 @@ object Firestore {
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Errore con il database", exception)
+                callback(emptyList())
             }
     }
 
@@ -125,10 +128,30 @@ object Firestore {
                 } else {
                     default
                 }
+                Log.d(TAG, "Get $table con $doc")
                 callback(obj)
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Errore con il database", exception)
+                callback(default)
+            }
+    }
+
+    fun delete(
+        table: String,
+        data: Component,
+        callback: (ok: Boolean, info: Any) -> Unit
+    ) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection(table).document(data.id)
+            .delete()
+            .addOnSuccessListener {
+                Log.d(TAG, "Delete $table con $data")
+                callback(true, data)
+            }
+            .addOnFailureListener { exception ->
+                Log.w(TAG, "Errore con il database", exception)
+                callback(false, exception)
             }
     }
 }

@@ -227,9 +227,6 @@ private constructor(val context: Context) {
             Auth.getInstance().getId(),
             "${SQLContract.TrainingSchedules.STARTDATE} DESC"
         )
-
-        println(db.select(SQLContract.TrainingSchedules.NAME))
-
         return getSchedule(map.getOrDefault(SQLContract.TrainingSchedules.ID, "") as String)
     }
 
@@ -279,6 +276,14 @@ private constructor(val context: Context) {
         )
 
         return requests.map { request -> ScheduleRequest().fromMap(request) }
+    }
+
+    fun deleteRequest(request: ScheduleRequest): Boolean {
+        return db.deleteByKey(
+            SQLContract.ScheduleRequests.NAME,
+            SQLContract.ScheduleRequests.ID,
+            request.id
+        )
     }
 
 }

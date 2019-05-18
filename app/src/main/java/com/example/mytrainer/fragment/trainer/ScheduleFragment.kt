@@ -6,13 +6,15 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.Toast
 import com.example.mytrainer.R
 import com.example.mytrainer.adapter.trainer.ScheduleAdapter
 import com.example.mytrainer.component.ScheduleRequest
 import com.example.mytrainer.component.TrainingSchedule
-import com.example.mytrainer.database.locale.Query
 import kotlinx.android.synthetic.main.fragment_schedule.*
+import java.util.*
+import com.example.mytrainer.database.locale.Query as locale
+import com.example.mytrainer.database.remote.Query as remote
 
 class ScheduleFragment : Fragment() {
     private var request: ScheduleRequest = ScheduleRequest()
@@ -24,7 +26,7 @@ class ScheduleFragment : Fragment() {
         arguments.let {
             val id = it.getString(REQUEST, "")
             if (id.isNotEmpty()) {
-                request = Query.getInstance().getRequest(id)
+                request = locale.getInstance().getRequest(id)
                 days = it.getInt(DAYS, 0)
             }
         }
@@ -42,6 +44,24 @@ class ScheduleFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         viewpager.adapter = ScheduleAdapter(context, days)
         sliding_tabs.setupWithViewPager(viewpager)
+    }
+
+    fun complete() {
+        schedule.trainer = request.trainer
+        schedule.athlete = request.athlete
+        schedule.startDate = Date()
+        schedule.exercises = (viewpager.adapter as ScheduleAdapter).getExercises()
+
+        if (schedule.exercises.isNotEmpty()) {
+            remote.addTrainingSchedule(schedule) {
+                locale.getInstance().addTrainingSchedule(schedule)
+                remote.deleteRequest(request) {
+                    locale.getInstance().deleteRequest(request)
+                }
+            }
+        } else {
+            Toast.makeText(context, "Non tutti i giorni hanno degli esercizi!", Toast.LENGTH_LONG).show()
+        }
     }
 
     companion object {

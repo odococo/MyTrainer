@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.navigation_header.view.*
 class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.RequestsListener,
     CreateGeneralFragment.CreateGeneralListener {
     private var fromRequests = false
-    private var scheduleFragment = ScheduleFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppDefaul) //Mancava questa riga per i colori
@@ -132,5 +131,6 @@ class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.Requ
     }
 
     override fun complete() {
+        (manager.currentFragment as ScheduleFragment).complete()
     }
 }

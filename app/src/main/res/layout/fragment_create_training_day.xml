@@ -16,7 +16,8 @@
         <Spinner
             android:id="@+id/exercise_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="#D6D7D7" />
 
         <EditText
             android:id="@+id/exercise_series"

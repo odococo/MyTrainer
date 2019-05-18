@@ -87,7 +87,13 @@ private constructor(context: Context) :
                     SQLContract.TrainingExercises.SERIES to 0,
                     SQLContract.TrainingExercises.REPS to 0,
                     SQLContract.TrainingExercises.RECOVERYTIME to 0
-                ), arrayOf(SQLContract.TrainingExercises.EXERCISE, SQLContract.TrainingExercises.SCHEDULE), mapOf(
+                ),
+                arrayOf(
+                    SQLContract.TrainingExercises.EXERCISE,
+                    SQLContract.TrainingExercises.DAY,
+                    SQLContract.TrainingExercises.SCHEDULE
+                ),
+                mapOf(
                     SQLContract.TrainingExercises.EXERCISE to SQLContract.Exercises.NAME,
                     SQLContract.TrainingExercises.SCHEDULE to SQLContract.TrainingSchedules.NAME
                 )
@@ -293,6 +299,10 @@ private constructor(context: Context) :
         Log.d(TAG, "Righe cancellate in $table: $result")
 
         return result != -1
+    }
+
+    fun deleteByKey(table: String, key: String, value: String): Boolean {
+        return delete(table, "$key = ?", arrayOf(value))
     }
 
 }

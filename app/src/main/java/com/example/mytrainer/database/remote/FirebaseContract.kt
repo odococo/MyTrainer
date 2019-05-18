@@ -19,7 +19,7 @@ object FirebaseContract {
     }
 
     object TrainingSchedules {
-        const val NAME = "trainingSchedules"
+        const val NAME = "schedules"
         const val ID = "id"
         const val TRAINER = "trainer"
         const val ATHLETE = "athlete"

@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import com.example.mytrainer.R
 import com.example.mytrainer.adapter.trainer.ExercisesAdapter
-import com.example.mytrainer.component.Exercise
 import com.example.mytrainer.component.TrainingExercise
 import kotlinx.android.synthetic.main.fragment_create_training_day.*
 import kotlinx.android.synthetic.main.fragment_users.list
@@ -18,7 +17,7 @@ import com.example.mytrainer.database.remote.Query as remote
 
 class CreateTrainingDayFragment : Fragment() {
     private var day: Int = -1
-    private var listExercise = emptyList<Exercise>()
+    private var listExercise = locale.getInstance().getAllExercises()
     var exercises = mutableListOf<TrainingExercise>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +25,6 @@ class CreateTrainingDayFragment : Fragment() {
         arguments.let {
             day = it.getInt(DAY, -1)
         }
-        listExercise = locale.getInstance().getAllExercises()
     }
 
     override fun onCreateView(
