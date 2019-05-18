@@ -22,7 +22,7 @@ class LoadingFragment : Fragment() {
     }
 
     private var logged: Boolean = false
-    private val steps = 3
+    private val steps = 4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

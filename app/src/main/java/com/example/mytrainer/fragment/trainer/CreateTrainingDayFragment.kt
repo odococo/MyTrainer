@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import com.example.mytrainer.R
 import com.example.mytrainer.adapter.trainer.ExercisesAdapter
 import com.example.mytrainer.component.TrainingExercise
@@ -51,20 +52,30 @@ class CreateTrainingDayFragment : Fragment() {
             listExercise.map { exercise -> exercise.id }
         )
         exercise_name.adapter = adapter
-        exercise_series.setText("0")
-        exercise_reps.setText("0")
-        exercise_recovery_time.setText("0")
+        exercise_series.setText("")
+        exercise_reps.setText("")
+        exercise_recovery_time.setText("")
 
         create_exercise.setOnClickListener {
             input_exercise.visibility = View.GONE
             val id = listExercise[exercise_name.selectedItemPosition].id
-            val series = exercise_series.text.toString().toInt()
-            val reps = exercise_reps.text.toString().toInt()
-            val recoveryTime = exercise_recovery_time.text.toString().toInt()
-            val exercise = TrainingExercise(day, series, reps, recoveryTime).withId(id)
-            println(exercise)
-            exercises.add(exercise)
-            list.adapter = ExercisesAdapter(exercises, context)
+            val series = exercise_series.text.toString().toIntOrNull()
+            if (series == null) {
+                Toast.makeText(context, "Inserisci il numero di serie!", Toast.LENGTH_LONG).show()
+            }
+            val reps = exercise_reps.text.toString().toIntOrNull()
+            if (reps == null) {
+                Toast.makeText(context, "Inserisci il numero di ripetizioni!", Toast.LENGTH_LONG).show()
+            }
+            val recoveryTime = exercise_recovery_time.text.toString().toIntOrNull()
+            if (recoveryTime == null) {
+                Toast.makeText(context, "Inserisci il tempo di recupero!", Toast.LENGTH_LONG).show()
+            }
+            if (series != null && reps != null && recoveryTime != null) {
+                val exercise = TrainingExercise(day, series, reps, recoveryTime).withId(id)
+                exercises.add(exercise)
+                list.adapter = ExercisesAdapter(exercises, context)
+            }
         }
         input_exercise.visibility = View.VISIBLE
     }

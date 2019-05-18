@@ -85,12 +85,6 @@ class MainActivity : GeneralActivity("MainActivity") {
             "admin" -> {
                 mainNavigation.menu.add(
                     R.id.switchProfile,
-                    Codes.SwitchTO.TRAINER,
-                    mainNavigation.menu.size() + 1,
-                    getString(R.string.switch_to_trainer)
-                )
-                mainNavigation.menu.add(
-                    R.id.switchProfile,
                     Codes.SwitchTO.ADMIN,
                     mainNavigation.menu.size() + 1,
                     getString(R.string.switch_to_admin)

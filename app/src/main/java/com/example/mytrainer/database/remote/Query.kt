@@ -90,6 +90,15 @@ object Query {
         Firestore.getAll(FirebaseContract.Users.NAME, callback)
     }
 
+    fun getAllTrainers(callback: (List<User>) -> Unit) {
+        Firestore.find(
+            FirebaseContract.Users.NAME,
+            FirebaseContract.Users.TYPE,
+            "trainer",
+            callback
+        )
+    }
+
     fun getAllRequests(user: User, callback: (List<ScheduleRequest>) -> Unit) {
         Firestore.find(
             FirebaseContract.ScheduleRequests.NAME,

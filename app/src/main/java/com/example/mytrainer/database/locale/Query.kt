@@ -22,12 +22,16 @@ private constructor(val context: Context) {
         Remote.getAllExercises { exercises ->
             addAll(exercises)
             loading.step(2)
-            Remote.getAllSchedules(getUser()) { schedules ->
-                addAll(schedules)
+            Remote.getAllTrainers { users ->
+                addAll(users)
                 loading.step(3)
-                Remote.getAllRequests(getUser()) { requests ->
-                    addAll(requests)
+                Remote.getAllSchedules(getUser()) { schedules ->
+                    addAll(schedules)
                     loading.step(4)
+                    Remote.getAllRequests(getUser()) { requests ->
+                        addAll(requests)
+                        loading.joke()
+                    }
                 }
             }
         }
