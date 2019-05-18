@@ -35,6 +35,7 @@ private constructor(
             .build()
 
         val client = GoogleSignIn.getClient(context, googleSignInOptions)
+        client.signOut() // nel caso fossi loggato
         button.setOnClickListener {
             val intent: Intent = client.signInIntent
             (context as Activity).startActivityForResult(intent, Codes.SignIn.GOOGLE)
