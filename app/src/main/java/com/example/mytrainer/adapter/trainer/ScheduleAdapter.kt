@@ -10,7 +10,7 @@ import com.example.mytrainer.utils.FragmentManager
 
 class ScheduleAdapter(
     context: Context,
-    var days: Int = 1
+    var days: Int
 ) : FragmentStatePagerAdapter((context as GeneralActivity).supportFragmentManager) {
 
     override fun getItem(position: Int): Fragment {
@@ -26,7 +26,7 @@ class ScheduleAdapter(
     }
 
     override fun getCount(): Int {
-        return days
+        return days + 1
     }
 
     override fun getPageTitle(position: Int): CharSequence {

@@ -113,8 +113,13 @@ class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.Requ
         manager.switch(ProfileFragment(), mapOf(ProfileFragment.USER to user.id))
     }
 
-    override fun create(request: ScheduleRequest) {
-        manager.switch(ScheduleFragment(), mapOf(ScheduleFragment.REQUEST to request.id))
+    override fun create(request: ScheduleRequest, days: Int) {
+        manager.switch(
+            ScheduleFragment(), mapOf(
+                ScheduleFragment.REQUEST to request.id,
+                ScheduleFragment.DAYS to days
+            )
+        )
     }
 
     override fun onBackPressed() {

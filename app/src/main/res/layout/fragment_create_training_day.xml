@@ -1,14 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragment.trainer.CreateTrainingDayFragment">
+
+    <LinearLayout
+        android:id="@+id/input_exercise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <Spinner
+            android:id="@+id/exercise_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/exercise_series"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/input_exercise_series"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/exercise_reps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/input_exercise_reps"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/exercise_recovery_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/input_exercise_recovery_time"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/create_exercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add_exercise" />
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom">
+
+    </ListView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/new_exercise"
@@ -18,4 +66,4 @@
         android:layout_margin="16dp"
         android:src="@drawable/create" />
 
-</FrameLayout>
+</LinearLayout>

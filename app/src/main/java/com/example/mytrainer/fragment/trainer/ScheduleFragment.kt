@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.fragment_schedule.*
 
 class ScheduleFragment : Fragment() {
     private var request: ScheduleRequest = ScheduleRequest()
+    private var days = 0
     private val schedule: TrainingSchedule = TrainingSchedule()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +25,7 @@ class ScheduleFragment : Fragment() {
             val id = it.getString(REQUEST, "")
             if (id.isNotEmpty()) {
                 request = Query.getInstance().getRequest(id)
+                days = it.getInt(DAYS, 0)
             }
         }
     }
@@ -38,12 +40,13 @@ class ScheduleFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewpager.adapter = ScheduleAdapter(context, 4)
+        viewpager.adapter = ScheduleAdapter(context, days)
         sliding_tabs.setupWithViewPager(viewpager)
     }
 
     companion object {
         const val REQUEST = "request"
+        const val DAYS = "days"
     }
 
 }

@@ -86,6 +86,30 @@ private constructor(val context: Context) {
         return result == exercise.types.size
     }
 
+    fun getAllExercises(): List<Exercise> {
+        val exercises = db.select(SQLContract.Exercises.NAME)
+
+        return exercises.map { exercise -> Exercise().fromMap(exercise) }
+    }
+
+    fun getAllTypeExercises(type: String): List<Exercise> {
+        val exercises = db.select(
+            SQLContract.ExerciseTypes.NAME,
+            arrayOf(SQLContract.ExerciseTypes.ID),
+            whereClause = "${SQLContract.ExerciseTypes.TYPE} = ?",
+            whereValues = arrayOf(type)
+        )
+
+        return exercises.map { exercise ->
+            getExercise(
+                exercise.getOrDefault(
+                    SQLContract.ExerciseTypes.ID,
+                    ""
+                ) as String
+            )
+        }
+    }
+
     fun getExercise(name: String): Exercise {
         val map = db.selectOneByKey(SQLContract.Exercises.NAME, SQLContract.Exercises.ID, name)
 

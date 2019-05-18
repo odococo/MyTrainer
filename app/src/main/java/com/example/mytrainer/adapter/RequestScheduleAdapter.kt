@@ -11,17 +11,8 @@ import com.example.mytrainer.component.User
 import com.example.mytrainer.database.locale.Query as locale
 import com.example.mytrainer.database.remote.Query as remote
 
-class RequestScheduleAdapter : RecyclerView.Adapter<RequestScheduleAdapter.Companion.RequestScheduleViewHolder>(),
-    AdapterView.OnItemSelectedListener {
+class RequestScheduleAdapter : RecyclerView.Adapter<RequestScheduleAdapter.Companion.RequestScheduleViewHolder>() {
     private var trainers: List<User> = listOf(User("Seleziona", "istruttore"))
-    private var selectedTrainer: User = User()
-
-    override fun onNothingSelected(parent: AdapterView<*>?) {
-    }
-
-    override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        selectedTrainer = trainers[position]
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RequestScheduleViewHolder {
         return RequestScheduleViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_request_schedule, parent, false))
@@ -39,8 +30,8 @@ class RequestScheduleAdapter : RecyclerView.Adapter<RequestScheduleAdapter.Compa
             R.layout.support_simple_spinner_dropdown_item,
             trainers.map { trainer -> trainer.name() })
         spinner.adapter = adapter
-        spinner.onItemSelectedListener = this
         holder.button.setOnClickListener {
+            val selectedTrainer = trainers[spinner.selectedItemPosition]
             if (selectedTrainer.id.isNotEmpty()) {
                 remote.addScheduleRequest(
                     ScheduleRequest(
