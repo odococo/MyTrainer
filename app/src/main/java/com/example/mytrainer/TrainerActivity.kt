@@ -132,5 +132,6 @@ class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.Requ
 
     override fun complete() {
         (manager.currentFragment as ScheduleFragment).complete()
+        manager.switch(PendingRequestsFragment())
     }
 }

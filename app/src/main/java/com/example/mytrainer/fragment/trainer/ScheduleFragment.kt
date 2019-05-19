@@ -42,7 +42,7 @@ class ScheduleFragment : Fragment() {
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewpager.adapter = ScheduleAdapter(context, days)
+        viewpager.adapter = ScheduleAdapter(context, days, request)
         sliding_tabs.setupWithViewPager(viewpager)
     }
 

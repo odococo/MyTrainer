@@ -57,7 +57,6 @@ class CreateTrainingDayFragment : Fragment() {
         exercise_recovery_time.setText("")
 
         create_exercise.setOnClickListener {
-            input_exercise.visibility = View.GONE
             val id = listExercise[exercise_name.selectedItemPosition].id
             val series = exercise_series.text.toString().toIntOrNull()
             if (series == null) {
@@ -75,6 +74,7 @@ class CreateTrainingDayFragment : Fragment() {
                 val exercise = TrainingExercise(day, series, reps, recoveryTime).withId(id)
                 exercises.add(exercise)
                 list.adapter = ExercisesAdapter(exercises, context)
+                input_exercise.visibility = View.GONE
             }
         }
         input_exercise.visibility = View.VISIBLE

@@ -4,6 +4,7 @@ import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import com.example.mytrainer.GeneralActivity
+import com.example.mytrainer.component.ScheduleRequest
 import com.example.mytrainer.component.TrainingExercise
 import com.example.mytrainer.fragment.trainer.CreateGeneralFragment
 import com.example.mytrainer.fragment.trainer.CreateTrainingDayFragment
@@ -11,13 +12,23 @@ import com.example.mytrainer.utils.FragmentManager
 
 class ScheduleAdapter(
     context: Context,
-    private var days: Int
+    private val days: Int,
+    private val request: ScheduleRequest
 ) : FragmentPagerAdapter((context as GeneralActivity).supportFragmentManager) {
     private val trainingDays = mutableListOf<CreateTrainingDayFragment>()
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> CreateGeneralFragment()
+            0 -> {
+                val fragment = FragmentManager.setArgs(
+                    CreateGeneralFragment(),
+                    mapOf(
+                        CreateGeneralFragment.ATHLETE to request.athlete.id,
+                        CreateGeneralFragment.INFO to request.info
+                    )
+                )
+                fragment
+            }
             else -> {
                 val fragment = FragmentManager.setArgs(
                     CreateTrainingDayFragment(),

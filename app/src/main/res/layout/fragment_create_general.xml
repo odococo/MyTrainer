@@ -5,11 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".fragment.trainer.CreateGeneralFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/request_athlete"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent" />
+
+    <TextView
+        android:id="@+id/request_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
     <android.support.design.widget.FloatingActionButton

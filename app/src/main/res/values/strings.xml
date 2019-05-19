@@ -58,7 +58,7 @@ qwIDAQAB
     <string name="check_login">Verificando le credenziali…</string>
     <string name="init_db">Inizializzando il database…</string>
     <string name="fase_db">Fase %d su %d in corso…</string>
-    <string name="joke">Vendendo i tuoi dati personali all\'Ucraina…</string>
+    <string name="joke">Attendere ancora qualche istante…</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
