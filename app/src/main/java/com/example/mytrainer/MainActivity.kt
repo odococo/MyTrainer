@@ -29,7 +29,6 @@ class MainActivity : GeneralActivity("MainActivity") {
         super.onCreate(savedInstanceState)
 
         localDB = LocalDB.getInstance()
-        currentSchedule = localDB.getCurrentSchedule()
         manager = FragmentManager(this, R.id.content_layout)
 
         setContentView(LAYOUT)
@@ -102,14 +101,12 @@ class MainActivity : GeneralActivity("MainActivity") {
                     true
                 }
                 R.id.currentScheduleItem -> {
-                    changeItemState(VISIBLE)
-                    //In questo caso torna a visualizzare il contenuto dell'Adapter contenente la scheda corrente.
-                    toolbar.setTitle(R.string.app_name)
+                    initPager()
                     true
                 }
                 R.id.scheduleHistoryItem -> {
                     changeItemState(GONE)
-                    manager.switch(GeneralFragment.getInstance(applicationContext, ScheduleHistoryAdapter()))
+                    manager.switch(GeneralFragment.getInstance(applicationContext, ScheduleHistoryAdapter(this)))
                     toolbar.setTitle(R.string.schedule_history)
                     true
                 }
@@ -152,9 +149,18 @@ class MainActivity : GeneralActivity("MainActivity") {
     }
 
     private fun initPager() {
-        adapter = FragmentAdapter(applicationContext, currentSchedule, supportFragmentManager)
+        changeSchedule(localDB.getCurrentSchedule())
+    }
+
+    fun changeSchedule(schedule: TrainingSchedule) {
+        adapter = FragmentAdapter(applicationContext, schedule, supportFragmentManager)
         viewPager?.adapter = adapter
         tabLayout.setupWithViewPager(viewPager)
+
+        // cambio fragment (circa)
+        changeItemState(VISIBLE)
+        //In questo caso torna a visualizzare il contenuto dell'Adapter contenente la scheda corrente.
+        toolbar.setTitle(R.string.app_name)
     }
 
     private fun changeItemState(state: String){

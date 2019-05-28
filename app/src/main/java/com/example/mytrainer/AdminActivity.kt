@@ -64,12 +64,6 @@ class AdminActivity : GeneralActivity("Admin"), UsersFragment.UserListener {
                     mainNavigation.menu.size() + 1,
                     getString(R.string.switch_to_athlete)
                 )
-                mainNavigation.menu.add(
-                    R.id.switchProfile,
-                    Codes.SwitchTO.TRAINER,
-                    mainNavigation.menu.size() + 1,
-                    getString(R.string.switch_to_trainer)
-                )
             }
             else -> auth.toHome()
         }

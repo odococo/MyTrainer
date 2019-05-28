@@ -56,7 +56,7 @@ class LoadingFragment : Fragment() {
             {
                 (context as GeneralActivity).auth.toHome()
             },
-            3000
+            1000
         )
     }
 }

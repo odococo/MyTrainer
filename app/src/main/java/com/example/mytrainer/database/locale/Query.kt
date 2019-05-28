@@ -198,7 +198,7 @@ private constructor(val context: Context) {
             values.put(SQLContract.TrainingExercises.SERIES, exercise.series)
             values.put(SQLContract.TrainingExercises.REPS, exercise.reps)
             values.put(SQLContract.TrainingExercises.RECOVERYTIME, exercise.recoveryTime)
-            if (!db.insert(SQLContract.TrainingExercises.NAME, values)) {
+            if (!db.insert(SQLContract.TrainingExercises.NAME, values, SQLiteDatabase.CONFLICT_IGNORE)) {
                 Log.w(TAG, "Errore inserimento esercizio scheda: $exercise")
             } else {
                 result++
