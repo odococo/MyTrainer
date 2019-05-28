@@ -21,7 +21,6 @@ class RequestAdapter(
     // View lookup cache
     private class ViewHolder {
         internal var athlete: TextView? = null
-        internal var info: TextView? = null
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -39,7 +38,6 @@ class RequestAdapter(
             val inflater = LayoutInflater.from(context)
             newview = inflater.inflate(R.layout.template_request, parent, false)
             viewHolder.athlete = newview.findViewById(R.id.request_from)
-            viewHolder.info = newview.findViewById(R.id.request_info)
 
             result = newview
 
@@ -56,8 +54,7 @@ class RequestAdapter(
         result.startAnimation(animation)
         lastPosition = position
 
-        viewHolder.athlete!!.text = dataModel.athlete.name()
-        viewHolder.info!!.text = dataModel.info
+        viewHolder.athlete!!.text = context.getString(R.string.request_athlete).format(dataModel.athlete.name())
 
         // Return the completed view to render on screen
         return newview

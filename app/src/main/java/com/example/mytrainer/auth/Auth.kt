@@ -24,12 +24,17 @@ open class Auth(
     companion object : SingletonHolder1<Auth, Context>(::Auth)
 
     fun logged(user: User = getUser()) {
-        remoteDB.addUser(user) { u ->
-            localDB.getInstance().addUser(u)
-            this.user = u
+        if (user.id != getId()) {
+            logout()
+        } else {
+            localDB.getInstance().clearDB()
+            remoteDB.addUser(user) { u ->
+                localDB.getInstance().addUser(u)
+                this.user = u
+            }
+            Log.d(TAG, "Aggiunto utente $user")
+            successfulLogin()
         }
-        Log.d(TAG, "Aggiunto utente $user")
-        successfulLogin()
     }
 
     fun failed() {

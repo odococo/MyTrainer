@@ -49,10 +49,15 @@ private constructor(val context: Context) {
         }
     }
 
-    fun clearAndRestoreDB() {
+    fun clearDB() {
         Log.e(TAG, "Pulendo il db e!")
-        Auth.getInstance().logout()
         db.onUpgrade(db.writableDatabase, 0, SQLContract.DATABASE_VERSION)
+
+    }
+
+    fun clearAndRestoreDB() {
+        Auth.getInstance().logout()
+        clearDB()
     }
 
     fun addExercise(exercise: Exercise): Boolean {

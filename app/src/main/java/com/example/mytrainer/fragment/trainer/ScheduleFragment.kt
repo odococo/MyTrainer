@@ -46,7 +46,7 @@ class ScheduleFragment : Fragment() {
         sliding_tabs.setupWithViewPager(viewpager)
     }
 
-    fun complete() {
+    fun complete(callback: () -> Unit) {
         schedule.trainer = request.trainer
         schedule.athlete = request.athlete
         schedule.startDate = Date()
@@ -57,6 +57,7 @@ class ScheduleFragment : Fragment() {
                 locale.getInstance().addTrainingSchedule(schedule)
                 remote.deleteRequest(request) {
                     locale.getInstance().deleteRequest(request)
+                    callback()
                 }
             }
         } else {

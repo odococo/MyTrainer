@@ -62,7 +62,7 @@ class PendingRequestsFragment : Fragment() {
                 alert.setPositiveButton("Ok") { _, _ ->
                     //Put actions for OK button here
                     val days = input.text.toString().toInt()
-                    if (days > 1) {
+                    if (days > 0) {
                         listener?.create(request, days)
                     } else {
                         val error = AlertDialog.Builder(context)

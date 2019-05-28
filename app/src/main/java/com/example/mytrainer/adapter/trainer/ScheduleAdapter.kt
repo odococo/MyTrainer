@@ -48,7 +48,6 @@ class ScheduleAdapter(
         val list = mutableListOf<TrainingExercise>()
         for (trainingDay in trainingDays) {
             val exercises = trainingDay.exercises
-            println(exercises)
             if (exercises.isEmpty()) {
                 return emptyList()
             }

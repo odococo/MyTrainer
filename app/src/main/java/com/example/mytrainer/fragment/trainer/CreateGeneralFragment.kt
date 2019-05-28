@@ -37,8 +37,8 @@ class CreateGeneralFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        request_athlete.text = athlete.name()
-        request_info.text = info
+        request_athlete.text = context.getString(R.string.request_athlete).format(athlete.name())
+        request_info.text = context.getString(R.string.request_info).format(info)
 
         complete.setOnClickListener {
             listener?.complete()

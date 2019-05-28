@@ -1,7 +1,6 @@
 package com.example.mytrainer
 
 import android.os.Bundle
-import android.os.Handler
 import android.support.v7.app.ActionBarDrawerToggle
 import android.widget.Toast
 import com.example.mytrainer.component.ScheduleRequest
@@ -133,14 +132,8 @@ class TrainerActivity : GeneralActivity("Trainer"), PendingRequestsFragment.Requ
     }
 
     override fun complete() {
-        (manager.currentFragment as ScheduleFragment).complete()
+        (manager.currentFragment as ScheduleFragment).complete { manager.switch(PendingRequestsFragment()) }
         Toast.makeText(this, "Aggiuta scheda al database", Toast.LENGTH_LONG).show()
         // per dare il tempo al db di cancellare
-        Handler().postDelayed(
-            {
-                manager.switch(PendingRequestsFragment())
-            },
-            1000
-        )
     }
 }

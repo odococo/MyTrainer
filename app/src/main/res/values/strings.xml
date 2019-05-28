@@ -94,10 +94,15 @@ qwIDAQAB
     <string name="name2">Anatoliy Roshka</string>
     <string name="email2">aroshka@studenti.uninsubria.it</string>
     <string name="studentId2">730662</string>
+
     <string name="create_with_day">Inserisci il numero dei giorni</string>
     <string name="cancel">Annulla</string>
+
     <string name="error_input">Errore in inserimento</string>
     <string name="schedule_days">La scheda deve avere almeno un giorno!</string>
+
+    <string name="request_athlete">Atleta: %s</string>
+    <string name="request_info">Informazioni aggiuntive: %s</string>
     <string name="input_exercise_series">Inserisci il numero di serie</string>
     <string name="input_exercise_reps">Inserisci il numero di ripetizioni</string>
     <string name="input_exercise_recovery_time">Inserisci il tempo di recupero (in secondi)</string>
