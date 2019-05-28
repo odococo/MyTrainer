@@ -21,7 +21,6 @@ class MainActivity : GeneralActivity("MainActivity") {
 
     private lateinit var localDB: LocalDB
 
-    private lateinit var currentSchedule: TrainingSchedule
     private lateinit var adapter: FragmentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,12 +74,14 @@ class MainActivity : GeneralActivity("MainActivity") {
         mainNavigation.getHeaderView(0).trainerLastName.text = user.lastName
 
         when (user.type) {
-            "trainer" -> mainNavigation.menu.add(
-                R.id.switchProfile,
-                Codes.SwitchTO.TRAINER,
-                mainNavigation.menu.size() + 1,
-                getString(R.string.switch_to_trainer)
-            )
+            "trainer" -> {
+                mainNavigation.menu.add(
+                    R.id.switchProfile,
+                    Codes.SwitchTO.TRAINER,
+                    mainNavigation.menu.size() + 2,
+                    getString(R.string.switch_to_trainer)
+                )
+            }
             "admin" -> {
                 mainNavigation.menu.add(
                     R.id.switchProfile,
