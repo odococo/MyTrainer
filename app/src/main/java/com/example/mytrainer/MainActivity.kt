@@ -41,7 +41,7 @@ class MainActivity : GeneralActivity("MainActivity") {
 
         //localDB.clearAndRestoreDB()
 
-        //CreateSchedule().addSchedule()
+       // CreateSchedule().addSchedule()
 
         //Test().esercizi()
         //println(localDB.getExercise("Shoulder press"))

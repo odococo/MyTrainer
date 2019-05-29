@@ -59,22 +59,24 @@ class CreateSchedule {
         exercises.add(newExercise("Spider curl con manubrio", "Bicipiti", 1, 4, 12, 120))
 
         //Day 2
-        exercises.add(newExercise("Stacchi da terra", "Dorsali", 2, 5, 12, 60))
-        exercises.add(newExercise("Trazioni alla sbarra (chin up)", "Dorsali", 2, 2, 15, 60))
-        exercises.add(newExercise("Pullover ai cavi", "Dorsali", 2, 3, 12, 60))
-        exercises.add(newExercise("Panca presa stretta", "Tricipiti", 2, 6, 15, 60))
-        exercises.add(newExercise("Macchina per i dip", "Tricipiti", 2, 6, 12, 60))
+        exercises.add(newExercise("Stacchi da terra", "Dorsali", 2, 4, 12, 60))
+        exercises.add(newExercise("Trazioni alla sbarra (chin up)", "Dorsali", 2, 4, 15, 60))
+        exercises.add(newExercise("Pullover ai cavi", "Dorsali", 2, 4, 12, 60))
+        exercises.add(newExercise("Panca presa stretta", "Tricipiti", 2, 4, 12, 60))
+        exercises.add(newExercise("Macchina per i dip", "Tricipiti", 2, 4, 12, 60))
 
         //Day 3
-        exercises.add(newExercise("Military press", "Spalle", 3, 7, 8, 90))
-        exercises.add(newExercise("Shrug con manubri", "Spalle", 3, 8, 7, 90))
+        exercises.add(newExercise("Military press", "Spalle", 3, 3, 8, 90))
+        exercises.add(newExercise("Shrug con manubri", "Spalle", 3, 3, 7, 90))
+        exercises.add(newExercise("Arnold press", "Spalle", 3, 3, 10, 180))
+        exercises.add(newExercise("Squat", "Gambe", 3, 4, 12, 145))
+        exercises.add(newExercise("Sumo Squat", "Gambe", 3, 4, 12, 145))
 
         //Day 4
-        exercises.add(newExercise("Arnold press", "Spalle", 4, 4, 14, 180))
-        exercises.add(newExercise("Squat", "Gambe", 4, 6, 78, 145))
-
-        //Day 5
-        exercises.add(newExercise("Leg Extension", "Gambe", 5, 3, 11, 140))
+        exercises.add(newExercise("Leg Extension", "Gambe", 4, 3, 12, 140))
+        exercises.add(newExercise("Adductor Machine", "Gambe", 4, 3, 12, 140))
+        exercises.add(newExercise("Slanci laterali della gamba", "Gambe", 4, 4, 12, 140))
+        exercises.add(newExercise("Squat al multipower", "Gambe", 4, 4, 12, 140))
 
 
         return exercises

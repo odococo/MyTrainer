@@ -2,10 +2,9 @@
     <string name="app_name">MyTrainer</string>
 
     <!-- Main activity -->
-    <string name="welcome">Welcome</string>
+    <string name="welcome">MyTrainer</string>
     <string name="loginFacebook">Login with Facebook</string>
     <string name="loginGmail">Login with Google</string>
-
 
     <!-- -->
     <string name="respect">Hai il mio rispetto</string>
