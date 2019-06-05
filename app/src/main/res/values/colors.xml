@@ -6,6 +6,7 @@
     <color name="colorAccent">#D81B60</color>
     <color name="colorWhite">#FFFFFFFF</color>
     <color name="blue">#1b1b1b</color>
+    <color name="appNameColor">#FFFFFFFF</color>
 
     <!-- Secondary colors, uses by application in particolar cases-->
     <color name="manBackground">#e2e2e2</color>
